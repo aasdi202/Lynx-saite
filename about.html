@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | LYNX</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      color: #fff;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .lang-switch button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    h2 {
+      font-size: 2.2rem;
+      margin-top: 2rem;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 900px;
+    }
+    a.back {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background: #fff;
+      color: #2b5876;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LYNX</h1>
+    <div class="lang-switch">
+      <button onclick="setLang('en')">EN</button>
+      <button onclick="setLang('fa')">FA</button>
+    </div>
+  </header>  <h2 id="title">About Us</h2>
+  <p id="content">
+    LYNX is building a revolutionary decentralized communication ecosystem based on Decentralized Identity (DID), enabling users to interact, connect, and invest in a secure, private, and censorship-resistant environment.
+    We believe data ownership and digital interaction should be in the hands of the users, not centralized platforms.
+    Through the power of blockchain, smart contracts, and decentralized technologies, LYNX returns control back to the individual.
+    From private messaging to secure participation in digital communities, LYNX lays the foundation for a new generation of social interaction — one that’s free, secure, and truly decentralized.
+  </p><a href="index.html" class="back">← Back to Home</a>
+
+  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
+    const translations = {
+      en: {
+        title: "About Us",
+        content: `LYNX is building a revolutionary decentralized communication ecosystem based on Decentralized Identity (DID), enabling users to interact, connect, and invest in a secure, private, and censorship-resistant environment.
+We believe data ownership and digital interaction should be in the hands of the users, not centralized platforms.
+Through the power of blockchain, smart contracts, and decentralized technologies, LYNX returns control back to the individual.
+From private messaging to secure participation in digital communities, LYNX lays the foundation for a new generation of social interaction — one that’s free, secure, and truly decentralized.`,
+        footer: "All rights reserved. LYNX 2025"
+      },
+      fa: {
+        title: "درباره ما",
+        content: `پروژه LYNX با هدف ایجاد یک اکوسیستم ارتباطی غیرمتمرکز بر پایه هویت دیجیتال غیرمتمرکز (DID) طراحی شده است، که به کاربران امکان می‌دهد در بستری امن، خصوصی و مقاوم در برابر سانسور ارتباط برقرار کرده، تعامل داشته و سرمایه‌گذاری کنند.
+ما معتقدیم که مالکیت داده‌ها و تعاملات دیجیتال باید در اختیار خود کاربران باشد، نه پلتفرم‌های متمرکز.
+LYNX با استفاده از قدرت بلاکچین، قراردادهای هوشمند و فناوری‌های غیرمتمرکز، کنترل را به دست افراد بازمی‌گرداند.
+از پیام‌رسانی خصوصی گرفته تا مشارکت امن در جوامع دیجیتال، LYNX پایه‌گذار نسل جدیدی از ارتباط اجتماعی است — ارتباطی آزاد، امن و واقعاً غیرمتمرکز.`,
+        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵"
+      }
+    };
+
+    function setLang(lang) {
+      const t = translations[lang];
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("content").innerText = t.content;
+      document.getElementById("footer").innerText = t.footer;
+    }
+  </script></body>
+</html>
