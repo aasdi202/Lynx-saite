@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | LYNX</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .lang-switch button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-top: 2rem;
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 800px;
+    }
+    .contact-links {
+      margin-top: 2rem;
+    }
+    .contact-links a {
+      display: block;
+      margin: 1rem 0;
+      padding: 0.75rem 1.5rem;
+      background-color: #fff;
+      color: #0f2027;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      width: fit-content;
+    }
+    .contact-links a:hover {
+      background-color: #ddd;
+    }
+    a.back {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background: #fff;
+      color: #2c5364;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LYNX</h1>
+    <div class="lang-switch">
+      <button onclick="setLang('en', true)">EN</button>
+      <button onclick="setLang('fa', true)">FA</button>
+    </div>
+  </header>
+
+  <h2 id="title">Contact Us</h2>
+  <p id="desc">
+    We'd love to hear from you. Whether you're a user, developer, or investor, feel free to reach out to us directly.
+  </p>
+  <div class="contact-links" id="links">
+    <a href="mailto:lynx.project2025@gmail.com" target="_blank">Email: lynx.project2025@gmail.com</a>
+    <a href="https://t.me/lynxproject2025" target="_blank">Telegram: @lynxproject2025</a>
+  </div>
+
+  <a href="index.html" class="back">← Back to Home</a>
+  <footer id="footer">All rights reserved. LYNX 2025</footer>
+
+  <script>
+    const content = {
+      en: {
+        title: "Contact Us",
+        desc: "We'd love to hear from you. Whether you're a user, developer, or investor, feel free to reach out to us directly.",
+        email: "Email: lynx.project2025@gmail.com",
+        telegram: "Telegram: @lynxproject2025",
+        footer: "All rights reserved. LYNX 2025"
+      },
+      fa: {
+        title: "تماس با ما",
+        desc: "خوشحال می‌شویم با شما در ارتباط باشیم. چه کاربر باشید، چه توسعه‌دهنده یا سرمایه‌گذار، از طریق راه‌های زیر با ما تماس بگیرید.",
+        email: "ایمیل: lynx.project2025@gmail.com",
+        telegram: "تلگرام: @lynxproject2025",
+        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵"
+      }
+    };
+
+    function setLang(lang, persist = false) {
+      document.getElementById("title").innerText = content[lang].title;
+      document.getElementById("desc").innerText = content[lang].desc;
+      document.getElementById("links").innerHTML = `
+        <a href="mailto:lynx.project2025@gmail.com" target="_blank">${content[lang].email}</a>
+        <a href="https://t.me/lynxproject2025" target="_blank">${content[lang].telegram}</a>
+      `;
+      document.getElementById("footer").innerText = content[lang].footer;
+      if (persist) localStorage.setItem("lynx-lang", lang);
+    }
+
+    const savedLang = localStorage.getItem("lynx-lang") || 'en';
+    setLang(savedLang);
+  </script>
+</body>
+</html>
