@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,12 +20,38 @@
     header h1 {
       margin: 0;
     }
-    .lang-switch button {
-      margin-left: 10px;
-      padding: 5px 10px;
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .lang-dropdown button {
+      padding: 6px 12px;
       border: none;
       border-radius: 5px;
+      background-color: #fff;
+      color: #203a43;
+      font-weight: bold;
       cursor: pointer;
+    }
+    .lang-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 100px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .lang-dropdown-content div {
+      color: black;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .lang-dropdown-content div:hover {
+      background-color: #ddd;
+    }
+    .lang-dropdown:hover .lang-dropdown-content {
+      display: block;
     }
     h2 {
       font-size: 2rem;
@@ -36,6 +61,7 @@
       font-size: 1.2rem;
       max-width: 800px;
       margin: 1rem auto 2rem;
+      line-height: 1.7;
     }
     nav a {
       margin: 0 1rem;
@@ -56,36 +82,57 @@
 <body>
   <header>
     <h1>LYNX</h1>
-    <div class="lang-switch">
-      <button onclick="setLang('en', true)">EN</button>
-      <button onclick="setLang('fa', true)">FA</button>
+    <div class="lang-dropdown">
+      <button>Language</button>
+      <div class="lang-dropdown-content">
+        <div onclick="setLang('en', true)">English</div>
+        <div onclick="setLang('fa', true)">فارسی</div>
+        <div onclick="setLang('zh', true)">中文</div>
+        <div onclick="setLang('ru', true)">Русский</div>
+        <div onclick="setLang('tr', true)">Türkçe</div>
+        <div onclick="setLang('ar', true)">العربية</div>
+      </div>
     </div>
-  </header>
-
-  <h2 id="title">Welcome to LYNX</h2>
+  </header>  <h2 id="title">Welcome to LYNX</h2>
   <p id="desc">
-    The decentralized communication ecosystem for a connected future.
-  </p>
-
-  <nav>
+    LYNX is the next-generation decentralized communication ecosystem powered by blockchain and Decentralized Identity (DID). 
+    Our mission is to empower users with secure, censorship-resistant tools to connect, invest, and communicate freely. 
+    Join us on the journey to a truly decentralized digital future.
+  </p>  <nav>
     <a href="about.html">About</a>
     <a href="roadmap.html">Roadmap</a>
     <a href="contact.html">Contact</a>
-  </nav>
-
-  <footer id="footer">All rights reserved. LYNX 2025</footer>
-
-  <script>
+  </nav>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
     const content = {
       en: {
         title: "Welcome to LYNX",
-        desc: "The decentralized communication ecosystem for a connected future.",
+        desc: "LYNX is the next-generation decentralized communication ecosystem powered by blockchain and Decentralized Identity (DID). Our mission is to empower users with secure, censorship-resistant tools to connect, invest, and communicate freely. Join us on the journey to a truly decentralized digital future.",
         footer: "All rights reserved. LYNX 2025"
       },
       fa: {
         title: "به LYNX خوش آمدید",
-        desc: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.",
+        desc: "LYNX نسل جدیدی از اکوسیستم ارتباطی غیرمتمرکز مبتنی بر بلاکچین و هویت دیجیتال غیرمتمرکز (DID) است. هدف ما فراهم‌کردن ابزارهایی امن، آزاد و بدون سانسور برای ارتباط، سرمایه‌گذاری و تعامل برای همه کاربران است. با ما همراه شوید برای ساخت آینده‌ای دیجیتال و غیرمتمرکز.",
         footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵"
+      },
+      zh: {
+        title: "欢迎来到 LYNX",
+        desc: "LYNX 是基于区块链和去中心化身份 (DID) 的下一代去中心化通信生态系统。我们致力于为用户提供安全、无审查的连接与交流方式。加入我们，共创去中心化的数字未来。",
+        footer: "版权所有 LYNX 2025"
+      },
+      ru: {
+        title: "Добро пожаловать в LYNX",
+        desc: "LYNX — это децентрализованная экосистема связи нового поколения на основе блокчейна и DID. Наша миссия — предоставить пользователям безопасные и свободные инструменты для связи, инвестиций и общения. Присоединяйтесь к нам на пути к децентрализованному будущему.",
+        footer: "Все права защищены. LYNX 2025"
+      },
+      tr: {
+        title: "LYNX'e Hoş Geldiniz",
+        desc: "LYNX, blokzinciri ve Merkeziyetsiz Kimlik (DID) destekli yeni nesil merkeziyetsiz iletişim ekosistemidir. Amacımız, kullanıcıların özgürce iletişim kurması, yatırım yapması ve bağlanması için güvenli ve sansürsüz araçlar sağlamaktır. Gerçekten merkeziyetsiz bir dijital geleceğe katılın.",
+        footer: "Tüm hakları saklıdır. LYNX 2025"
+      },
+      ar: {
+        title: "مرحباً بك في LYNX",
+        desc: "LYNX هو نظام اتصال لامركزي من الجيل التالي يعتمد على تقنية البلوك تشين والهوية الرقمية اللامركزية (DID). مهمتنا هي تمكين المستخدمين من أدوات اتصال آمنة وخالية من الرقابة للتواصل والاستثمار بحرية. انضم إلينا نحو مستقبل رقمي لامركزي حقيقي.",
+        footer: "جميع الحقوق محفوظة. LYNX 2025"
       }
     };
 
@@ -99,6 +146,5 @@
 
     const savedLang = localStorage.getItem("lynx-lang") || 'en';
     setLang(savedLang);
-  </script>
-</body>
+  </script></body>
 </html>
