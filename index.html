@@ -2,142 +2,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LYNX | Decentralized Communication</title>
+  <title>Roadmap | LYNX</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
-      scroll-behavior: smooth;
+      padding: 2rem;
     }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background-color: rgba(0, 0, 0, 0.6);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      padding-bottom: 1rem;
     }
     header h1 {
-      font-size: 1.8rem;
       margin: 0;
     }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #fff;
-      color: #000;
-      min-width: 120px;
-      right: 0;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-    .dropdown-content button {
-      background: none;
+    .lang-switch button {
+      margin-left: 10px;
+      padding: 5px 10px;
       border: none;
-      padding: 10px;
-      width: 100%;
-      text-align: left;
+      border-radius: 5px;
       cursor: pointer;
     }
-    .dropdown-content button:hover {
-      background-color: #ddd;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-    main {
-      text-align: center;
-      padding: 5rem 2rem;
-    }
     h2 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
-    p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 2rem;
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: auto;
     }
-    .btn-group a {
-      display: inline-block;
-      margin: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      text-decoration: none;
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
       background-color: #fff;
-      color: #1e3c72;
-      font-weight: bold;
-      transition: 0.3s;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
     }
-    .btn-group a:hover {
-      background-color: #eee;
+    .container {
+      padding: 1rem 2rem;
+      position: relative;
+      background-color: inherit;
+      width: 50%;
+    }
+    .container.left {
+      left: 0;
+    }
+    .container.right {
+      left: 50%;
+    }
+    .content {
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      position: relative;
+      border-radius: 6px;
+    }
+    .container::before {
+      content: " ";
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      right: -13px;
+      background-color: #fff;
+      border: 4px solid #fdbb2d;
+      top: 15px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .right::before {
+      left: -13px;
+    }
+    a.back {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background: #fff;
+      color: #2c5364;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
     }
     footer {
+      margin-top: 4rem;
       text-align: center;
-      padding: 1rem;
-      background-color: rgba(0, 0, 0, 0.5);
       font-size: 0.9rem;
-      margin-top: 5rem;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>LYNX</h1>
-    <div class="dropdown">
-      <button style="background:none;border:none;color:white;cursor:pointer;font-size:1rem;">Language</button>
-      <div class="dropdown-content">
-        <button onclick="setLang('en')">English</button>
-        <button onclick="setLang('fa')">فارسی</button>
-        <button onclick="alert('Coming soon')">中文</button>
-        <button onclick="alert('Coming soon')">Русский</button>
-        <button onclick="alert('Coming soon')">Türkçe</button>
-        <button onclick="alert('Coming soon')">العربية</button>
-      </div>
+    <div class="lang-switch">
+      <button onclick="setLang('en', true)">EN</button>
+      <button onclick="setLang('fa', true)">FA</button>
     </div>
-  </header>  <main>
-    <h2 id="title">Welcome to LYNX</h2>
-    <p id="desc">
-      LYNX is building a revolutionary decentralized communication network where privacy, ownership, and digital freedom are at the core.
-      Our ecosystem is powered by blockchain and decentralized identity (DID), enabling users to connect, communicate, and collaborate without intermediaries or surveillance.
-      Whether you're chatting, sharing, or building, LYNX is your secure gateway to the next generation of digital interaction — free, open, and truly yours.
-    </p>
-    <div class="btn-group">
-      <a href="about.html">About Us</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  </main>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
-    const translations = {
+  </header>  <h2 id="title">Roadmap</h2>
+  <div class="timeline" id="timeline">
+    <!-- Timeline steps inserted by JS -->
+  </div><a href="index.html" class="back">← Back to Home</a>
+
+  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
+    const data = {
       en: {
-        title: 'Welcome to LYNX',
-        desc: `LYNX is building a revolutionary decentralized communication network where privacy, ownership, and digital freedom are at the core.
-        Our ecosystem is powered by blockchain and decentralized identity (DID), enabling users to connect, communicate, and collaborate without intermediaries or surveillance.
-        Whether you're chatting, sharing, or building, LYNX is your secure gateway to the next generation of digital interaction — free, open, and truly yours.`,
-        footer: 'All rights reserved. LYNX 2025'
+        title: "Roadmap",
+        footer: "All rights reserved. LYNX 2025",
+        steps: [
+          "Phase 1: Token Deployment and Website Launch",
+          "Phase 2: Community Building and Social Presence",
+          "Phase 3: DID Integration and App Development",
+          "Phase 4: Full Ecosystem Launch and Strategic Partnerships"
+        ]
       },
       fa: {
-        title: 'به LYNX خوش آمدید',
-        desc: `LYNX در حال ساخت یک شبکه انقلابی ارتباطی غیرمتمرکز است که در آن حریم خصوصی، مالکیت و آزادی دیجیتال در مرکز قرار دارند.
-        اکوسیستم ما مبتنی بر فناوری بلاکچین و هویت دیجیتال غیرمتمرکز (DID) است، و به کاربران این امکان را می‌دهد تا بدون واسطه یا نظارت، ارتباط برقرار کرده، تعامل کنند و همکاری داشته باشند.
-        چه در حال گفتگو باشید، چه به اشتراک‌گذاری، یا حتی ساخت پروژه، LYNX دروازه امن شما به نسل بعدی تعامل دیجیتال است — آزاد، باز، و واقعاً متعلق به خودتان.`,
-        footer: 'تمامی حقوق محفوظ است. LYNX ۲۰۲۵'
+        title: "نقشه راه",
+        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵",
+        steps: [
+          "فاز ۱: راه‌اندازی توکن و وب‌سایت",
+          "فاز ۲: ایجاد جامعه کاربری و حضور در شبکه‌های اجتماعی",
+          "فاز ۳: پیاده‌سازی DID و توسعه اپلیکیشن",
+          "فاز ۴: راه‌اندازی کامل اکوسیستم و همکاری‌های راهبردی"
+        ]
       }
     };
 
-    function setLang(lang) {
-      const t = translations[lang];
-      document.getElementById('title').innerText = t.title;
-      document.getElementById('desc').innerText = t.desc;
-      document.getElementById('footer').innerText = t.footer;
+    function setLang(lang, persist = false) {
+      const t = data[lang];
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("footer").innerText = t.footer;
+
+      const container = document.getElementById("timeline");
+      container.innerHTML = '';
+
+      t.steps.forEach((step, i) => {
+        const div = document.createElement('div');
+        div.className = 'container ' + (i % 2 === 0 ? 'left' : 'right');
+        div.innerHTML = `<div class="content">${step}</div>`;
+        container.appendChild(div);
+      });
+
+      if (persist) localStorage.setItem("lynx-lang", lang);
     }
+
+    const savedLang = localStorage.getItem("lynx-lang") || 'en';
+    setLang(savedLang);
   </script></body>
 </html>
