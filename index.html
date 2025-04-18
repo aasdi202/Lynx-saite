@@ -20,25 +20,48 @@
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
+      z-index: 100;
     }
     header h1 {
       margin: 0;
+      font-size: 1.5rem;
     }
-    .lang-switcher {
-      display: flex;
-      gap: 0.5rem;
+    .dropdown {
+      position: relative;
+      display: inline-block;
     }
-    .lang-switcher button {
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      right: 0;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .dropdown-content button {
+      color: black;
+      padding: 8px 12px;
+      text-align: left;
       background: none;
       border: none;
-      color: white;
-      font-size: 1rem;
+      width: 100%;
       cursor: pointer;
     }
+    .dropdown-content button:hover {
+      background-color: #ddd;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
     main {
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
       padding: 2rem;
+      text-align: center;
+    }
+    section {
+      margin-top: 3rem;
     }
     footer {
       text-align: center;
@@ -47,24 +70,29 @@
       font-size: 0.9rem;
       margin-top: 4rem;
     }
-    section {
-      margin-top: 3rem;
-    }
   </style>
 </head>
 <body>
   <header>
     <h1>LYNX</h1>
-    <div class="lang-switcher">
-      <button onclick="setLang('en')">English</button>
-      <button onclick="setLang('fa')">فارسی</button>
+    <div class="dropdown">
+      <button style="background:none;border:none;color:white;cursor:pointer;font-size:1rem;">Language</button>
+      <div class="dropdown-content">
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('fa')">فارسی</button>
+        <button onclick="setLang('zh')">中文</button>
+        <button onclick="setLang('ru')">Русский</button>
+        <button onclick="setLang('tr')">Türkçe</button>
+        <button onclick="setLang('ar')">العربية</button>
+      </div>
     </div>
-  </header>  <main id="content">
+  </header>  <main>
     <section id="home">
       <h2 id="title">Welcome to LYNX</h2>
       <p id="desc">The decentralized communication ecosystem for a connected future.</p>
-    </section><nav style="margin: 2rem 0; text-align: center;">
+    </section><nav style="margin: 2rem 0;">
   <a href="#about">About</a> |
+  <a href="#roadmap">Roadmap</a> |
   <a href="#contact">Contact</a>
 </nav>
 
@@ -73,9 +101,19 @@
   <p id="about-text">We are an innovative team aiming to decentralize and improve communication systems worldwide.</p>
 </section>
 
+<section id="roadmap">
+  <h3>Roadmap</h3>
+  <ul id="roadmap-list" style="text-align: left; display: inline-block;">
+    <li>Phase 1: Token Deployment and Website Launch</li>
+    <li>Phase 2: Community Building and Social Presence</li>
+    <li>Phase 3: DID Integration and App Development</li>
+    <li>Phase 4: Full Ecosystem Launch and Partnerships</li>
+  </ul>
+</section>
+
 <section id="contact">
-  <h3>Contact</h3>
-  <p id="contact-text">You can reach us at info@lynx.io</p>
+  <h3>Contact Us</h3>
+  <p id="contact-text">For inquiries, email us at <a href="mailto:info@lynx.io">info@lynx.io</a></p>
 </section>
 
   </main>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
@@ -84,24 +122,46 @@
         title: 'Welcome to LYNX',
         desc: 'The decentralized communication ecosystem for a connected future.',
         about: 'We are an innovative team aiming to decentralize and improve communication systems worldwide.',
-        contact: 'You can reach us at info@lynx.io',
+        roadmap: [
+          'Phase 1: Token Deployment and Website Launch',
+          'Phase 2: Community Building and Social Presence',
+          'Phase 3: DID Integration and App Development',
+          'Phase 4: Full Ecosystem Launch and Partnerships'
+        ],
+        contact: 'For inquiries, email us at info@lynx.io',
         footer: 'All rights reserved. LYNX 2025'
       },
       fa: {
         title: 'به LYNX خوش آمدید',
         desc: 'اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.',
         about: 'ما یک تیم نوآور هستیم که قصد داریم سیستم‌های ارتباطی جهان را غیرمتمرکز و بهبود ببخشیم.',
-        contact: 'از طریق ایمیل info@lynx.io با ما در ارتباط باشید.',
+        roadmap: [
+          'فاز ۱: ایجاد توکن و راه‌اندازی وب‌سایت',
+          'فاز ۲: ساخت جامعه و حضور در شبکه‌های اجتماعی',
+          'فاز ۳: یکپارچه‌سازی DID و توسعه اپلیکیشن',
+          'فاز ۴: راه‌اندازی کامل اکوسیستم و همکاری‌ها'
+        ],
+        contact: 'برای ارتباط با ما ایمیل بزنید به: info@lynx.io',
         footer: 'تمامی حقوق محفوظ است. LYNX ۲۰۲۵'
       }
+      // زبان‌های zh, ru, tr, ar هم می‌تونن بعداً اضافه بشن
     };
 
     function setLang(lang) {
-      document.getElementById('title').innerText = translations[lang].title;
-      document.getElementById('desc').innerText = translations[lang].desc;
-      document.getElementById('about-text').innerText = translations[lang].about;
-      document.getElementById('contact-text').innerText = translations[lang].contact;
-      document.getElementById('footer').innerText = translations[lang].footer;
+      const t = translations[lang];
+      document.getElementById('title').innerText = t.title;
+      document.getElementById('desc').innerText = t.desc;
+      document.getElementById('about-text').innerText = t.about;
+      document.getElementById('contact-text').innerHTML = t.contact;
+      document.getElementById('footer').innerText = t.footer;
+
+      const roadmap = document.getElementById('roadmap-list');
+      roadmap.innerHTML = '';
+      t.roadmap.forEach(item => {
+        const li = document.createElement('li');
+        li.innerText = item;
+        roadmap.appendChild(li);
+      });
     }
   </script></body>
 </html>
