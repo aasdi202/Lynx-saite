@@ -1,118 +1,97 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX Token</title>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+  <title>LYNX | Decentralized Communication</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Vazirmatn', sans-serif;
-      background: linear-gradient(to bottom right, #0f0f0f, #1c1c1c);
+      font-family: Arial, sans-serif;
+      background: #f7f9fb;
+      color: #1a1a1a;
+    }
+    header {
+      background-color: #1a1a1a;
       color: white;
-      text-align: center;
-      padding: 3rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
     }
-    h1 {
-      color: #a3e635;
-      font-size: 3rem;
+    header h1 {
+      margin: 0;
     }
-    p {
-      color: #d4d4d8;
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 1rem auto;
+    .lang-switcher {
+      display: flex;
+      gap: 0.5rem;
     }
-    .buttons {
-      margin-top: 2rem;
-    }
-    .btn {
-      padding: 0.75rem 1.5rem;
-      margin: 0.5rem;
+    .lang-switcher button {
+      background: none;
       border: none;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .btn-primary {
-      background-color: #bef264;
-      color: #1c1c1c;
-    }
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid #a3e635;
-      color: #a3e635;
-    }
-    .contract {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #a3e635;
-    }
-    .whitepapers {
-      margin-top: 2rem;
-    }
-    .whitepapers a {
-      display: inline-block;
-      margin: 0.25rem;
-      font-size: 0.9rem;
-      color: #d4d4d8;
-      text-decoration: underline;
-    }
-    .lang-switch {
-      margin-top: 3rem;
-    }
-    .lang-switch button {
-      margin: 0.25rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-      background: #333;
       color: white;
-      border: 1px solid #444;
-      border-radius: 5px;
+      font-size: 1rem;
       cursor: pointer;
+    }
+    main {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>LYNX Token</h1>
-  <p id="intro">Free, secure, and private connection in the decentralized world — LYNX is a token to build a new future of digital communication and interaction based on DID.</p>
-  <div class="buttons">
-    <a class="btn btn-primary" href="https://bscscan.com/address/0xbd61721063343EC6CCD7c077a11c1cD200AAFB40" target="_blank">View on BscScan</a>
-    <a class="btn btn-outline" href="#whitepapers">Whitepaper</a>
-  </div>
-  <div class="whitepapers" id="whitepapers">
-    <h3>Whitepaper Downloads:</h3>
-    <a href="whitepaper-en.pdf" target="_blank">English</a>
-    <a href="whitepaper-fa.pdf" target="_blank">فارسی</a>
-    <a href="whitepaper-zh.pdf" target="_blank">中文</a>
-    <a href="whitepaper-ru.pdf" target="_blank">Русский</a>
-    <a href="whitepaper-ar.pdf" target="_blank">العربية</a>
-    <a href="whitepaper-tr.pdf" target="_blank">Türkçe</a>
-  </div>
-  <div class="contract">
-    Contract Address:<br />
-    0xbd61721063343EC6CCD7c077a11c1cD200AAFB40
-  </div>
-  <div class="lang-switch">
-    <h4>Choose Language / زبان را انتخاب کنید</h4>
-    <button onclick="changeLang('en')">English</button>
-    <button onclick="changeLang('fa')">فارسی</button>
-    <button onclick="changeLang('zh')">中文</button>
-    <button onclick="changeLang('ru')">Русский</button>
-    <button onclick="changeLang('ar')">العربية</button>
-    <button onclick="changeLang('tr')">Türkçe</button>
-  </div>
+  <header>
+    <h1>LYNX</h1>
+    <div class="lang-switcher">
+      <button onclick="setLang('en')">English</button>
+      <button onclick="setLang('fa')">فارسی</button>
+      <button onclick="setLang('zh')">中文</button>
+      <button onclick="setLang('ru')">Русский</button>
+      <button onclick="setLang('ar')">العربية</button>
+      <button onclick="setLang('tr')">Türkçe</button>
+    </div>
+  </header>
+
+  <main id="content">
+    <h2>Welcome to LYNX</h2>
+    <p>The decentralized communication ecosystem for a connected future.</p>
+  </main>
+
   <script>
     const translations = {
-      en: "Free, secure, and private connection in the decentralized world — LYNX is a token to build a new future of digital communication and interaction based on DID.",
-      fa: "اتصال آزاد، امن و خصوصی در دنیای غیرمتمرکز — LYNX توکنی برای ساخت آینده‌ای نوین در ارتباطات دیجیتال مبتنی بر DID است.",
-      zh: "在去中心化世界中实现自由、安全和私密的连接 — LYNX 是基于 DID 的数字通信新未来的代币。",
-      ru: "Свободное, безопасное и приватное соединение в децентрализованном мире — LYNX это токен для нового будущего цифровой коммуникации на основе DID.",
-      ar: "اتصال حر وآمن وخاص في عالم لامركزي — LYNX هو رمز لبناء مستقبل جديد للتواصل الرقمي قائم على DID.",
-      tr: "Merkeziyetsiz dünyada özgür, güvenli ve özel bağlantı — LYNX, DID tabanlı dijital iletişim için yeni bir gelecek inşa eden token'dır."
+      en: {
+        title: 'Welcome to LYNX',
+        desc: 'The decentralized communication ecosystem for a connected future.'
+      },
+      fa: {
+        title: 'به LYNX خوش آمدید',
+        desc: 'اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.'
+      },
+      zh: {
+        title: '欢迎来到 LYNX',
+        desc: '面向互联未来的去中心化通信生态系统。'
+      },
+      ru: {
+        title: 'Добро пожаловать в LYNX',
+        desc: 'Децентрализованная коммуникационная экосистема для связанного будущего.'
+      },
+      ar: {
+        title: 'مرحبًا بك في LYNX',
+        desc: 'نظام الاتصال اللامركزي للمستقبل المتصل.'
+      },
+      tr: {
+        title: 'LYNX\'e Hoş Geldiniz',
+        desc: 'Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.'
+      }
     };
-    function changeLang(lang) {
-      document.getElementById("intro").textContent = translations[lang];
+
+    function setLang(lang) {
+      const t = translations[lang];
+      document.querySelector('#content').innerHTML = `<h2>${t.title}</h2><p>${t.desc}</p>`;
     }
   </script>
 </body>
