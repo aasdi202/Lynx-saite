@@ -58,8 +58,8 @@
   <header>
     <h1>LYNX</h1>
     <div class="lang-switch">
-      <button onclick="setLang('en')">EN</button>
-      <button onclick="setLang('fa')">FA</button>
+      <button onclick="setLang('en', true)">EN</button>
+      <button onclick="setLang('fa', true)">FA</button>
     </div>
   </header>  <h2 id="title">About Us</h2>
   <p id="content">
@@ -89,11 +89,15 @@ LYNX با استفاده از قدرت بلاکچین، قراردادهای ه�
       }
     };
 
-    function setLang(lang) {
+    function setLang(lang, persist = false) {
       const t = translations[lang];
       document.getElementById("title").innerText = t.title;
       document.getElementById("content").innerText = t.content;
       document.getElementById("footer").innerText = t.footer;
+      if (persist) localStorage.setItem("lynx-lang", lang);
     }
+
+    const savedLang = localStorage.getItem("lynx-lang");
+    if (savedLang) setLang(savedLang);
   </script></body>
 </html>
