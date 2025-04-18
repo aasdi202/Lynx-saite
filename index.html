@@ -6,25 +6,24 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f9fb;
-      color: #1a1a1a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
       scroll-behavior: smooth;
     }
     header {
-      background-color: #1a1a1a;
-      color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
+      background-color: rgba(0, 0, 0, 0.6);
       position: sticky;
       top: 0;
       z-index: 100;
     }
     header h1 {
+      font-size: 1.8rem;
       margin: 0;
-      font-size: 1.5rem;
     }
     .dropdown {
       position: relative;
@@ -33,19 +32,19 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      background-color: #f9f9f9;
+      background-color: #fff;
+      color: #000;
       min-width: 120px;
       right: 0;
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       z-index: 1;
     }
     .dropdown-content button {
-      color: black;
-      padding: 8px 12px;
-      text-align: left;
       background: none;
       border: none;
+      padding: 10px;
       width: 100%;
+      text-align: left;
       cursor: pointer;
     }
     .dropdown-content button:hover {
@@ -55,20 +54,38 @@
       display: block;
     }
     main {
-      max-width: 900px;
-      margin: auto;
-      padding: 2rem;
       text-align: center;
+      padding: 5rem 2rem;
     }
-    section {
-      margin-top: 3rem;
+    h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    .btn-group a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      text-decoration: none;
+      background-color: #fff;
+      color: #1e3c72;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-group a:hover {
+      background-color: #eee;
     }
     footer {
       text-align: center;
       padding: 1rem;
-      background: #eee;
+      background-color: rgba(0, 0, 0, 0.5);
       font-size: 0.9rem;
-      margin-top: 4rem;
+      margin-top: 5rem;
     }
   </style>
 </head>
@@ -78,90 +95,24 @@
     <div class="dropdown">
       <button style="background:none;border:none;color:white;cursor:pointer;font-size:1rem;">Language</button>
       <div class="dropdown-content">
-        <button onclick="setLang('en')">English</button>
-        <button onclick="setLang('fa')">فارسی</button>
-        <button onclick="setLang('zh')">中文</button>
-        <button onclick="setLang('ru')">Русский</button>
-        <button onclick="setLang('tr')">Türkçe</button>
-        <button onclick="setLang('ar')">العربية</button>
+        <button onclick="alert('Language change coming soon')">English</button>
+        <button onclick="alert('به‌زودی فعال می‌شود')">فارسی</button>
+        <button onclick="alert('即将推出')">中文</button>
+        <button onclick="alert('Скоро будет доступно')">Русский</button>
+        <button onclick="alert('Yakında geliyor')">Türkçe</button>
+        <button onclick="alert('قريباً')">العربية</button>
       </div>
     </div>
   </header>  <main>
-    <section id="home">
-      <h2 id="title">Welcome to LYNX</h2>
-      <p id="desc">The decentralized communication ecosystem for a connected future.</p>
-    </section><nav style="margin: 2rem 0;">
-  <a href="#about">About</a> |
-  <a href="#roadmap">Roadmap</a> |
-  <a href="#contact">Contact</a>
-</nav>
+    <h2>Welcome to LYNX</h2>
+    <p>Building the future of decentralized, secure and censorship-resistant communication — powered by blockchain and digital identity (DID).</p><div class="btn-group">
+  <a href="about.html">About Us</a>
+  <a href="roadmap.html">Roadmap</a>
+  <a href="contact.html">Contact</a>
+</div>
 
-<section id="about">
-  <h3>About Us</h3>
-  <p id="about-text">We are an innovative team aiming to decentralize and improve communication systems worldwide.</p>
-</section>
-
-<section id="roadmap">
-  <h3>Roadmap</h3>
-  <ul id="roadmap-list" style="text-align: left; display: inline-block;">
-    <li>Phase 1: Token Deployment and Website Launch</li>
-    <li>Phase 2: Community Building and Social Presence</li>
-    <li>Phase 3: DID Integration and App Development</li>
-    <li>Phase 4: Full Ecosystem Launch and Partnerships</li>
-  </ul>
-</section>
-
-<section id="contact">
-  <h3>Contact Us</h3>
-  <p id="contact-text">For inquiries, email us at <a href="mailto:info@lynx.io">info@lynx.io</a></p>
-</section>
-
-  </main>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
-    const translations = {
-      en: {
-        title: 'Welcome to LYNX',
-        desc: 'The decentralized communication ecosystem for a connected future.',
-        about: 'We are an innovative team aiming to decentralize and improve communication systems worldwide.',
-        roadmap: [
-          'Phase 1: Token Deployment and Website Launch',
-          'Phase 2: Community Building and Social Presence',
-          'Phase 3: DID Integration and App Development',
-          'Phase 4: Full Ecosystem Launch and Partnerships'
-        ],
-        contact: 'For inquiries, email us at info@lynx.io',
-        footer: 'All rights reserved. LYNX 2025'
-      },
-      fa: {
-        title: 'به LYNX خوش آمدید',
-        desc: 'اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.',
-        about: 'ما یک تیم نوآور هستیم که قصد داریم سیستم‌های ارتباطی جهان را غیرمتمرکز و بهبود ببخشیم.',
-        roadmap: [
-          'فاز ۱: ایجاد توکن و راه‌اندازی وب‌سایت',
-          'فاز ۲: ساخت جامعه و حضور در شبکه‌های اجتماعی',
-          'فاز ۳: یکپارچه‌سازی DID و توسعه اپلیکیشن',
-          'فاز ۴: راه‌اندازی کامل اکوسیستم و همکاری‌ها'
-        ],
-        contact: 'برای ارتباط با ما ایمیل بزنید به: info@lynx.io',
-        footer: 'تمامی حقوق محفوظ است. LYNX ۲۰۲۵'
-      }
-      // زبان‌های zh, ru, tr, ar هم می‌تونن بعداً اضافه بشن
-    };
-
-    function setLang(lang) {
-      const t = translations[lang];
-      document.getElementById('title').innerText = t.title;
-      document.getElementById('desc').innerText = t.desc;
-      document.getElementById('about-text').innerText = t.about;
-      document.getElementById('contact-text').innerHTML = t.contact;
-      document.getElementById('footer').innerText = t.footer;
-
-      const roadmap = document.getElementById('roadmap-list');
-      roadmap.innerHTML = '';
-      t.roadmap.forEach(item => {
-        const li = document.createElement('li');
-        li.innerText = item;
-        roadmap.appendChild(li);
-      });
-    }
-  </script></body>
+  </main>  <footer>
+    All rights reserved. LYNX 2025
+  </footer>
+</body>
 </html>
