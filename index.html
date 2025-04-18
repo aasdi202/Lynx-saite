@@ -1,41 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LYNX – Decentralized Communication</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-  </head>
-  <body class="bg-blue-900 text-white font-sans">
-    <header class="flex justify-between items-center p-4 bg-blue-800 shadow-md">
-      <div class="text-2xl font-bold">LYNX</div>
-      <div>
-        <select class="bg-blue-700 text-white px-2 py-1 rounded">
-          <option>English</option>
-          <option>فارسی</option>
-          <option>中文</option>
-          <option>Русский</option>
-          <option>Türkçe</option>
-          <option>العربية</option>
-        </select>
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYNX | Home</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .lang-dropdown button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #203a43;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .lang-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 100px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .lang-dropdown-content div {
+      color: black;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .lang-dropdown-content div:hover {
+      background-color: #ddd;
+    }
+    .lang-dropdown:hover .lang-dropdown-content {
+      display: block;
+    }
+    .hero-img {
+      max-width: 100%;
+      height: auto;
+      margin: 2rem 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    h2 {
+      font-size: 2rem;
+      margin-top: 2rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 1rem auto 2rem;
+      line-height: 1.7;
+    }
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LYNX</h1>
+    <div class="lang-dropdown">
+      <button>Language</button>
+      <div class="lang-dropdown-content">
+        <div onclick="setLang('en', true)">English</div>
+        <div onclick="setLang('fa', true)">فارسی</div>
+        <div onclick="setLang('zh', true)">中文</div>
+        <div onclick="setLang('ru', true)">Русский</div>
+        <div onclick="setLang('tr', true)">Türkçe</div>
+        <div onclick="setLang('ar', true)">العربية</div>
       </div>
-    </header>
+    </div>
+  </header>  <img src="lynx-banner.jpg" alt="LYNX Banner" class="hero-img" />  <h2 id="title">Welcome to LYNX</h2>
+  <p id="desc">
+    LYNX is the next-generation decentralized communication ecosystem powered by blockchain and Decentralized Identity (DID). 
+    Our mission is to empower users with secure, censorship-resistant tools to connect, invest, and communicate freely. 
+    Join us on the journey to a truly decentralized digital future.
+  </p>  <nav>
+    <a href="about.html">About</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="contact.html">Contact</a>
+  </nav>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
+    const content = {
+      en: {
+        title: "Welcome to LYNX",
+        desc: "LYNX is the next-generation decentralized communication ecosystem powered by blockchain and Decentralized Identity (DID). Our mission is to empower users with secure, censorship-resistant tools to connect, invest, and communicate freely. Join us on the journey to a truly decentralized digital future.",
+        footer: "All rights reserved. LYNX 2025"
+      },
+      fa: {
+        title: "به LYNX خوش آمدید",
+        desc: "LYNX نسل جدیدی از اکوسیستم ارتباطی غیرمتمرکز مبتنی بر بلاکچین و هویت دیجیتال غیرمتمرکز (DID) است. هدف ما فراهم‌کردن ابزارهایی امن، آزاد و بدون سانسور برای ارتباط، سرمایه‌گذاری و تعامل برای همه کاربران است. با ما همراه شوید برای ساخت آینده‌ای دیجیتال و غیرمتمرکز.",
+        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵"
+      },
+      zh: {
+        title: "欢迎来到 LYNX",
+        desc: "LYNX 是基于区块链和去中心化身份 (DID) 的下一代去中心化通信生态系统。我们致力于为用户提供安全、无审查的连接与交流方式。加入我们，共创去中心化的数字未来。",
+        footer: "版权所有 LYNX 2025"
+      },
+      ru: {
+        title: "Добро пожаловать в LYNX",
+        desc: "LYNX — это децентрализованная экосистема связи нового поколения на основе блокчейна и DID. Наша миссия — предоставить пользователям безопасные и свободные инструменты для связи, инвестиций и общения. Присоединяйтесь к нам на пути к децентрализованному будущему.",
+        footer: "Все права защищены. LYNX 2025"
+      },
+      tr: {
+        title: "LYNX'e Hoş Geldiniz",
+        desc: "LYNX, blokzinciri ve Merkeziyetsiz Kimlik (DID) destekli yeni nesil merkeziyetsiz iletişim ekosistemidir. Amacımız, kullanıcıların özgürce iletişim kurması, yatırım yapması ve bağlanması için güvenli ve sansürsüz araçlar sağlamaktır. Gerçekten merkeziyetsiz bir dijital geleceğe katılın.",
+        footer: "Tüm hakları saklıdır. LYNX 2025"
+      },
+      ar: {
+        title: "مرحباً بك في LYNX",
+        desc: "LYNX هو نظام اتصال لامركزي من الجيل التالي يعتمد على تقنية البلوك تشين والهوية الرقمية اللامركزية (DID). مهمتنا هي تمكين المستخدمين من أدوات اتصال آمنة وخالية من الرقابة للتواصل والاستثمار بحرية. انضم إلينا نحو مستقبل رقمي لامركزي حقيقي.",
+        footer: "جميع الحقوق محفوظة. LYNX 2025"
+      }
+    };
 
-    <main class="p-6 text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
-        Decentralized Communication Ecosystem for DID Integration
-      </h1>
-      <p class="max-w-2xl mx-auto text-lg md:text-xl text-blue-200 mb-6">
-        LYNX is revolutionizing communication by leveraging blockchain technology and decentralized identity (DID) for secure, private, and decentralized interactions.
-      </p>
-      <img src="lynx-banner.jpg" alt="LYNX Banner" class="mx-auto rounded-lg shadow-lg w-full max-w-3xl mb-8" />
-      <a href="about.html" class="bg-white text-blue-800 font-bold px-6 py-3 rounded-full shadow-md hover:bg-blue-100 transition">
-        Learn More
-      </a>
-    </main>
+    function setLang(lang, persist = false) {
+      const t = content[lang];
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("desc").innerText = t.desc;
+      document.getElementById("footer").innerText = t.footer;
+      if (persist) localStorage.setItem("lynx-lang", lang);
+    }
 
-    <footer class="mt-12 p-4 text-center text-blue-300 text-sm">
-      &copy; 2025 LYNX Project. All rights reserved.
-    </footer>
-  </body>
+    const savedLang = localStorage.getItem("lynx-lang") || 'en';
+    setLang(savedLang);
+  </script></body>
 </html>
