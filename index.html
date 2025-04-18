@@ -1,98 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX | Decentralized Communication</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f9fb;
-      color: #1a1a1a;
-    }
-    header {
-      background-color: #1a1a1a;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-    }
-    header h1 {
-      margin: 0;
-    }
-    .lang-switcher {
-      display: flex;
-      gap: 0.5rem;
-    }
-    .lang-switcher button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    main {
-      max-width: 800px;
-      margin: auto;
-      padding: 2rem;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>LYNX</h1>
-    <div class="lang-switcher">
-      <button onclick="setLang('en')">English</button>
-      <button onclick="setLang('fa')">فارسی</button>
-      <button onclick="setLang('zh')">中文</button>
-      <button onclick="setLang('ru')">Русский</button>
-      <button onclick="setLang('ar')">العربية</button>
-      <button onclick="setLang('tr')">Türkçe</button>
+// Full-featured multilingual landing page for LYNX with About, Contact, Footer and smooth scroll
+
+import { useState, useEffect } from 'react'; import { motion } from 'framer-motion';
+
+const translations = { fa: { title: 'به LYNX خوش آمدید', subtitle: 'اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.', about: 'درباره ما', contact: 'تماس با ما', roadmap: 'نقشه راه', intro: 'LYNX یک پروژه ارتباطی غیرمتمرکز مبتنی بر DID است که آینده‌ای امن، شفاف و آزاد را برای کاربران رقم می‌زند.', footer: 'تمامی حقوق محفوظ است. LYNX ۲۰۲۵', aboutText: 'ما یک تیم نوآور هستیم که قصد داریم سیستم‌های ارتباطی آینده را غیرمتمرکز و شفاف بسازیم.', contactText: 'برای ارتباط با ما، لطفاً از طریق آدرس ایمیل info@lynx.io اقدام فرمایید.' }, en: { title: 'Welcome to LYNX', subtitle: 'A decentralized communication ecosystem for a connected future.', about: 'About Us', contact: 'Contact', roadmap: 'Roadmap', intro: 'LYNX is a decentralized identity (DID)-based communication project building a secure, transparent, and open future.', footer: 'All rights reserved. LYNX 2025', aboutText: 'We are an innovative team aiming to decentralize and improve the transparency of future communication systems.', contactText: 'To get in touch, please email us at info@lynx.io.' } };
+
+export default function Home() { const [lang, setLang] = useState('fa'); const t = translations[lang];
+
+useEffect(() => { document.documentElement.style.scrollBehavior = 'smooth'; }, []);
+
+return ( <div className="min-h-screen bg-gray-50 text-center"> <header className="flex justify-between items-center px-6 py-4 bg-black text-white"> <h1 className="text-2xl font-bold">LYNX</h1> <div> {Object.keys(translations).map((lng) => ( <button key={lng} onClick={() => setLang(lng)} className={ml-3 ${lang === lng ? 'underline' : ''}} > {lng === 'fa' ? 'فارسی' : lng === 'en' ? 'English' : lng} </button> ))} </div> </header>
+
+<motion.main
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="p-6 max-w-2xl mx-auto"
+  >
+    <h2 className="text-3xl font-semibold mb-2">{t.title}</h2>
+    <p className="text-lg mb-6 text-gray-700">{t.subtitle}</p>
+    <p className="mb-8 text-gray-600">{t.intro}</p>
+
+    <div className="flex justify-center space-x-6 mb-10">
+      <a href="#about" className="text-blue-600 hover:underline">{t.about}</a>
+      <a href="#roadmap" className="text-blue-600 hover:underline">{t.roadmap}</a>
+      <a href="#contact" className="text-blue-600 hover:underline">{t.contact}</a>
     </div>
-  </header>
 
-  <main id="content">
-    <h2>Welcome to LYNX</h2>
-    <p>The decentralized communication ecosystem for a connected future.</p>
-  </main>
+    <section id="about" className="my-10">
+      <h3 className="text-2xl font-bold mb-2">{t.about}</h3>
+      <p className="text-gray-600">{t.aboutText}</p>
+    </section>
 
-  <script>
-    const translations = {
-      en: {
-        title: 'Welcome to LYNX',
-        desc: 'The decentralized communication ecosystem for a connected future.'
-      },
-      fa: {
-        title: 'به LYNX خوش آمدید',
-        desc: 'اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.'
-      },
-      zh: {
-        title: '欢迎来到 LYNX',
-        desc: '面向互联未来的去中心化通信生态系统。'
-      },
-      ru: {
-        title: 'Добро пожаловать в LYNX',
-        desc: 'Децентрализованная коммуникационная экосистема для связанного будущего.'
-      },
-      ar: {
-        title: 'مرحبًا بك في LYNX',
-        desc: 'نظام الاتصال اللامركزي للمستقبل المتصل.'
-      },
-      tr: {
-        title: 'LYNX\'e Hoş Geldiniz',
-        desc: 'Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.'
-      }
-    };
+    <section id="contact" className="my-10">
+      <h3 className="text-2xl font-bold mb-2">{t.contact}</h3>
+      <p className="text-gray-600">{t.contactText}</p>
+    </section>
+  </motion.main>
 
-    function setLang(lang) {
-      const t = translations[lang];
-      document.querySelector('#content').innerHTML = `<h2>${t.title}</h2><p>${t.desc}</p>`;
-    }
-  </script>
-</body>
-</html>
+  <footer className="py-4 text-sm text-gray-500 bg-gray-100">
+    {t.footer}
+  </footer>
+</div>
+
+); }
+
