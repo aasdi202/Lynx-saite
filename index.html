@@ -63,7 +63,7 @@
     }
     p {
       font-size: 1.2rem;
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto 2rem;
     }
     .btn-group a {
@@ -95,24 +95,49 @@
     <div class="dropdown">
       <button style="background:none;border:none;color:white;cursor:pointer;font-size:1rem;">Language</button>
       <div class="dropdown-content">
-        <button onclick="alert('Language change coming soon')">English</button>
-        <button onclick="alert('به‌زودی فعال می‌شود')">فارسی</button>
-        <button onclick="alert('即将推出')">中文</button>
-        <button onclick="alert('Скоро будет доступно')">Русский</button>
-        <button onclick="alert('Yakında geliyor')">Türkçe</button>
-        <button onclick="alert('قريباً')">العربية</button>
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('fa')">فارسی</button>
+        <button onclick="alert('Coming soon')">中文</button>
+        <button onclick="alert('Coming soon')">Русский</button>
+        <button onclick="alert('Coming soon')">Türkçe</button>
+        <button onclick="alert('Coming soon')">العربية</button>
       </div>
     </div>
   </header>  <main>
-    <h2>Welcome to LYNX</h2>
-    <p>Building the future of decentralized, secure and censorship-resistant communication — powered by blockchain and digital identity (DID).</p><div class="btn-group">
-  <a href="about.html">About Us</a>
-  <a href="roadmap.html">Roadmap</a>
-  <a href="contact.html">Contact</a>
-</div>
+    <h2 id="title">Welcome to LYNX</h2>
+    <p id="desc">
+      LYNX is building a revolutionary decentralized communication network where privacy, ownership, and digital freedom are at the core.
+      Our ecosystem is powered by blockchain and decentralized identity (DID), enabling users to connect, communicate, and collaborate without intermediaries or surveillance.
+      Whether you're chatting, sharing, or building, LYNX is your secure gateway to the next generation of digital interaction — free, open, and truly yours.
+    </p>
+    <div class="btn-group">
+      <a href="about.html">About Us</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </main>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
+    const translations = {
+      en: {
+        title: 'Welcome to LYNX',
+        desc: `LYNX is building a revolutionary decentralized communication network where privacy, ownership, and digital freedom are at the core.
+        Our ecosystem is powered by blockchain and decentralized identity (DID), enabling users to connect, communicate, and collaborate without intermediaries or surveillance.
+        Whether you're chatting, sharing, or building, LYNX is your secure gateway to the next generation of digital interaction — free, open, and truly yours.`,
+        footer: 'All rights reserved. LYNX 2025'
+      },
+      fa: {
+        title: 'به LYNX خوش آمدید',
+        desc: `LYNX در حال ساخت یک شبکه انقلابی ارتباطی غیرمتمرکز است که در آن حریم خصوصی، مالکیت و آزادی دیجیتال در مرکز قرار دارند.
+        اکوسیستم ما مبتنی بر فناوری بلاکچین و هویت دیجیتال غیرمتمرکز (DID) است، و به کاربران این امکان را می‌دهد تا بدون واسطه یا نظارت، ارتباط برقرار کرده، تعامل کنند و همکاری داشته باشند.
+        چه در حال گفتگو باشید، چه به اشتراک‌گذاری، یا حتی ساخت پروژه، LYNX دروازه امن شما به نسل بعدی تعامل دیجیتال است — آزاد، باز، و واقعاً متعلق به خودتان.`,
+        footer: 'تمامی حقوق محفوظ است. LYNX ۲۰۲۵'
+      }
+    };
 
-  </main>  <footer>
-    All rights reserved. LYNX 2025
-  </footer>
-</body>
+    function setLang(lang) {
+      const t = translations[lang];
+      document.getElementById('title').innerText = t.title;
+      document.getElementById('desc').innerText = t.desc;
+      document.getElementById('footer').innerText = t.footer;
+    }
+  </script></body>
 </html>
