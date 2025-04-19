@@ -17,17 +17,33 @@
       font-size: 2.5rem;
       margin-bottom: 1rem;
     }
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-    .contact-box {
+    form {
       background-color: rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       padding: 2rem;
       max-width: 600px;
-      margin: 0 auto;
+      margin: 0 auto 2rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #00bcd4;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0097a7;
     }
     .footer {
       position: fixed;
@@ -53,10 +69,12 @@
 </head>
 <body>
   <h1 id="title"></h1>
-  <div class="contact-box">
-    <p id="emailText"></p>
-    <p id="telegramText"></p>
-  </div>  <div class="footer">
+  <form action="https://formspree.io/f/xleqzjjr" method="POST">
+    <input type="text" name="name" id="name" placeholder="Your Name" required />
+    <input type="email" name="email" id="email" placeholder="Your Email" required />
+    <textarea name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit" id="submitBtn">Send Message</button>
+  </form>  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
@@ -66,18 +84,20 @@
     const lang = localStorage.getItem("lynx-lang") || "en";
 
     const contactText = {
-      en: ["Contact Us", "Email: lynx.project2025@gmail.com", "Telegram: @lynxproject2025"],
-      fa: ["تماس با ما", "ایمیل: lynx.project2025@gmail.com", "تلگرام: @lynxproject2025"],
-      zh: ["联系我们", "电子邮件: lynx.project2025@gmail.com", "电报: @lynxproject2025"],
-      ru: ["Связаться с нами", "Электронная почта: lynx.project2025@gmail.com", "Телеграм: @lynxproject2025"],
-      tr: ["Bize Ulaşın", "E-posta: lynx.project2025@gmail.com", "Telegram: @lynxproject2025"],
-      ar: ["اتصل بنا", "البريد الإلكتروني: lynx.project2025@gmail.com", "تيليجرام: @lynxproject2025"]
+      en: ["Contact Us", "Your Name", "Your Email", "Your Message", "Send Message"],
+      fa: ["تماس با ما", "نام شما", "ایمیل شما", "پیام شما", "ارسال پیام"],
+      zh: ["联系我们", "你的名字", "你的邮箱", "你的信息", "发送消息"],
+      ru: ["Связаться с нами", "Ваше имя", "Ваш email", "Ваше сообщение", "Отправить"],
+      tr: ["Bize Ulaşın", "Adınız", "E-posta", "Mesajınız", "Gönder"],
+      ar: ["اتصل بنا", "اسمك", "بريدك الإلكتروني", "رسالتك", "إرسال"]
     };
 
     const t = contactText[lang] || contactText["en"];
 
     document.getElementById("title").innerText = t[0];
-    document.getElementById("emailText").innerText = t[1];
-    document.getElementById("telegramText").innerText = t[2];
+    document.getElementById("name").placeholder = t[1];
+    document.getElementById("email").placeholder = t[2];
+    document.getElementById("message").placeholder = t[3];
+    document.getElementById("submitBtn").innerText = t[4];
   </script></body>
 </html>
