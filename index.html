@@ -10,7 +10,7 @@
       background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
       color: white;
       text-align: center;
-      padding-bottom: 5rem;
+      padding-bottom: 6rem;
     }
     header {
       display: flex;
@@ -28,13 +28,15 @@
     .dropdown {
       background-color: #1e3a5f;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      padding: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      padding: 0.5rem 1rem;
       font-size: 1rem;
       color: white;
       border: none;
       cursor: pointer;
-      transition: background 0.3s;
+      outline: none;
+      transition: background 0.3s ease;
+      appearance: none;
     }
     .dropdown:hover {
       background-color: #00bcd4;
@@ -44,23 +46,14 @@
       font-size: 3rem;
     }
     p {
-      font-size: 1.3rem;
-      max-width: 700px;
-      margin: 1rem auto 3rem;
-      line-height: 1.6;
-    }
-    nav a {
-      color: #00bcd4;
-      margin: 0 15px;
-      text-decoration: none;
-      font-size: 1rem;
-    }
-    nav a:hover {
-      text-decoration: underline;
+      font-size: 1.2rem;
+      max-width: 900px;
+      margin: 1.5rem auto 3rem;
+      line-height: 1.8;
     }
     .hero-image {
       max-width: 90%;
-      margin-top: 2rem;
+      margin-top: 1rem;
       border-radius: 12px;
       box-shadow: 0 0 12px rgba(0,0,0,0.4);
     }
@@ -72,9 +65,17 @@
       background-color: #1e3a5f;
       color: #ccc;
       text-align: center;
-      padding: 0.7rem 1rem;
+      padding: 0.8rem 1rem;
       font-size: 0.9rem;
       box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+    }
+    .footer a {
+      color: #00bcd4;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -92,18 +93,20 @@
       </select>
     </div>
   </header>  <h1 id="mainTitle"></h1>
-  <p id="mainDesc"></p>  <img src="lynx-banner.jpg" alt="LYNX Banner" class="hero-image">  <nav>
-    <a href="about.html">About</a>
-    <a href="roadmap.html">Roadmap</a>
+  <p id="mainDesc"></p>
+  <img src="lynx-banner.jpg" alt="LYNX Banner" class="hero-image">  <div class="footer">
+    <a href="about.html">About</a> |
+    <a href="roadmap.html">Roadmap</a> |
     <a href="contact.html">Contact</a>
-  </nav>  <div class="footer">© 2025 LYNX</div>  <script>
+    <div style="margin-top: 5px;">© 2025 LYNX</div>
+  </div>  <script>
     const translations = {
-      en: ["Welcome to LYNX", "The decentralized communication ecosystem for a connected future."],
-      fa: ["به LYNX خوش آمدید", "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل."],
-      zh: ["欢迎来到 LYNX", "为互联未来打造的去中心化通信生态系统。"],
-      ru: ["Добро пожаловать в LYNX", "Децентрализованная экосистема связи для будущего."],
-      tr: ["LYNX'e Hoş Geldiniz", "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi."],
-      ar: ["مرحبًا بكم في LYNX", "نظام الاتصالات اللامركزي من أجل مستقبل مترابط."]
+      en: ["Welcome to LYNX", "LYNX is a decentralized communication ecosystem built on Decentralized Digital Identity (DID). Our goal is to revolutionize global communication by offering a secure, private, and seamless environment for individuals and communities to connect, interact, and collaborate without intermediaries. Join us to be part of the future of decentralized networking and trust-based digital interaction."],
+      fa: ["به LYNX خوش آمدید", "LYNX یک اکوسیستم ارتباطی غیرمتمرکز بر پایه هویت دیجیتال غیرمتمرکز (DID) است. هدف ما تحول در ارتباطات جهانی از طریق ارائه بستری امن، خصوصی و روان برای ارتباط، تعامل و همکاری بدون واسطه است. با ما همراه شوید تا بخشی از آینده تعامل دیجیتال مبتنی بر اعتماد باشید."],
+      zh: ["欢迎来到 LYNX", "LYNX 是一个建立在去中心化数字身份 (DID) 基础上的去中心化通信生态系统。我们的目标是通过提供一个安全、私密、无缝的环境来革新全球通信，使个人和社区能够无中介地连接和互动。"],
+      ru: ["Добро пожаловать в LYNX", "LYNX — это децентрализованная коммуникационная экосистема, построенная на децентрализованной цифровой идентичности (DID). Наша цель — изменить глобальные коммуникации, предлагая безопасную, конфиденциальную и бесшовную среду для взаимодействия без посредников."],
+      tr: ["LYNX'e Hoş Geldiniz", "LYNX, Merkeziyetsiz Dijital Kimlik (DID) tabanlı bir iletişim ekosistemidir. Amacımız, bireylerin ve toplulukların aracı olmadan bağlantı kurabileceği, etkileşimde bulunabileceği güvenli, özel ve kesintisiz bir ortam sunarak küresel iletişimi dönüştürmektir."],
+      ar: ["مرحبًا بكم في LYNX", "LYNX هو نظام بيئي للاتصالات اللامركزية مبني على الهوية الرقمية اللامركزية (DID). هدفنا هو تحويل الاتصالات العالمية من خلال تقديم بيئة آمنة وخاصة وسلسة للتواصل والتفاعل بدون وسطاء."]
     };
 
     const lang = localStorage.getItem("lynx-lang") || "en";
