@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,17 +50,13 @@
   <p id="p1"></p>
   <p id="p2"></p>
   <p id="p3"></p>
-  <p id="p4"></p>
-
-  <div class="footer">
+  <p id="p4"></p>  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
     <a href="contact.html">Contact</a>
     <div style="margin-top: 5px;">© 2025 LYNX</div>
-  </div>
-
-  <script>
+  </div>  <script>
     const lang = localStorage.getItem("lynx-lang") || "en";
 
     const translations = {
@@ -78,8 +73,35 @@
         "در قلب لاینکس، فناوری هویت دیجیتال غیرمتمرکز (DID) قرار دارد که به افراد امکان می‌دهد بدون وابستگی به نهادهای مرکزی، مالک هویت خود باشند.",
         "لاینکس برای پشتیبانی از اپلیکیشن‌های آینده مانند شبکه‌های اجتماعی غیرمتمرکز، پلتفرم‌های چت همتا به همتا و ابزارهای DeFi طراحی شده است.",
         "ما در حال ساخت آینده ارتباطات هستیم — بلوک به بلوک، اتصال به اتصال، صدا به صدا."
+      ],
+      zh: [
+        "关于 LYNX",
+        "LYNX 不仅仅是一个代币——它是一个全球去中心化通信网络的基础，重新定义了我们如何连接、互动和建立数字信任。",
+        "LYNX 的核心是去中心化身份 (DID)，这是一项突破性技术，使个人可以在无需依赖中心机构的情况下控制自己的身份。",
+        "LYNX 旨在支持未来的应用，如去中心化社交网络、点对点聊天平台和 DeFi 工具，所有这些都由区块链驱动并由社区拥有。",
+        "我们正在共同构建未来的交互方式——一块区块、一条连接、一种声音。"
+      ],
+      ru: [
+        "О LYNX",
+        "LYNX — это не просто токен, это основа глобальной децентрализованной сети связи, которая переопределяет способы взаимодействия, общения и цифрового доверия.",
+        "В основе LYNX лежит Децентрализованная Идентичность (DID), инновационная технология, позволяющая пользователям контролировать свою идентичность без участия централизованных органов.",
+        "LYNX предназначен для поддержки будущих приложений, таких как децентрализованные социальные сети, P2P-чаты и интегрированные DeFi-инструменты — все это работает на блокчейне и управляется сообществом.",
+        "Вместе мы строим будущее общения — блок за блоком, соединение за соединением, голос за голосом."
+      ],
+      tr: [
+        "LYNX Hakkında",
+        "LYNX sadece bir token değil — küresel, merkeziyetsiz bir iletişim ağı inşa etmenin temelidir.",
+        "LYNX’in merkezinde Merkeziyetsiz Kimlik (DID) teknolojisi yer alır ve bireylerin kimliklerini merkezi otoritelere ihtiyaç duymadan kontrol etmelerini sağlar.",
+        "LYNX, topluluk tarafından sahiplenilen blockchain destekli merkeziyetsiz sosyal ağlar, P2P sohbet platformları ve entegre DeFi araçları gibi gelecekteki uygulamaları desteklemek için tasarlanmıştır.",
+        "Geleceğin etkileşim dünyasını birlikte inşa ediyoruz — bir blok, bir bağlantı, bir sesle."
+      ],
+      ar: [
+        "حول LYNX",
+        "LYNX ليس مجرد رمز — بل هو أساس شبكة اتصال لامركزية عالمية تعيد تعريف طريقة تواصلنا وتفاعلنا وبناء الثقة الرقمية.",
+        "في قلب LYNX يوجد هوية رقمية لامركزية (DID)، وهي تقنية رائدة تتيح للمستخدمين التحكم الكامل في هويتهم دون الاعتماد على سلطات مركزية.",
+        "تم تصميم LYNX لدعم تطبيقات مستقبلية مثل الشبكات الاجتماعية اللامركزية، منصات الدردشة من نظير إلى نظير، وأدوات DeFi المتكاملة — كلها تعمل على البلوكشين ويمتلكها المجتمع.",
+        "معاً، نبني مستقبل التفاعل — كتلة تلو الأخرى، اتصال بعد اتصال، صوت بعد صوت."
       ]
-      // اگه خواستی بقیه زبون‌ها رو هم اضافه می‌کنم
     };
 
     const t = translations[lang] || translations["en"];
@@ -89,6 +111,5 @@
     document.getElementById("p2").innerText = t[2];
     document.getElementById("p3").innerText = t[3];
     document.getElementById("p4").innerText = t[4];
-  </script>
-</body>
+  </script></body>
 </html>
