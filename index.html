@@ -2,156 +2,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LYNX | Home</title>
+  <title>Contact Us | LYNX</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
-      text-align: center;
       padding: 2rem;
     }
-    header {
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    form {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-    }
-    .lang-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .lang-dropdown button {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 5px;
-      background-color: #fff;
-      color: #203a43;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .lang-dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f1f1f1;
-      min-width: 100px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-    .lang-dropdown-content div {
-      color: black;
-      padding: 8px 12px;
-      cursor: pointer;
-      text-align: left;
-    }
-    .lang-dropdown-content div:hover {
-      background-color: #ddd;
-    }
-    .lang-dropdown:hover .lang-dropdown-content {
-      display: block;
-    }
-    .hero-img {
-      max-width: 100%;
-      height: auto;
-      margin: 2rem 0;
+      flex-direction: column;
+      gap: 1rem;
+      background: #1e3a5f;
+      padding: 2rem;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
-    h2 {
-      font-size: 2rem;
+    input, textarea {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .btn-submit {
+      background-color: #00bcd4;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+    .btn-submit:hover {
+      background-color: #0097a7;
+    }
+    .contact-links {
       margin-top: 2rem;
     }
-    p {
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 1rem auto 2rem;
-      line-height: 1.7;
-    }
-    nav a {
-      margin: 0 1rem;
+    .contact-links a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 10px 20px;
+      background-color: #00bcd4;
+      color: white;
+      border-radius: 25px;
       text-decoration: none;
-      color: #fff;
       font-weight: bold;
+      transition: background 0.3s;
     }
-    nav a:hover {
-      text-decoration: underline;
+    .contact-links a:hover {
+      background-color: #007d8c;
     }
-    footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      color: #ccc;
+    .btn-home {
+      display: inline-block;
+      margin-top: 3rem;
+      background-color: #00bcd4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .btn-home:hover {
+      background-color: #0097a7;
+    }
+    @media screen and (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      form {
+        padding: 1rem;
+      }
+      input, textarea {
+        font-size: 0.95rem;
+      }
+      .btn-submit, .btn-home {
+        width: 100%;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>LYNX</h1>
-    <div class="lang-dropdown">
-      <button>Language</button>
-      <div class="lang-dropdown-content">
-        <div onclick="setLang('en', true)">English</div>
-        <div onclick="setLang('fa', true)">فارسی</div>
-        <div onclick="setLang('zh', true)">中文</div>
-        <div onclick="setLang('ru', true)">Русский</div>
-        <div onclick="setLang('tr', true)">Türkçe</div>
-        <div onclick="setLang('ar', true)">العربية</div>
-      </div>
-    </div>
-  </header>  <img src="lynx-banner.jpg" alt="LYNX Banner" class="hero-img" />  <h2 id="title">Welcome to LYNX</h2>
-  <p id="desc">
-    LYNX is the next-generation decentralized communication ecosystem powered by blockchain and Decentralized Identity (DID). 
-    Our mission is to empower users with secure, censorship-resistant tools to connect, invest, and communicate freely. 
-    Join us on the journey to a truly decentralized digital future.
-  </p>  <nav>
-    <a href="about.html">About</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="contact.html">Contact</a>
-  </nav>  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
+  <div class="container">
+    <h1 id="title">Contact Us</h1><form>
+  <input type="text" placeholder="Your Name" required />
+  <input type="email" placeholder="Your Email" required />
+  <textarea placeholder="Your Message" required></textarea>
+  <button type="submit" class="btn-submit">Send Message</button>
+</form>
+
+<div class="contact-links">
+  <a href="mailto:lynx.project2025@gmail.com">Email Us</a>
+  <a href="https://t.me/lynxproject2025" target="_blank">Chat on Telegram</a>
+</div>
+
+<a href="index.html" class="btn-home">← Back to Home</a>
+
+  </div>  <script>
     const content = {
       en: {
-        title: "Welcome to LYNX",
-        desc: "LYNX is the next-generation decentralized communication ecosystem powered by blockchain and Decentralized Identity (DID). Our mission is to empower users with secure, censorship-resistant tools to connect, invest, and communicate freely. Join us on the journey to a truly decentralized digital future.",
-        footer: "All rights reserved. LYNX 2025"
+        title: "Contact Us",
+        name: "Your Name",
+        email: "Your Email",
+        message: "Your Message",
+        submit: "Send Message"
       },
       fa: {
-        title: "به LYNX خوش آمدید",
-        desc: "LYNX نسل جدیدی از اکوسیستم ارتباطی غیرمتمرکز مبتنی بر بلاکچین و هویت دیجیتال غیرمتمرکز (DID) است. هدف ما فراهم‌کردن ابزارهایی امن، آزاد و بدون سانسور برای ارتباط، سرمایه‌گذاری و تعامل برای همه کاربران است. با ما همراه شوید برای ساخت آینده‌ای دیجیتال و غیرمتمرکز.",
-        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵"
+        title: "تماس با ما",
+        name: "نام شما",
+        email: "ایمیل شما",
+        message: "پیام شما",
+        submit: "ارسال پیام"
       },
       zh: {
-        title: "欢迎来到 LYNX",
-        desc: "LYNX 是基于区块链和去中心化身份 (DID) 的下一代去中心化通信生态系统。我们致力于为用户提供安全、无审查的连接与交流方式。加入我们，共创去中心化的数字未来。",
-        footer: "版权所有 LYNX 2025"
+        title: "联系我们",
+        name: "您的姓名",
+        email: "您的电子邮件",
+        message: "您的留言",
+        submit: "发送信息"
       },
       ru: {
-        title: "Добро пожаловать в LYNX",
-        desc: "LYNX — это децентрализованная экосистема связи нового поколения на основе блокчейна и DID. Наша миссия — предоставить пользователям безопасные и свободные инструменты для связи, инвестиций и общения. Присоединяйтесь к нам на пути к децентрализованному будущему.",
-        footer: "Все права защищены. LYNX 2025"
-      },
-      tr: {
-        title: "LYNX'e Hoş Geldiniz",
-        desc: "LYNX, blokzinciri ve Merkeziyetsiz Kimlik (DID) destekli yeni nesil merkeziyetsiz iletişim ekosistemidir. Amacımız, kullanıcıların özgürce iletişim kurması, yatırım yapması ve bağlanması için güvenli ve sansürsüz araçlar sağlamaktır. Gerçekten merkeziyetsiz bir dijital geleceğe katılın.",
-        footer: "Tüm hakları saklıdır. LYNX 2025"
+        title: "Связаться с нами",
+        name: "Ваше имя",
+        email: "Ваш email",
+        message: "Ваше сообщение",
+        submit: "Отправить сообщение"
       },
       ar: {
-        title: "مرحباً بك في LYNX",
-        desc: "LYNX هو نظام اتصال لامركزي من الجيل التالي يعتمد على تقنية البلوك تشين والهوية الرقمية اللامركزية (DID). مهمتنا هي تمكين المستخدمين من أدوات اتصال آمنة وخالية من الرقابة للتواصل والاستثمار بحرية. انضم إلينا نحو مستقبل رقمي لامركزي حقيقي.",
-        footer: "جميع الحقوق محفوظة. LYNX 2025"
+        title: "اتصل بنا",
+        name: "اسمك",
+        email: "بريدك الإلكتروني",
+        message: "رسالتك",
+        submit: "إرسال الرسالة"
+      },
+      tr: {
+        title: "Bize Ulaşın",
+        name: "Adınız",
+        email: "E-postanız",
+        message: "Mesajınız",
+        submit: "Mesaj Gönder"
       }
     };
-
-    function setLang(lang, persist = false) {
-      const t = content[lang];
-      document.getElementById("title").innerText = t.title;
-      document.getElementById("desc").innerText = t.desc;
-      document.getElementById("footer").innerText = t.footer;
-      if (persist) localStorage.setItem("lynx-lang", lang);
-    }
-
-    const savedLang = localStorage.getItem("lynx-lang") || 'en';
-    setLang(savedLang);
+    const lang = localStorage.getItem("lynx-lang") || 'en';
+    const t = content[lang];
+    document.getElementById("title").innerText = t.title;
+    const inputs = document.querySelectorAll("form input, form textarea, form button");
+    inputs[0].placeholder = t.name;
+    inputs[1].placeholder = t.email;
+    inputs[2].placeholder = t.message;
+    inputs[3].innerText = t.submit;
   </script></body>
 </html>
