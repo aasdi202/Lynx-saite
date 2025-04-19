@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LYNX - Home</title>
   <style>
     body {
@@ -19,10 +19,13 @@
       right: 20px;
     }
     select {
-      padding: 6px 12px;
-      border-radius: 20px;
+      padding: 8px 14px;
+      border-radius: 25px;
       border: none;
       font-weight: bold;
+      background-color: #00bcd4;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     h1 {
       font-size: 3rem;
@@ -30,8 +33,9 @@
     }
     p {
       font-size: 1.2rem;
-      max-width: 700px;
-      margin: 1rem auto;
+      max-width: 800px;
+      margin: 1rem auto 2rem;
+      line-height: 1.8;
     }
     img {
       max-width: 100%;
@@ -40,17 +44,22 @@
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
-    nav {
+    .nav-btns {
       margin: 2rem 0;
     }
-    nav a {
-      color: #00bcd4;
-      margin: 0 1rem;
+    .nav-btns a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 12px 24px;
+      background-color: #00bcd4;
+      color: white;
+      border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
+      transition: background 0.3s;
     }
-    nav a:hover {
-      text-decoration: underline;
+    .nav-btns a:hover {
+      background-color: #0097a7;
     }
     .footer {
       position: fixed;
@@ -95,11 +104,10 @@
     </select>
   </div>  <h1 id="welcome">Welcome to LYNX</h1>
   <p id="desc">The decentralized communication ecosystem for a connected future.</p>
-  <img src="lynx-banner.jpg" alt="Lynx Banner" />  <nav>
-    <a href="about.html">About</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="contact.html">Contact</a>
-  </nav>  <div class="footer">
+  <p id="goal">
+    LYNX aims to build a secure, private, and decentralized communication system based on Decentralized Identity (DID). Our mission is to empower users with full control over their digital identity and interactions while connecting the global crypto community in a seamless and trusted environment.
+  </p>
+  <img src="lynx-banner.jpg" alt="Lynx Banner" />  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
@@ -109,27 +117,33 @@
     const content = {
       en: {
         welcome: "Welcome to LYNX",
-        desc: "The decentralized communication ecosystem for a connected future."
+        desc: "The decentralized communication ecosystem for a connected future.",
+        goal: "LYNX aims to build a secure, private, and decentralized communication system based on Decentralized Identity (DID). Our mission is to empower users with full control over their digital identity and interactions while connecting the global crypto community in a seamless and trusted environment."
       },
       fa: {
         welcome: "به لاینکس خوش آمدید",
-        desc: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل."
+        desc: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل.",
+        goal: "لاینکس با هدف ایجاد یک سیستم ارتباطی ایمن، خصوصی و غیرمتمرکز مبتنی بر هویت دیجیتال غیرمتمرکز (DID) طراحی شده است. مأموریت ما فراهم کردن بستری است که کاربران کنترل کامل بر هویت دیجیتال و تعاملات خود داشته باشند و بتوانند با اعتماد در جامعه جهانی کریپتو ارتباط برقرار کنند."
       },
       zh: {
         welcome: "欢迎来到 LYNX",
-        desc: "面向互联未来的去中心化通信生态系统。"
+        desc: "面向互联未来的去中心化通信生态系统。",
+        goal: "LYNX 旨在基于去中心化身份 (DID) 构建一个安全、私密、去中心化的通信系统，使用户能够完全控制他们的数字身份和互动，同时连接全球加密社区。"
       },
       ru: {
         welcome: "Добро пожаловать в LYNX",
-        desc: "Децентрализованная коммуникационная экосистема для связанного будущего."
+        desc: "Децентрализованная коммуникационная экосистема для связанного будущего.",
+        goal: "LYNX стремится создать безопасную, частную и децентрализованную систему общения на основе DID, предоставляя пользователям полный контроль над цифровой идентичностью и соединяя глобальное криптосообщество."
       },
       ar: {
         welcome: "مرحبًا بكم في LYNX",
-        desc: "نظام اتصال لا مركزي لمستقبل مترابط."
+        desc: "نظام اتصال لا مركزي لمستقبل مترابط.",
+        goal: "تهدف LYNX إلى إنشاء نظام اتصالات آمن وخاص ولا مركزي يعتمد على الهوية الرقمية اللامركزية (DID)، مما يمنح المستخدمين تحكمًا كاملاً في هويتهم الرقمية وتواصلهم مع مجتمع التشفير العالمي."
       },
       tr: {
         welcome: "LYNX'e Hoş Geldiniz",
-        desc: "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi."
+        desc: "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.",
+        goal: "LYNX, Merkeziyetsiz Kimlik (DID) tabanlı güvenli, özel ve merkeziyetsiz bir iletişim sistemi kurmayı hedefler. Amacımız, kullanıcıların dijital kimliklerini ve etkileşimlerini tamamen kontrol etmelerini sağlamak ve küresel kripto topluluğunu güvenli bir ortamda bir araya getirmektir."
       }
     };
 
@@ -138,6 +152,7 @@
     const t = content[lang];
     document.getElementById("welcome").innerText = t.welcome;
     document.getElementById("desc").innerText = t.desc;
+    document.getElementById("goal").innerText = t.goal;
 
     function changeLang(l) {
       localStorage.setItem("lynx-lang", l);
