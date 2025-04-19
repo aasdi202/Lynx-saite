@@ -45,6 +45,10 @@
     button:hover {
       background-color: #0097a7;
     }
+    .info {
+      margin-top: 2rem;
+      font-size: 1.1rem;
+    }
     .footer {
       position: fixed;
       bottom: 0;
@@ -74,7 +78,10 @@
     <input type="email" name="email" id="email" placeholder="Your Email" required />
     <textarea name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
     <button type="submit" id="submitBtn">Send Message</button>
-  </form>  <div class="footer">
+  </form>  <div class="info">
+    <p id="emailText"></p>
+    <p id="telegramText"></p>
+  </div>  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
@@ -84,12 +91,12 @@
     const lang = localStorage.getItem("lynx-lang") || "en";
 
     const contactText = {
-      en: ["Contact Us", "Your Name", "Your Email", "Your Message", "Send Message"],
-      fa: ["تماس با ما", "نام شما", "ایمیل شما", "پیام شما", "ارسال پیام"],
-      zh: ["联系我们", "你的名字", "你的邮箱", "你的信息", "发送消息"],
-      ru: ["Связаться с нами", "Ваше имя", "Ваш email", "Ваше сообщение", "Отправить"],
-      tr: ["Bize Ulaşın", "Adınız", "E-posta", "Mesajınız", "Gönder"],
-      ar: ["اتصل بنا", "اسمك", "بريدك الإلكتروني", "رسالتك", "إرسال"]
+      en: ["Contact Us", "Your Name", "Your Email", "Your Message", "Send Message", "Email: lynx.project2025@gmail.com", "Telegram: @lynxproject2025"],
+      fa: ["تماس با ما", "نام شما", "ایمیل شما", "پیام شما", "ارسال پیام", "ایمیل: lynx.project2025@gmail.com", "تلگرام: @lynxproject2025"],
+      zh: ["联系我们", "你的名字", "你的邮箱", "你的信息", "发送消息", "电子邮件: lynx.project2025@gmail.com", "电报: @lynxproject2025"],
+      ru: ["Связаться с нами", "Ваше имя", "Ваш email", "Ваше сообщение", "Отправить", "Эл. почта: lynx.project2025@gmail.com", "Телеграм: @lynxproject2025"],
+      tr: ["Bize Ulaşın", "Adınız", "E-posta", "Mesajınız", "Gönder", "E-posta: lynx.project2025@gmail.com", "Telegram: @lynxproject2025"],
+      ar: ["اتصل بنا", "اسمك", "بريدك الإلكتروني", "رسالتك", "إرسال", "البريد الإلكتروني: lynx.project2025@gmail.com", "تيليجرام: @lynxproject2025"]
     };
 
     const t = contactText[lang] || contactText["en"];
@@ -99,5 +106,7 @@
     document.getElementById("email").placeholder = t[2];
     document.getElementById("message").placeholder = t[3];
     document.getElementById("submitBtn").innerText = t[4];
+    document.getElementById("emailText").innerText = t[5];
+    document.getElementById("telegramText").innerText = t[6];
   </script></body>
 </html>
