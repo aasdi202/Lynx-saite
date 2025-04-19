@@ -47,11 +47,11 @@
   </style>
 </head>
 <body>
-  <h1 id="about-title">About LYNX</h1>
-  <p id="about-text1">Loading translation...</p>
-  <p id="about-text2"></p>
-  <p id="about-text3"></p>
-  <p id="about-text4"></p>
+  <h1 id="title"></h1>
+  <p id="p1"></p>
+  <p id="p2"></p>
+  <p id="p3"></p>
+  <p id="p4"></p>
 
   <div class="footer">
     <a href="index.html">Home</a> |
@@ -61,16 +61,34 @@
     <div style="margin-top: 5px;">© 2025 LYNX</div>
   </div>
 
-  <!-- بارگذاری فایل ترجمه -->
-  <script src="./lang.js?v=10"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      if (typeof translatePage === "function") {
-        translatePage();
-      } else {
-        console.error("تابع translatePage پیدا نشد!");
-      }
-    });
+    const lang = localStorage.getItem("lynx-lang") || "en";
+
+    const translations = {
+      en: [
+        "About LYNX",
+        "LYNX is not just a token — it's the foundation of a global decentralized communication network that redefines the way we connect, interact, and build digital trust.",
+        "At the heart of LYNX is Decentralized Identity (DID), a breakthrough technology that allows individuals to control their own identities without relying on central authorities.",
+        "LYNX is designed to support future applications such as decentralized social networks, peer-to-peer chat platforms, and integrated DeFi tools — all powered by blockchain and owned by the community.",
+        "Together, we are building the future of interaction. One block, one connection, one voice at a time."
+      ],
+      fa: [
+        "درباره لاینکس",
+        "لاینکس فقط یک توکن نیست — بلکه پایه‌گذار یک شبکه ارتباطی غیرمتمرکز جهانی است که نحوه ارتباط، تعامل و اعتماد دیجیتال را بازتعریف می‌کند.",
+        "در قلب لاینکس، فناوری هویت دیجیتال غیرمتمرکز (DID) قرار دارد که به افراد امکان می‌دهد بدون وابستگی به نهادهای مرکزی، مالک هویت خود باشند.",
+        "لاینکس برای پشتیبانی از اپلیکیشن‌های آینده مانند شبکه‌های اجتماعی غیرمتمرکز، پلتفرم‌های چت همتا به همتا و ابزارهای DeFi طراحی شده است.",
+        "ما در حال ساخت آینده ارتباطات هستیم — بلوک به بلوک، اتصال به اتصال، صدا به صدا."
+      ]
+      // اگه خواستی بقیه زبون‌ها رو هم اضافه می‌کنم
+    };
+
+    const t = translations[lang] || translations["en"];
+
+    document.getElementById("title").innerText = t[0];
+    document.getElementById("p1").innerText = t[1];
+    document.getElementById("p2").innerText = t[2];
+    document.getElementById("p3").innerText = t[3];
+    document.getElementById("p4").innerText = t[4];
   </script>
 </body>
 </html>
