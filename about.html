@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,24 +48,29 @@
 </head>
 <body>
   <h1 id="about-title">About LYNX</h1>
-  <p id="about-text1">
-    LYNX is not just a token — it's the foundation of a global decentralized communication network that redefines the way we connect, interact, and build digital trust.
-  </p>
-  <p id="about-text2">
-    At the heart of LYNX is Decentralized Identity (DID), a breakthrough technology that allows individuals to control their own identities without relying on central authorities.
-  </p>
-  <p id="about-text3">
-    LYNX is designed to support future applications such as decentralized social networks, peer-to-peer chat platforms, and integrated DeFi tools — all powered by blockchain and owned by the community.
-  </p>
-  <p id="about-text4">
-    Together, we are building the future of interaction. One block, one connection, one voice at a time.
-  </p>  <div class="footer">
+  <p id="about-text1">Loading translation...</p>
+  <p id="about-text2"></p>
+  <p id="about-text3"></p>
+  <p id="about-text4"></p>
+
+  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
     <a href="contact.html">Contact</a>
     <div style="margin-top: 5px;">© 2025 LYNX</div>
-  </div>  <script src="lang.js?v=5"></script>  <script>
-    document.addEventListener("DOMContentLoaded", translatePage);
-  </script></body>
+  </div>
+
+  <!-- بارگذاری فایل ترجمه -->
+  <script src="./lang.js?v=10"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof translatePage === "function") {
+        translatePage();
+      } else {
+        console.error("تابع translatePage پیدا نشد!");
+      }
+    });
+  </script>
+</body>
 </html>
