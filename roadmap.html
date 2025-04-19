@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roadmap | LYNX</title>
+  <title>LYNX | Roadmap</title>
   <style>
     body {
       margin: 0;
@@ -11,148 +11,127 @@
       color: #fff;
       padding: 2rem;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1rem;
-    }
-    header h1 {
-      margin: 0;
-    }
-    .lang-switch button {
-      margin-left: 10px;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    h2 {
-      font-size: 2.2rem;
-      margin-bottom: 1.5rem;
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
     }
     .timeline {
       position: relative;
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
     }
     .timeline::after {
       content: '';
       position: absolute;
       width: 6px;
-      background-color: #fff;
+      background-color: #00bcd4;
       top: 0;
       bottom: 0;
       left: 50%;
       margin-left: -3px;
     }
-    .container {
-      padding: 1rem 2rem;
+    .container-timeline {
+      padding: 10px 40px;
       position: relative;
       background-color: inherit;
       width: 50%;
     }
-    .container.left {
+    .left {
       left: 0;
     }
-    .container.right {
+    .right {
       left: 50%;
     }
-    .content {
-      padding: 1rem;
-      background-color: rgba(255, 255, 255, 0.1);
-      position: relative;
-      border-radius: 6px;
-    }
-    .container::before {
-      content: " ";
+    .container-timeline::after {
+      content: '';
       position: absolute;
       width: 25px;
       height: 25px;
-      right: -13px;
-      background-color: #fff;
-      border: 4px solid #fdbb2d;
+      right: -17px;
+      background-color: #00bcd4;
+      border: 4px solid #fff;
       top: 15px;
       border-radius: 50%;
       z-index: 1;
     }
-    .right::before {
-      left: -13px;
+    .right::after {
+      left: -16px;
     }
-    a.back {
-      display: inline-block;
+    .content {
+      padding: 20px;
+      background-color: #fff;
+      position: relative;
+      border-radius: 6px;
+      color: #203a43;
+    }
+    @media screen and (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+      .container-timeline {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      .container-timeline::after {
+        left: 15px;
+      }
+      .right {
+        left: 0%;
+      }
+    }
+    .btn-home {
       margin-top: 2rem;
-      padding: 0.6rem 1.2rem;
-      background: #fff;
-      color: #2c5364;
+      display: inline-block;
+      background-color: #00bcd4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
       text-decoration: none;
-      border-radius: 20px;
       font-weight: bold;
+      transition: background 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    footer {
-      margin-top: 4rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #ccc;
+    .btn-home:hover {
+      background-color: #0097a7;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>LYNX</h1>
-    <div class="lang-switch">
-      <button onclick="setLang('en', true)">EN</button>
-      <button onclick="setLang('fa', true)">FA</button>
+  <div class="container">
+    <h1>Roadmap</h1>
+    <div class="timeline">
+      <div class="container-timeline left">
+        <div class="content">
+          <h3>Phase 1</h3>
+          <p>Token deployment on BNB Smart Chain and launch of the official website with multilingual support.</p>
+        </div>
+      </div>
+      <div class="container-timeline right">
+        <div class="content">
+          <h3>Phase 2</h3>
+          <p>Community building, establishing social media presence, and engaging early adopters.</p>
+        </div>
+      </div>
+      <div class="container-timeline left">
+        <div class="content">
+          <h3>Phase 3</h3>
+          <p>Development of DID-based communication protocols and integration with wallet identities.</p>
+        </div>
+      </div>
+      <div class="container-timeline right">
+        <div class="content">
+          <h3>Phase 4</h3>
+          <p>Launch of the LYNX decentralized communication app and strategic partnerships worldwide.</p>
+        </div>
+      </div>
     </div>
-  </header>  <h2 id="title">Roadmap</h2>
-  <div class="timeline" id="timeline">
-    <!-- Timeline steps inserted by JS -->
-  </div><a href="index.html" class="back">← Back to Home</a>
-
-  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
-    const data = {
-      en: {
-        title: "Roadmap",
-        footer: "All rights reserved. LYNX 2025",
-        steps: [
-          "Phase 1: Token Deployment and Website Launch",
-          "Phase 2: Community Building and Social Presence",
-          "Phase 3: DID Integration and App Development",
-          "Phase 4: Full Ecosystem Launch and Strategic Partnerships"
-        ]
-      },
-      fa: {
-        title: "نقشه راه",
-        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵",
-        steps: [
-          "فاز ۱: راه‌اندازی توکن و وب‌سایت",
-          "فاز ۲: ایجاد جامعه کاربری و حضور در شبکه‌های اجتماعی",
-          "فاز ۳: پیاده‌سازی DID و توسعه اپلیکیشن",
-          "فاز ۴: راه‌اندازی کامل اکوسیستم و همکاری‌های راهبردی"
-        ]
-      }
-    };
-
-    function setLang(lang, persist = false) {
-      const t = data[lang];
-      document.getElementById("title").innerText = t.title;
-      document.getElementById("footer").innerText = t.footer;
-
-      const container = document.getElementById("timeline");
-      container.innerHTML = '';
-
-      t.steps.forEach((step, i) => {
-        const div = document.createElement('div');
-        div.className = 'container ' + (i % 2 === 0 ? 'left' : 'right');
-        div.innerHTML = `<div class="content">${step}</div>`;
-        container.appendChild(div);
-      });
-
-      if (persist) localStorage.setItem("lynx-lang", lang);
-    }
-
-    const savedLang = localStorage.getItem("lynx-lang") || 'en';
-    setLang(savedLang);
-  </script></body>
+    <a href="index.html" class="btn-home">← Back to Home</a>
+  </div>
+</body>
 </html>
