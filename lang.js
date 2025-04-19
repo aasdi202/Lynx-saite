@@ -1,3 +1,6 @@
+if (!localStorage.getItem("lynx-lang")) {
+  localStorage.setItem("lynx-lang", "en");
+}
 const content = {
   en: {
     aboutTitle: "About LYNX",
