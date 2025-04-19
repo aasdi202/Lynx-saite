@@ -11,4 +11,15 @@ const ids = [ "about-title", "about-text1", "about-text2", "about-text3", "about
 ids.forEach(id => { if (document.getElementById(id) && t[id]) { document.getElementById(id).innerText = t[id]; } }); }
 
 document.addEventListener("DOMContentLoaded", translatePage);
-
+document.addEventListener("DOMContentLoaded", () => {
+  const testBox = document.createElement("div");
+  testBox.innerText = "زبان فعلی: " + lang;
+  testBox.style.background = "#fff";
+  testBox.style.color = "#000";
+  testBox.style.padding = "10px";
+  testBox.style.position = "fixed";
+  testBox.style.top = "10px";
+  testBox.style.right = "10px";
+  testBox.style.zIndex = "9999";
+  document.body.appendChild(testBox);
+});
