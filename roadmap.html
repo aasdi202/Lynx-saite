@@ -64,10 +64,11 @@
     }
     .content {
       padding: 20px;
-      background-color: #fff;
+      background-color: #1e3a5f;
       position: relative;
       border-radius: 6px;
-      color: #203a43;
+      color: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
     @media screen and (max-width: 768px) {
       .timeline::after {
@@ -104,34 +105,70 @@
 </head>
 <body>
   <div class="container">
-    <h1>Roadmap</h1>
+    <h1 id="title">Roadmap</h1>
     <div class="timeline">
       <div class="container-timeline left">
         <div class="content">
-          <h3>Phase 1</h3>
-          <p>Token deployment on BNB Smart Chain and launch of the official website with multilingual support.</p>
+          <h3 id="p1">Phase 1</h3>
+          <p id="d1">Token deployment on BNB Smart Chain and launch of the official website with multilingual support.</p>
         </div>
       </div>
       <div class="container-timeline right">
         <div class="content">
-          <h3>Phase 2</h3>
-          <p>Community building, establishing social media presence, and engaging early adopters.</p>
+          <h3 id="p2">Phase 2</h3>
+          <p id="d2">Community building, establishing social media presence, and engaging early adopters.</p>
         </div>
       </div>
       <div class="container-timeline left">
         <div class="content">
-          <h3>Phase 3</h3>
-          <p>Development of DID-based communication protocols and integration with wallet identities.</p>
+          <h3 id="p3">Phase 3</h3>
+          <p id="d3">Development of DID-based communication protocols and integration with wallet identities.</p>
         </div>
       </div>
       <div class="container-timeline right">
         <div class="content">
-          <h3>Phase 4</h3>
-          <p>Launch of the LYNX decentralized communication app and strategic partnerships worldwide.</p>
+          <h3 id="p4">Phase 4</h3>
+          <p id="d4">Launch of the LYNX decentralized communication app and strategic partnerships worldwide.</p>
         </div>
       </div>
     </div>
     <a href="index.html" class="btn-home">← Back to Home</a>
-  </div>
-</body>
+  </div>  <script>
+    const content = {
+      en: {
+        title: "Roadmap",
+        p1: "Phase 1",
+        d1: "Token deployment on BNB Smart Chain and launch of the official website with multilingual support.",
+        p2: "Phase 2",
+        d2: "Community building, establishing social media presence, and engaging early adopters.",
+        p3: "Phase 3",
+        d3: "Development of DID-based communication protocols and integration with wallet identities.",
+        p4: "Phase 4",
+        d4: "Launch of the LYNX decentralized communication app and strategic partnerships worldwide."
+      },
+      fa: {
+        title: "نقشه راه",
+        p1: "مرحله ۱",
+        d1: "راه‌اندازی توکن روی زنجیره BNB و آغاز سایت رسمی با پشتیبانی چندزبانه.",
+        p2: "مرحله ۲",
+        d2: "ساخت جامعه کاربران، حضور در شبکه‌های اجتماعی و جذب کاربران اولیه.",
+        p3: "مرحله ۳",
+        d3: "توسعه پروتکل‌های ارتباطی مبتنی بر DID و ادغام با هویت کیف‌پول‌ها.",
+        p4: "مرحله ۴",
+        d4: "راه‌اندازی اپلیکیشن ارتباطی غیرمتمرکز LYNX و ایجاد همکاری‌های جهانی."
+      }
+    };
+
+    const lang = localStorage.getItem("lynx-lang") || 'en';
+    const t = content[lang];
+    document.getElementById("title").innerText = t.title;
+    document.getElementById("p1").innerText = t.p1;
+    document.getElementById("d1").innerText = t.d1;
+    document.getElementById("p2").innerText = t.p2;
+    document.getElementById("d2").innerText = t.d2;
+    document.getElementById("p3").innerText = t.p3;
+    document.getElementById("d3").innerText = t.d3;
+    document.getElementById("p4").innerText = t.p4;
+    document.getElementById("d4").innerText = t.d4;
+  </script></body>
 </html>
