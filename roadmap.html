@@ -9,30 +9,30 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #141e30, #243b55);
       color: white;
-      text-align: center;
       padding: 2rem;
       padding-bottom: 6rem;
+      text-align: center;
     }
     h1 {
       font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .phases {
-      max-width: 800px;
-      margin: 2rem auto;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
     .phase {
-      background-color: #1e3a5f;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
       padding: 1.5rem;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      margin: 1.5rem auto;
+      max-width: 700px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-    .phase h3 {
+    .phase h2 {
+      font-size: 1.5rem;
       color: #00bcd4;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .phase p {
+      font-size: 1.1rem;
+      line-height: 1.7;
     }
     .footer {
       position: fixed;
@@ -57,30 +57,23 @@
   </style>
 </head>
 <body>
-  <h1>Project Roadmap</h1>
-  <div class="phases">
-    <div class="phase">
-      <h3>Phase 1</h3>
-      <p>Token Deployment and Website Launch</p>
-    </div>
-    <div class="phase">
-      <h3>Phase 2</h3>
-      <p>Community Building and Social Presence</p>
-    </div>
-    <div class="phase">
-      <h3>Phase 3</h3>
-      <p>DID Integration and App Development</p>
-    </div>
-    <div class="phase">
-      <h3>Phase 4</h3>
-      <p>Full Ecosystem Launch and Partnerships</p>
-    </div>
+  <h1 id="roadmap-title">Project Roadmap</h1>  <div class="phase">
+    <h2>Phase 1</h2>
+    <p>Token Deployment and Website Launch</p>
+  </div>  <div class="phase">
+    <h2>Phase 2</h2>
+    <p>Community Building and Social Presence</p>
+  </div>  <div class="phase">
+    <h2>Phase 3</h2>
+    <p>DID Integration and App Development</p>
+  </div>  <div class="phase">
+    <h2>Phase 4</h2>
+    <p>Full Ecosystem Launch and Strategic Partnerships</p>
   </div>  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
     <a href="contact.html">Contact</a>
     <div style="margin-top: 5px;">© 2025 LYNX</div>
-  </div>
-</body>
+  </div>  <script src="lang.js"></script></body>
 </html>
