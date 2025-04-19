@@ -1,8 +1,8 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About | LYNX</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About LYNX</title>
   <style>
     body {
       margin: 0;
@@ -11,93 +11,67 @@
       color: #fff;
       padding: 2rem;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1rem;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
     }
-    header h1 {
-      margin: 0;
-    }
-    .lang-switch button {
-      margin-left: 10px;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    h2 {
-      font-size: 2.2rem;
-      margin-top: 2rem;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
     }
     p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      max-width: 900px;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
     }
-    a.back {
+    .btn-home {
       display: inline-block;
-      margin-top: 2rem;
-      padding: 0.6rem 1.2rem;
-      background: #fff;
-      color: #2c5364;
+      background-color: #00bcd4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
       text-decoration: none;
-      border-radius: 20px;
       font-weight: bold;
+      transition: background 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    footer {
-      margin-top: 4rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #ccc;
+    .btn-home:hover {
+      background-color: #0097a7;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>LYNX</h1>
-    <div class="lang-switch">
-      <button onclick="setLang('en', true)">EN</button>
-      <button onclick="setLang('fa', true)">FA</button>
-    </div>
-  </header>  <h2 id="title">About Us</h2>
-  <p id="content">
-    LYNX is building a revolutionary decentralized communication ecosystem based on Decentralized Identity (DID), enabling users to interact, connect, and invest in a secure, private, and censorship-resistant environment.
-    We believe data ownership and digital interaction should be in the hands of the users, not centralized platforms.
-    Through the power of blockchain, smart contracts, and decentralized technologies, LYNX returns control back to the individual.
-    From private messaging to secure participation in digital communities, LYNX lays the foundation for a new generation of social interaction — one that’s free, secure, and truly decentralized.
-  </p><a href="index.html" class="back">← Back to Home</a>
-
-  <footer id="footer">All rights reserved. LYNX 2025</footer>  <script>
-    const translations = {
+  <div class="container">
+    <h1 id="title">About LYNX</h1>
+    <p id="desc">
+      LYNX is a decentralized communication platform that aims to transform the way people connect, interact, and collaborate globally.
+      Our core innovation is built on Decentralized Identity (DID), empowering users with privacy, ownership, and freedom of expression.
+      We are building a secure ecosystem where wallets become your communication gateway — free from centralized control and surveillance.
+    </p>
+    <p id="vision">
+      Our vision is to establish a cross-border, censorship-resistant communication network where people can safely chat, invest, and share ideas — powered by blockchain.
+      Whether it’s for social networking, DeFi negotiations, or DAO interactions, LYNX brings the decentralized layer of trust to your digital communication.
+    </p>
+    <a href="index.html" class="btn-home">← Back to Home</a>
+  </div>  <script>
+    const content = {
       en: {
-        title: "About Us",
-        content: `LYNX is building a revolutionary decentralized communication ecosystem based on Decentralized Identity (DID), enabling users to interact, connect, and invest in a secure, private, and censorship-resistant environment.
-We believe data ownership and digital interaction should be in the hands of the users, not centralized platforms.
-Through the power of blockchain, smart contracts, and decentralized technologies, LYNX returns control back to the individual.
-From private messaging to secure participation in digital communities, LYNX lays the foundation for a new generation of social interaction — one that’s free, secure, and truly decentralized.`,
-        footer: "All rights reserved. LYNX 2025"
+        title: "About LYNX",
+        desc: "LYNX is a decentralized communication platform that aims to transform the way people connect, interact, and collaborate globally. Our core innovation is built on Decentralized Identity (DID), empowering users with privacy, ownership, and freedom of expression. We are building a secure ecosystem where wallets become your communication gateway — free from centralized control and surveillance.",
+        vision: "Our vision is to establish a cross-border, censorship-resistant communication network where people can safely chat, invest, and share ideas — powered by blockchain. Whether it’s for social networking, DeFi negotiations, or DAO interactions, LYNX brings the decentralized layer of trust to your digital communication."
       },
       fa: {
-        title: "درباره ما",
-        content: `پروژه LYNX با هدف ایجاد یک اکوسیستم ارتباطی غیرمتمرکز بر پایه هویت دیجیتال غیرمتمرکز (DID) طراحی شده است، که به کاربران امکان می‌دهد در بستری امن، خصوصی و مقاوم در برابر سانسور ارتباط برقرار کرده، تعامل داشته و سرمایه‌گذاری کنند.
-ما معتقدیم که مالکیت داده‌ها و تعاملات دیجیتال باید در اختیار خود کاربران باشد، نه پلتفرم‌های متمرکز.
-LYNX با استفاده از قدرت بلاکچین، قراردادهای هوشمند و فناوری‌های غیرمتمرکز، کنترل را به دست افراد بازمی‌گرداند.
-از پیام‌رسانی خصوصی گرفته تا مشارکت امن در جوامع دیجیتال، LYNX پایه‌گذار نسل جدیدی از ارتباط اجتماعی است — ارتباطی آزاد، امن و واقعاً غیرمتمرکز.`,
-        footer: "تمامی حقوق محفوظ است. LYNX ۲۰۲۵"
+        title: "درباره LYNX",
+        desc: "LYNX یک پلتفرم ارتباطی غیرمتمرکز است که با هدف تحول در نحوه ارتباط، تعامل و همکاری افراد در سراسر جهان طراحی شده است. نوآوری اصلی ما مبتنی بر هویت دیجیتال غیرمتمرکز (DID) است که به کاربران قدرت حریم خصوصی، مالکیت و آزادی بیان می‌دهد. ما در حال ساخت اکوسیستمی ایمن هستیم که کیف‌پول‌ها دروازه ارتباطی شما باشند — بدون کنترل و نظارت متمرکز.",
+        vision: "چشم‌انداز ما ایجاد شبکه‌ای بدون مرز و مقاوم در برابر سانسور برای ارتباط امن، سرمایه‌گذاری و تبادل ایده‌هاست — با پشتیبانی از بلاکچین. چه برای شبکه‌های اجتماعی، مذاکرات DeFi یا تعاملات DAO باشد، LYNX اعتماد غیرمتمرکز را به ارتباطات دیجیتال شما می‌آورد."
       }
     };
 
-    function setLang(lang, persist = false) {
-      const t = translations[lang];
-      document.getElementById("title").innerText = t.title;
-      document.getElementById("content").innerText = t.content;
-      document.getElementById("footer").innerText = t.footer;
-      if (persist) localStorage.setItem("lynx-lang", lang);
-    }
-
-    const savedLang = localStorage.getItem("lynx-lang");
-    if (savedLang) setLang(savedLang);
+    const lang = localStorage.getItem("lynx-lang") || "en";
+    const t = content[lang];
+    document.getElementById("title").innerText = t.title;
+    document.getElementById("desc").innerText = t.desc;
+    document.getElementById("vision").innerText = t.vision;
   </script></body>
 </html>
