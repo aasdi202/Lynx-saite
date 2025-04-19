@@ -13,14 +13,32 @@
       padding: 2rem;
       padding-bottom: 6rem;
     }
+    .lang-selector {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    select {
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: none;
+      font-weight: bold;
+    }
     h1 {
       font-size: 3rem;
-      margin-bottom: 1rem;
+      margin-top: 2rem;
     }
     p {
       font-size: 1.2rem;
       max-width: 700px;
-      margin: auto;
+      margin: 1rem auto;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
     nav {
       margin: 2rem 0;
@@ -66,41 +84,64 @@
   </style>
 </head>
 <body>
-  <h1>Welcome to LYNX</h1>
+  <div class="lang-selector">
+    <select onchange="changeLang(this.value)">
+      <option value="en">English</option>
+      <option value="fa">فارسی</option>
+      <option value="zh">中文</option>
+      <option value="ru">Русский</option>
+      <option value="tr">Türkçe</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>  <h1 id="welcome">Welcome to LYNX</h1>
   <p id="desc">The decentralized communication ecosystem for a connected future.</p>
-  <nav>
+  <img src="lynx-banner.jpg" alt="Lynx Banner" />  <nav>
     <a href="about.html">About</a>
     <a href="roadmap.html">Roadmap</a>
     <a href="contact.html">Contact</a>
-  </nav>  <script>
-    const content = {
-      en: {
-        desc: "The decentralized communication ecosystem for a connected future."
-      },
-      fa: {
-        desc: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل."
-      },
-      zh: {
-        desc: "面向互联未来的去中心化通信生态系统。"
-      },
-      ru: {
-        desc: "Децентрализованная коммуникационная экосистема для связанного будущего."
-      },
-      ar: {
-        desc: "نظام اتصال لا مركزي لمستقبل مترابط."
-      },
-      tr: {
-        desc: "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi."
-      }
-    };
-    const lang = localStorage.getItem("lynx-lang") || 'en';
-    document.getElementById("desc").innerText = content[lang].desc;
-  </script>  <div class="footer">
+  </nav>  <div class="footer">
     <a href="index.html">Home</a> |
     <a href="about.html">About</a> |
     <a href="roadmap.html">Roadmap</a> |
     <a href="contact.html">Contact</a>
     <div style="margin-top: 5px;">© 2025 LYNX</div>
-  </div>
-</body>
+  </div>  <script>
+    const content = {
+      en: {
+        welcome: "Welcome to LYNX",
+        desc: "The decentralized communication ecosystem for a connected future."
+      },
+      fa: {
+        welcome: "به لاینکس خوش آمدید",
+        desc: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل."
+      },
+      zh: {
+        welcome: "欢迎来到 LYNX",
+        desc: "面向互联未来的去中心化通信生态系统。"
+      },
+      ru: {
+        welcome: "Добро пожаловать в LYNX",
+        desc: "Децентрализованная коммуникационная экосистема для связанного будущего."
+      },
+      ar: {
+        welcome: "مرحبًا بكم في LYNX",
+        desc: "نظام اتصال لا مركزي لمستقبل مترابط."
+      },
+      tr: {
+        welcome: "LYNX'e Hoş Geldiniz",
+        desc: "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi."
+      }
+    };
+
+    const lang = localStorage.getItem("lynx-lang") || 'en';
+    document.querySelector("select").value = lang;
+    const t = content[lang];
+    document.getElementById("welcome").innerText = t.welcome;
+    document.getElementById("desc").innerText = t.desc;
+
+    function changeLang(l) {
+      localStorage.setItem("lynx-lang", l);
+      location.reload();
+    }
+  </script></body>
 </html>
