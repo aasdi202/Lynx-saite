@@ -22,23 +22,45 @@
       font-size: 1.8rem;
       font-weight: bold;
     }
-    .language-selector {
+    .lang-menu {
       position: relative;
+      display: inline-block;
     }
-    .dropdown {
+    .lang-btn {
       background-color: #1e3a5f;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      color: white;
       border: none;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      color: white;
       cursor: pointer;
-      outline: none;
-      transition: background 0.3s ease;
-      appearance: none;
+      font-size: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background 0.3s;
     }
-    .dropdown:hover {
+    .lang-btn:hover {
+      background-color: #00bcd4;
+    }
+    .lang-list {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: rgba(30, 58, 95, 0.95);
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      margin-top: 0.5rem;
+    }
+    .lang-list button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 0.7rem 1.2rem;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .lang-list button:hover {
       background-color: #00bcd4;
     }
     h1 {
@@ -82,15 +104,16 @@
 <body>
   <header>
     <div class="logo">LYNX</div>
-    <div class="language-selector">
-      <select id="langSelect" class="dropdown">
-        <option value="en">English</option>
-        <option value="fa">فارسی</option>
-        <option value="zh">中文</option>
-        <option value="ru">Русский</option>
-        <option value="tr">Türkçe</option>
-        <option value="ar">العربية</option>
-      </select>
+    <div class="lang-menu">
+      <button class="lang-btn" onclick="toggleLangList()">Language</button>
+      <div class="lang-list" id="langList">
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('fa')">فارسی</button>
+        <button onclick="setLang('zh')">中文</button>
+        <button onclick="setLang('ru')">Русский</button>
+        <button onclick="setLang('tr')">Türkçe</button>
+        <button onclick="setLang('ar')">العربية</button>
+      </div>
     </div>
   </header>  <h1 id="mainTitle"></h1>
   <p id="mainDesc"></p>
@@ -100,6 +123,16 @@
     <a href="contact.html">Contact</a>
     <div style="margin-top: 5px;">© 2025 LYNX</div>
   </div>  <script>
+    function toggleLangList() {
+      const list = document.getElementById('langList');
+      list.style.display = list.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function setLang(lng) {
+      localStorage.setItem("lynx-lang", lng);
+      location.reload();
+    }
+
     const translations = {
       en: ["Welcome to LYNX", "LYNX is a decentralized communication ecosystem built on Decentralized Digital Identity (DID). Our goal is to revolutionize global communication by offering a secure, private, and seamless environment for individuals and communities to connect, interact, and collaborate without intermediaries. Join us to be part of the future of decentralized networking and trust-based digital interaction."],
       fa: ["به LYNX خوش آمدید", "LYNX یک اکوسیستم ارتباطی غیرمتمرکز بر پایه هویت دیجیتال غیرمتمرکز (DID) است. هدف ما تحول در ارتباطات جهانی از طریق ارائه بستری امن، خصوصی و روان برای ارتباط، تعامل و همکاری بدون واسطه است. با ما همراه شوید تا بخشی از آینده تعامل دیجیتال مبتنی بر اعتماد باشید."],
@@ -110,14 +143,8 @@
     };
 
     const lang = localStorage.getItem("lynx-lang") || "en";
-    document.getElementById("langSelect").value = lang;
     const t = translations[lang];
     document.getElementById("mainTitle").innerText = t[0];
     document.getElementById("mainDesc").innerText = t[1];
-
-    document.getElementById("langSelect").addEventListener("change", function() {
-      localStorage.setItem("lynx-lang", this.value);
-      location.reload();
-    });
   </script></body>
 </html>
