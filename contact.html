@@ -82,6 +82,24 @@
     .btn-home:hover {
       background-color: #0097a7;
     }
+    @media screen and (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      form {
+        padding: 1rem;
+      }
+      input, textarea {
+        font-size: 0.95rem;
+      }
+      .btn-submit, .btn-home {
+        width: 100%;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -115,6 +133,34 @@
         email: "ایمیل شما",
         message: "پیام شما",
         submit: "ارسال پیام"
+      },
+      zh: {
+        title: "联系我们",
+        name: "您的姓名",
+        email: "您的电子邮件",
+        message: "您的留言",
+        submit: "发送信息"
+      },
+      ru: {
+        title: "Связаться с нами",
+        name: "Ваше имя",
+        email: "Ваш email",
+        message: "Ваше сообщение",
+        submit: "Отправить сообщение"
+      },
+      ar: {
+        title: "اتصل بنا",
+        name: "اسمك",
+        email: "بريدك الإلكتروني",
+        message: "رسالتك",
+        submit: "إرسال الرسالة"
+      },
+      tr: {
+        title: "Bize Ulaşın",
+        name: "Adınız",
+        email: "E-postanız",
+        message: "Mesajınız",
+        submit: "Mesaj Gönder"
       }
     };
     const lang = localStorage.getItem("lynx-lang") || 'en';
