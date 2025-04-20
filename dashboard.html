@@ -1,4 +1,4 @@
-// نسخه ساده داشبورد LYNX بدون وابستگی اضافی - فقط با ethers و Tailwind
+// داشبورد LYNX – طراحی کاملاً واکنش‌گرا برای موبایل
 
 import { useEffect, useState } from "react"; import { ethers } from "ethers";
 
@@ -10,8 +10,35 @@ const connectWallet = async () => { if (window.ethereum) { const provider = new 
 
 useEffect(() => { const loadData = async () => { if (!provider || !account) return; const contract = new ethers.Contract(TOKEN_ADDRESS, ABI, provider); const [decimals, bal, name, symbol, totalSupply] = await Promise.all([ contract.decimals(), contract.balanceOf(account), contract.name(), contract.symbol(), contract.totalSupply() ]); setBalance(ethers.utils.formatUnits(bal, decimals)); setTokenInfo({ name, symbol, totalSupply: ethers.utils.formatUnits(totalSupply, decimals) }); }; loadData(); }, [provider, account]);
 
-return ( <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4"> <div className="bg-white rounded-xl shadow-lg p-5 w-full max-w-md"> <h1 className="text-2xl font-bold text-center mb-4">داشبورد LYNX</h1> {!account ? ( <button
-onClick={connectWallet}
-className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
-> اتصال کیف پول </button> ) : ( <div className="space-y-4"> <div> <p className="font-semibold">آدرس شما:</p> <p className="break-all text-sm text-gray-600">{account}</p> </div> <div> <p className="font-semibold">موجودی LYNX:</p> <p>{balance} {tokenInfo.symbol}</p> </div> <div className="border-t pt-4"> <h2 className="font-bold text-lg mb-2">اطلاعات توکن</h2> <p><strong>نام:</strong> {tokenInfo.name}</p> <p><strong>نماد:</strong> {tokenInfo.symbol}</p> <p><strong>تعداد کل:</strong> {tokenInfo.totalSupply} {tokenInfo.symbol}</p> </div> </div> )} </div> </div> ); }
+return ( <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center p-4"> <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6"> <h1 className="text-2xl font-extrabold text-center text-indigo-700 mb-6">داشبورد LYNX</h1>
+
+{!account ? (
+      <button
+        onClick={connectWallet}
+        className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
+      >
+        اتصال کیف پول
+      </button>
+    ) : (
+      <div className="space-y-4 text-right text-sm">
+        <div>
+          <p className="font-bold">آدرس شما:</p>
+          <p className="break-all text-gray-700">{account}</p>
+        </div>
+        <div>
+          <p className="font-bold">موجودی LYNX:</p>
+          <p>{balance} {tokenInfo.symbol}</p>
+        </div>
+        <div className="border-t pt-4">
+          <h2 className="font-bold text-indigo-600 mb-2">اطلاعات توکن</h2>
+          <p><span className="font-medium">نام:</span> {tokenInfo.name}</p>
+          <p><span className="font-medium">نماد:</span> {tokenInfo.symbol}</p>
+          <p><span className="font-medium">تعداد کل:</span> {tokenInfo.totalSupply} {tokenInfo.symbol}</p>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+); }
 
