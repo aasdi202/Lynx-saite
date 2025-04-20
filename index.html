@@ -1,64 +1,168 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>LYNX</title>
+  <title>LYNX - Decentralized Connection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background-color: #0f0f0f;
       color: #00ffcc;
-      font-family: sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 0;
+    }
+
+    header {
+      position: relative;
+      padding: 20px;
+      background-color: #0f0f0f;
+    }
+
+    .language-select {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      font-weight: bold;
+      background: #00ffcc;
+      color: #000;
+      cursor: pointer;
+    }
+
+    img.banner {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 20px;
+      margin-top: 20px;
     }
 
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
+      font-size: 2.2rem;
+      margin-top: 20px;
     }
 
     p {
-      font-size: 1.2em;
+      font-size: 1.1rem;
+      margin: 10px auto 30px;
+      max-width: 600px;
+    }
+
+    .connect-btn {
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #00ffcc, #00cc99);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px #00ffcc80;
+      text-decoration: none;
+      display: inline-block;
       margin-bottom: 30px;
     }
 
-    .dashboard-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 28px;
-      background: linear-gradient(135deg, #00ffcc, #00cc99);
-      color: #000;
-      font-weight: bold;
-      font-size: 1rem;
-      text-decoration: none;
-      border-radius: 12px;
-      transition: 0.3s ease;
-      box-shadow: 0 0 10px #00ffccaa;
-    }
-
-    .dashboard-btn:hover {
+    .connect-btn:hover {
       background: linear-gradient(135deg, #00cc99, #009977);
       color: #fff;
       transform: scale(1.05);
     }
 
     footer {
-      margin-top: 60px;
-      font-size: 0.9em;
-      color: #777;
+      padding: 20px;
+      color: #999;
+      font-size: 0.9rem;
+      border-top: 1px solid #222;
     }
   </style>
 </head>
 <body>
 
-  <h1>به لاینکس خوش آمدید</h1>
-  <p>اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل و امن.</p>
+  <header>
+    <div class="language-select">
+      <select id="lang-select" onchange="changeLang(this.value)">
+        <option value="en">English</option>
+        <option value="fa">فارسی</option>
+        <option value="zh">中文</option>
+        <option value="ru">Русский</option>
+        <option value="tr">Türkçe</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+    <img src="lynx-banner.jpg" alt="Lynx Banner" class="banner" />
+  </header>
 
-  <a href="dashboard.html" class="dashboard-btn">ورود به داشبورد</a>
+  <main>
+    <h1 class="txt" data-lang="welcome">Welcome to LYNX</h1>
+    <p class="txt" data-lang="subtitle">The decentralized communication ecosystem for a connected future.</p>
+    <a href="dashboard.html" class="connect-btn txt" data-lang="connect">Connect to Network</a>
+  </main>
 
   <footer>
     All rights reserved. LYNX 2025
   </footer>
 
+  <script>
+    const translations = {
+      en: {
+        welcome: "Welcome to LYNX",
+        subtitle: "The decentralized communication ecosystem for a connected future.",
+        connect: "Connect to Network"
+      },
+      fa: {
+        welcome: "به لاینکس خوش آمدید",
+        subtitle: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل و امن.",
+        connect: "اتصال به شبکه"
+      },
+      zh: {
+        welcome: "欢迎来到 LYNX",
+        subtitle: "面向互联未来的去中心化通信生态系统。",
+        connect: "连接网络"
+      },
+      ru: {
+        welcome: "Добро пожаловать в LYNX",
+        subtitle: "Децентрализованная коммуникационная экосистема для будущего.",
+        connect: "Подключиться к сети"
+      },
+      tr: {
+        welcome: "LYNX'e Hoş Geldiniz",
+        subtitle: "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.",
+        connect: "Ağa Bağlan"
+      },
+      ar: {
+        welcome: "مرحباً بك في LYNX",
+        subtitle: "نظام اتصال لا مركزي لمستقبل متصل.",
+        connect: "الاتصال بالشبكة"
+      }
+    };
+
+    function changeLang(lang) {
+      localStorage.setItem("lang", lang);
+      updateText(lang);
+    }
+
+    function updateText(lang) {
+      document.querySelectorAll(".txt").forEach(el => {
+        const key = el.getAttribute("data-lang");
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    }
+
+    // Load saved language or default to English
+    const savedLang = localStorage.getItem("lang") || "en";
+    document.getElementById("lang-select").value = savedLang;
+    updateText(savedLang);
+  </script>
 </body>
 </html>
