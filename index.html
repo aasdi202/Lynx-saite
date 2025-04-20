@@ -36,14 +36,6 @@
       cursor: pointer;
     }
 
-    img.banner {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      border-radius: 20px;
-      margin-top: 20px;
-    }
-
     h1 {
       font-size: 2.2rem;
       margin-top: 20px;
@@ -52,7 +44,8 @@
     p {
       font-size: 1.1rem;
       margin: 10px auto 30px;
-      max-width: 600px;
+      max-width: 700px;
+      line-height: 1.8;
     }
 
     .connect-btn {
@@ -77,6 +70,15 @@
       transform: scale(1.05);
     }
 
+    img.banner {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 20px;
+      margin: 40px auto;
+      display: block;
+    }
+
     footer {
       padding: 20px;
       color: #999;
@@ -98,13 +100,15 @@
         <option value="ar">العربية</option>
       </select>
     </div>
-    <img src="lynx-banner.jpg" alt="Lynx Banner" class="banner" />
   </header>
 
   <main>
     <h1 class="txt" data-lang="welcome">Welcome to LYNX</h1>
-    <p class="txt" data-lang="subtitle">The decentralized communication ecosystem for a connected future.</p>
+    <p class="txt" data-lang="subtitle">
+      LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely using blockchain-powered identities, paving the way for decentralized chat, secure transactions, and community-driven applications.
+    </p>
     <a href="dashboard.html" class="connect-btn txt" data-lang="connect">Connect to Network</a>
+    <img src="lynx-banner.jpg" alt="Lynx Banner" class="banner" />
   </main>
 
   <footer>
@@ -115,32 +119,32 @@
     const translations = {
       en: {
         welcome: "Welcome to LYNX",
-        subtitle: "The decentralized communication ecosystem for a connected future.",
+        subtitle: "LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely using blockchain-powered identities, paving the way for decentralized chat, secure transactions, and community-driven applications.",
         connect: "Connect to Network"
       },
       fa: {
         welcome: "به لاینکس خوش آمدید",
-        subtitle: "اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل و امن.",
+        subtitle: "لاینکس یک اکوسیستم ارتباطی غیرمتمرکز است که با هدف ایجاد بستری امن، خصوصی و بدون محدودیت برای تعامل کاربران در سراسر جهان طراحی شده. ماموریت ما فراهم‌کردن امکان اتصال آزاد افراد از طریق هویت‌های مبتنی بر بلاکچین و ایجاد زیرساختی برای چت غیرمتمرکز، تراکنش ایمن و اپلیکیشن‌های اجتماع‌محور است.",
         connect: "اتصال به شبکه"
       },
       zh: {
         welcome: "欢迎来到 LYNX",
-        subtitle: "面向互联未来的去中心化通信生态系统。",
+        subtitle: "LYNX 是一个去中心化通信生态系统，旨在为全球用户提供私人、安全和无障碍的互动。我们的使命是通过区块链身份使用户自由连接，为去中心化聊天、安全交易和社区驱动的应用铺平道路。",
         connect: "连接网络"
       },
       ru: {
         welcome: "Добро пожаловать в LYNX",
-        subtitle: "Децентрализованная коммуникационная экосистема для будущего.",
+        subtitle: "LYNX — это децентрализованная коммуникационная экосистема, обеспечивающая приватное, безопасное и свободное взаимодействие между пользователями по всему миру. Наша цель — дать людям возможность свободно общаться с помощью блокчейн-идентичностей и развивать чат, транзакции и приложения на базе сообщества.",
         connect: "Подключиться к сети"
       },
       tr: {
         welcome: "LYNX'e Hoş Geldiniz",
-        subtitle: "Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.",
+        subtitle: "LYNX, dünya çapında kullanıcılar arasında özel, güvenli ve sınırsız etkileşim sağlamak için tasarlanmış merkeziyetsiz bir iletişim ekosistemidir. Misyonumuz, blokzincir destekli kimliklerle bireylerin özgürce bağlantı kurmasını sağlamak, merkeziyetsiz sohbet, güvenli işlemler ve topluluk odaklı uygulamaların önünü açmaktır.",
         connect: "Ağa Bağlan"
       },
       ar: {
         welcome: "مرحباً بك في LYNX",
-        subtitle: "نظام اتصال لا مركزي لمستقبل متصل.",
+        subtitle: "لينكس هو نظام اتصال لا مركزي يهدف إلى توفير تواصل خاص وآمن وغير مقيد بين المستخدمين في جميع أنحاء العالم. مهمتنا هي تمكين الأفراد من الاتصال بحرية باستخدام الهويات المدعومة من البلوك تشين، وفتح المجال للدردشة اللامركزية والمعاملات الآمنة والتطبيقات المجتمعية.",
         connect: "الاتصال بالشبكة"
       }
     };
@@ -159,10 +163,10 @@
       });
     }
 
-    // Load saved language or default to English
     const savedLang = localStorage.getItem("lang") || "en";
     document.getElementById("lang-select").value = savedLang;
     updateText(savedLang);
   </script>
+
 </body>
 </html>
