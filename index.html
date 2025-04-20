@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LYNX - Decentralized Communication</title>
+  <title>LYNX</title>
   <style>
     body {
       background-color: #0f0f0f;
       color: #00ffcc;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: sans-serif;
       text-align: center;
       padding: 40px;
     }
@@ -25,7 +24,7 @@
 
     .dashboard-btn {
       display: inline-block;
-      margin: 20px 10px 0;
+      margin-top: 20px;
       padding: 14px 28px;
       background: linear-gradient(135deg, #00ffcc, #00cc99);
       color: #000;
@@ -43,10 +42,6 @@
       transform: scale(1.05);
     }
 
-    .lang {
-      display: none;
-    }
-
     footer {
       margin-top: 60px;
       font-size: 0.9em;
@@ -56,43 +51,14 @@
 </head>
 <body>
 
-  <!-- خوش‌آمدگویی‌ها -->
-  <h1 class="lang lang-en">Welcome to LYNX</h1>
-  <h1 class="lang lang-fa">به لاینکس خوش آمدید</h1>
-  <h1 class="lang lang-zh">欢迎来到 LYNX</h1>
-  <h1 class="lang lang-ru">Добро пожаловать в LYNX</h1>
-  <h1 class="lang lang-tr">LYNX'e Hoş Geldiniz</h1>
-  <h1 class="lang lang-ar">مرحباً بك في LYNX</h1>
+  <h1>به لاینکس خوش آمدید</h1>
+  <p>اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل و امن.</p>
 
-  <!-- زیرنویس‌ها -->
-  <p class="lang lang-en">The decentralized communication ecosystem for a connected future.</p>
-  <p class="lang lang-fa">اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل و امن.</p>
-  <p class="lang lang-zh">面向互联未来的去中心化通信生态系统。</p>
-  <p class="lang lang-ru">Децентрализованная коммуникационная экосистема для будущего.</p>
-  <p class="lang lang-tr">Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.</p>
-  <p class="lang lang-ar">نظام اتصال لا مركزي لمستقبل متصل.</p>
-
-  <!-- دکمه ورود به داشبورد -->
-  <div id="dashboard-buttons">
-    <a href="dashboard.html" class="dashboard-btn lang lang-en">Enter LYNX Dashboard</a>
-    <a href="dashboard.html" class="dashboard-btn lang lang-fa">ورود به داشبورد LYNX</a>
-    <a href="dashboard.html" class="dashboard-btn lang lang-zh">进入 LYNX 仪表板</a>
-    <a href="dashboard.html" class="dashboard-btn lang lang-ru">Войти в панель LYNX</a>
-    <a href="dashboard.html" class="dashboard-btn lang lang-tr">LYNX Paneline Giriş</a>
-    <a href="dashboard.html" class="dashboard-btn lang lang-ar">دخول لوحة تحكم LYNX</a>
-  </div>
+  <a href="dashboard.html" class="dashboard-btn">ورود به داشبورد</a>
 
   <footer>
     All rights reserved. LYNX 2025
   </footer>
-
-  <!-- سوییچ زبان با لوکال استوریج -->
-  <script>
-    const userLang = localStorage.getItem("lang") || "en";
-    document.querySelectorAll(".lang").forEach(el => {
-      el.style.display = el.classList.contains("lang-" + userLang) ? "block" : "none";
-    });
-  </script>
 
 </body>
 </html>
