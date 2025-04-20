@@ -1,44 +1,87 @@
-// داشبورد LYNX – طراحی کاملاً واکنش‌گرا برای موبایل
+<!DOCTYPE html><html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>داشبورد LYNX</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 { color: #333; margin-bottom: 20px; }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover { background-color: #45a049; }
+    .info { text-align: right; margin-top: 20px; direction: rtl; }
+    .info div { margin-bottom: 10px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>داشبورد LYNX</h1>
+    <button onclick="connectWallet()">اتصال کیف پول</button>
+    <div class="info">
+      <div><strong>آدرس شما:</strong> <span id="account">--</span></div>
+      <div><strong>موجودی LYNX:</strong> <span id="balance">--</span></div>
+      <hr>
+      <div><strong>نام توکن:</strong> <span id="tokenName">--</span></div>
+      <div><strong>نماد:</strong> <span id="tokenSymbol">--</span></div>
+      <div><strong>تعداد کل:</strong> <span id="totalSupply">--</span></div>
+    </div>
+  </div>  <script>
+    const TOKEN_ADDRESS = "0x26A0c22EaE66b8E866032C95c19a1E9a05a4d30a"; // آدرس توکن LYNX
+    const ABI = [
+      "function name() view returns (string)",
+      "function symbol() view returns (string)",
+      "function decimals() view returns (uint8)",
+      "function totalSupply() view returns (uint256)",
+      "function balanceOf(address) view returns (uint)"
+    ];
 
-import { useEffect, useState } from "react"; import { ethers } from "ethers";
+    async function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const account = await signer.getAddress();
+        document.getElementById('account').textContent = account;
 
-const TOKEN_ADDRESS = "0x65Ab662826980e63eD94EBaFe9197f367Fe862A7"; const ABI = [ "function name() view returns (string)", "function symbol() view returns (string)", "function totalSupply() view returns (uint256)", "function decimals() view returns (uint8)", "function balanceOf(address owner) view returns (uint256)" ];
+        const contract = new ethers.Contract(TOKEN_ADDRESS, ABI, provider);
+        const [decimals, balance, name, symbol, totalSupply] = await Promise.all([
+          contract.decimals(),
+          contract.balanceOf(account),
+          contract.name(),
+          contract.symbol(),
+          contract.totalSupply()
+        ]);
 
-export default function Dashboard() { const [provider, setProvider] = useState(null); const [account, setAccount] = useState(null); const [balance, setBalance] = useState(null); const [tokenInfo, setTokenInfo] = useState({ name: "", symbol: "", totalSupply: "" });
-
-const connectWallet = async () => { if (window.ethereum) { const provider = new ethers.providers.Web3Provider(window.ethereum); await provider.send("eth_requestAccounts", []); const signer = provider.getSigner(); const address = await signer.getAddress(); setProvider(provider); setAccount(address); } else { alert("لطفاً متامسک را نصب کنید!"); } };
-
-useEffect(() => { const loadData = async () => { if (!provider || !account) return; const contract = new ethers.Contract(TOKEN_ADDRESS, ABI, provider); const [decimals, bal, name, symbol, totalSupply] = await Promise.all([ contract.decimals(), contract.balanceOf(account), contract.name(), contract.symbol(), contract.totalSupply() ]); setBalance(ethers.utils.formatUnits(bal, decimals)); setTokenInfo({ name, symbol, totalSupply: ethers.utils.formatUnits(totalSupply, decimals) }); }; loadData(); }, [provider, account]);
-
-return ( <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center p-4"> <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6"> <h1 className="text-2xl font-extrabold text-center text-indigo-700 mb-6">داشبورد LYNX</h1>
-
-{!account ? (
-      <button
-        onClick={connectWallet}
-        className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition"
-      >
-        اتصال کیف پول
-      </button>
-    ) : (
-      <div className="space-y-4 text-right text-sm">
-        <div>
-          <p className="font-bold">آدرس شما:</p>
-          <p className="break-all text-gray-700">{account}</p>
-        </div>
-        <div>
-          <p className="font-bold">موجودی LYNX:</p>
-          <p>{balance} {tokenInfo.symbol}</p>
-        </div>
-        <div className="border-t pt-4">
-          <h2 className="font-bold text-indigo-600 mb-2">اطلاعات توکن</h2>
-          <p><span className="font-medium">نام:</span> {tokenInfo.name}</p>
-          <p><span className="font-medium">نماد:</span> {tokenInfo.symbol}</p>
-          <p><span className="font-medium">تعداد کل:</span> {tokenInfo.totalSupply} {tokenInfo.symbol}</p>
-        </div>
-      </div>
-    )}
-  </div>
-</div>
-
-); }
-
+        document.getElementById('balance').textContent = ethers.utils.formatUnits(balance, decimals) + ' ' + symbol;
+        document.getElementById('tokenName').textContent = name;
+        document.getElementById('tokenSymbol').textContent = symbol;
+        document.getElementById('totalSupply').textContent = ethers.utils.formatUnits(totalSupply, decimals) + ' ' + symbol;
+      } else {
+        alert("لطفاً متامسک را نصب کنید.");
+      }
+    }
+  </script></body>
+</html>
