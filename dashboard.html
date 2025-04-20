@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <title>LYNX Dashboard</title>
+  <title>داشبورد LYNX</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
   <style>
     body {
       background-color: #0f0f0f;
       color: #00ffcc;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       text-align: center;
-      padding: 30px;
+      padding: 40px;
     }
-    .btn {
-      background: #00cc99;
-      color: #000;
-      border: none;
+    button {
       padding: 12px 24px;
+      font-size: 16px;
+      background-color: #00cc99;
+      border: none;
       border-radius: 8px;
-      font-weight: bold;
       cursor: pointer;
       margin-top: 20px;
     }
@@ -31,41 +30,48 @@
 </head>
 <body>
 
-  <h1>LYNX Web3 Dashboard</h1>
-  <button class="btn" onclick="connectWallet()">اتصال به کیف پول</button>
+  <h1>داشبورد توکن LYNX</h1>
+  <button onclick="connectWallet()">اتصال به کیف پول</button>
 
-  <div class="info" id="walletAddress"></div>
-  <div class="info" id="lynxBalance"></div>
+  <div class="info" id="walletInfo"></div>
+  <div class="info" id="balanceInfo"></div>
 
   <script>
-    const lynxContractAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40"; // آدرس قراردادت
-    const lynxAbi = [
+    // مشخصات قرارداد توکن LYNX
+    const tokenAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40"; // آدرس قرارداد واقعی توکن LYNX
+    const tokenABI = [
       "function balanceOf(address owner) view returns (uint256)",
       "function decimals() view returns (uint8)",
-      "function name() view returns (string)",
       "function symbol() view returns (string)"
     ];
 
+    let provider, signer;
+
     async function connectWallet() {
-      if (!window.ethereum) {
-        alert("لطفاً متامسک نصب کنید.");
-        return;
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          provider = new ethers.BrowserProvider(window.ethereum);
+          signer = await provider.getSigner();
+          const address = await signer.getAddress();
+
+          document.getElementById("walletInfo").innerText = "آدرس کیف پول: " + address;
+
+          const contract = new ethers.Contract(tokenAddress, tokenABI, provider);
+          const rawBalance = await contract.balanceOf(address);
+          const decimals = await contract.decimals();
+          const symbol = await contract.symbol();
+
+          const balance = ethers.formatUnits(rawBalance, decimals);
+          document.getElementById("balanceInfo").innerText = `موجودی توکن LYNX: ${balance} ${symbol}`;
+
+        } catch (error) {
+          document.getElementById("walletInfo").innerText = "خطا در اتصال به کیف پول.";
+          console.error(error);
+        }
+      } else {
+        document.getElementById("walletInfo").innerText = "لطفاً افزونه متامسک را نصب کنید.";
       }
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const userAddress = await signer.getAddress();
-
-      document.getElementById("walletAddress").innerText = "آدرس کیف پول: " + userAddress;
-
-      const contract = new ethers.Contract(lynxContractAddress, lynxAbi, provider);
-      const balance = await contract.balanceOf(userAddress);
-      const decimals = await contract.decimals();
-      const symbol = await contract.symbol();
-
-      const formatted = ethers.utils.formatUnits(balance, decimals);
-      document.getElementById("lynxBalance").innerText = "موجودی LYNX: " + formatted + " " + symbol;
     }
   </script>
 
