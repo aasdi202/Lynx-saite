@@ -26,29 +26,62 @@
       margin-top: 30px;
       font-size: 1.1rem;
     }
+    .balance {
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
   </style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.umd.min.js"></script><body>
+<body>
 
   <h1>LYNX Dashboard</h1>
-  <button class="btn" onclick="connectWallet()">اتصال به متامسک</button>
+  <button class="btn" onclick="connectWallet()">Connect to MetaMask</button>
 
   <div class="info" id="walletInfo">
     <!-- اطلاعات کیف پول اینجا میاد -->
   </div>
 
+  <div class="balance" id="tokenBalance">
+    <!-- موجودی توکن LYNX اینجا میاد -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.6.9/dist/ethers.umd.min.js"></script>
+
   <script>
+    let provider;
+    let signer;
+    let userAddress;
+
+    const tokenAddress = "0xYourTokenContractAddress"; // آدرس قرارداد توکن LYNX
+    const tokenABI = [
+      "function balanceOf(address) view returns (uint256)"
+    ]; // ABI برای گرفتن موجودی توکن
+
     async function connectWallet() {
       if (typeof window.ethereum !== 'undefined') {
         try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const walletAddress = accounts[0];
-          document.getElementById('walletInfo').innerText = 'آدرس کیف پول: ' + walletAddress;
+          provider = new ethers.providers.Web3Provider(window.ethereum);
+          await provider.send("eth_requestAccounts", []);
+          signer = provider.getSigner();
+          userAddress = await signer.getAddress();
+          document.getElementById('walletInfo').innerText = `Wallet Address: ${userAddress}`;
+          getTokenBalance();
         } catch (error) {
-          document.getElementById('walletInfo').innerText = 'اتصال به کیف پول لغو شد.';
+          document.getElementById('walletInfo').innerText = 'Wallet connection failed.';
         }
       } else {
-        document.getElementById('walletInfo').innerText = 'متامسک نصب نیست!';
+        document.getElementById('walletInfo').innerText = 'MetaMask is not installed!';
+      }
+    }
+
+    async function getTokenBalance() {
+      try {
+        const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+        const balance = await tokenContract.balanceOf(userAddress);
+        const formattedBalance = ethers.utils.formatUnits(balance, 18); // تنظیمات دقت به 18 (برای توکن ERC20 معمول است)
+        document.getElementById('tokenBalance').innerText = `LYNX Token Balance: ${formattedBalance}`;
+      } catch (error) {
+        document.getElementById('tokenBalance').innerText = 'Error fetching balance.';
       }
     }
   </script>
