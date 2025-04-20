@@ -57,7 +57,40 @@
       "function balanceOf(address) view returns (uint256)"
     ]; // ABI برای گرفتن موجودی توکن
 
-    async function connectWallet() {
+    async function connectWallet()<script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.umd.min.js"></script>
+
+<script>
+  const tokenAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40"; // آدرس قرارداد توکن LYNX
+  const tokenABI = [
+    "function balanceOf(address) view returns (uint)",
+    "function decimals() view returns (uint8)",
+    "function symbol() view returns (string)"
+  ];
+
+  async function connectWallet() {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        document.getElementById("walletInfo").innerText = "آدرس کیف پول: " + address;
+
+        const contract = new ethers.Contract(tokenAddress, tokenABI, provider);
+        const balance = await contract.balanceOf(address);
+        const decimals = await contract.decimals();
+        const symbol = await contract.symbol();
+
+        const formatted = ethers.formatUnits(balance, decimals);
+        document.getElementById("walletInfo").innerHTML += `<br>موجودی LYNX: ${formatted} ${symbol}`;
+      } catch (err) {
+        console.log(err);
+        document.getElementById("walletInfo").innerText = "خطا در اتصال به متامسک یا قرارداد";
+      }
+    } else {
+      document.getElementById("walletInfo").innerText = "متامسک نصب نیست!";
+    }
+  }
+</script> {
       if (typeof window.ethereum !== 'undefined') {
         try {
           provider = new ethers.providers.Web3Provider(window.ethereum);
