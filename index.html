@@ -1,150 +1,95 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LYNX | Home</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LYNX - Decentralized Communication</title>
   <style>
     body {
-      margin: 0;
+      background-color: #0f0f0f;
+      color: #00ffcc;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
       text-align: center;
-      padding-bottom: 6rem;
+      padding: 40px;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-    .lang-menu {
-      position: relative;
-      display: inline-block;
-    }
-    .lang-btn {
-      background-color: #1e3a5f;
-      border: none;
-      border-radius: 20px;
-      padding: 0.5rem 1rem;
-      color: white;
-      cursor: pointer;
-      font-size: 1rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: background 0.3s;
-    }
-    .lang-btn:hover {
-      background-color: #00bcd4;
-    }
-    .lang-list {
-      display: none;
-      position: absolute;
-      right: 0;
-      background-color: rgba(30, 58, 95, 0.95);
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      z-index: 1;
-      margin-top: 0.5rem;
-    }
-    .lang-list button {
-      background: none;
-      border: none;
-      color: white;
-      padding: 0.7rem 1.2rem;
-      text-align: left;
-      width: 100%;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-    .lang-list button:hover {
-      background-color: #00bcd4;
-    }
+
     h1 {
-      margin-top: 3rem;
-      font-size: 3rem;
+      font-size: 2.5em;
+      margin-bottom: 20px;
     }
+
     p {
-      font-size: 1.2rem;
-      max-width: 900px;
-      margin: 1.5rem auto 3rem;
-      line-height: 1.8;
+      font-size: 1.2em;
+      margin-bottom: 30px;
     }
-    .hero-image {
-      max-width: 90%;
-      margin-top: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.4);
-    }
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #1e3a5f;
-      color: #ccc;
-      text-align: center;
-      padding: 0.8rem 1rem;
-      font-size: 0.9rem;
-      box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
-    }
-    .footer a {
-      color: #00bcd4;
-      margin: 0 10px;
+
+    .dashboard-btn {
+      display: inline-block;
+      margin: 20px 10px 0;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #00ffcc, #00cc99);
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
       text-decoration: none;
+      border-radius: 12px;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px #00ffccaa;
     }
-    .footer a:hover {
-      text-decoration: underline;
+
+    .dashboard-btn:hover {
+      background: linear-gradient(135deg, #00cc99, #009977);
+      color: #fff;
+      transform: scale(1.05);
     }
+
+    .lang {
+      display: none;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">LYNX</div>
-    <div class="lang-menu">
-      <button class="lang-btn" onclick="toggleLangList()">Language</button>
-      <div class="lang-list" id="langList">
-        <button onclick="setLang('en')">English</button>
-        <button onclick="setLang('fa')">فارسی</button>
-        <button onclick="setLang('zh')">中文</button>
-        <button onclick="setLang('ru')">Русский</button>
-        <button onclick="setLang('tr')">Türkçe</button>
-        <button onclick="setLang('ar')">العربية</button>
-      </div>
-    </div>
-  </header>  <h1 id="mainTitle"></h1>
-  <p id="mainDesc"></p>
-  <img src="lynx-banner.jpg" alt="LYNX Banner" class="hero-image">  <div class="footer">
-    <a href="about.html">About</a> |
-    <a href="roadmap.html">Roadmap</a> |
-    <a href="contact.html">Contact</a>
-    <div style="margin-top: 5px;">© 2025 LYNX</div>
-  </div>  <script>
-    function toggleLangList() {
-      const list = document.getElementById('langList');
-      list.style.display = list.style.display === 'block' ? 'none' : 'block';
-    }
 
-    function setLang(lng) {
-      localStorage.setItem("lynx-lang", lng);
-      location.reload();
-    }
+  <h1 class="lang lang-en">Welcome to LYNX</h1>
+  <h1 class="lang lang-fa">به لاینکس خوش آمدید</h1>
+  <h1 class="lang lang-zh">欢迎来到 LYNX</h1>
+  <h1 class="lang lang-ru">Добро пожаловать в LYNX</h1>
+  <h1 class="lang lang-tr">LYNX'e Hoş Geldiniz</h1>
+  <h1 class="lang lang-ar">مرحباً بك في LYNX</h1>
 
-    const translations = {
-      en: ["Welcome to LYNX", "LYNX is a decentralized communication ecosystem built on Decentralized Digital Identity (DID). Our goal is to revolutionize global communication by offering a secure, private, and seamless environment for individuals and communities to connect, interact, and collaborate without intermediaries. Join us to be part of the future of decentralized networking and trust-based digital interaction."],
-      fa: ["به LYNX خوش آمدید", "LYNX یک اکوسیستم ارتباطی غیرمتمرکز بر پایه هویت دیجیتال غیرمتمرکز (DID) است. هدف ما تحول در ارتباطات جهانی از طریق ارائه بستری امن، خصوصی و روان برای ارتباط، تعامل و همکاری بدون واسطه است. با ما همراه شوید تا بخشی از آینده تعامل دیجیتال مبتنی بر اعتماد باشید."],
-      zh: ["欢迎来到 LYNX", "LYNX 是一个建立在去中心化数字身份 (DID) 基础上的去中心化通信生态系统。我们的目标是通过提供一个安全、私密、无缝的环境来革新全球通信，使个人和社区能够无中介地连接和互动。"],
-      ru: ["Добро пожаловать в LYNX", "LYNX — это децентрализованная коммуникационная экосистема, построенная на децентрализованной цифровой идентичности (DID). Наша цель — изменить глобальные коммуникации, предлагая безопасную, конфиденциальную и бесшовную среду для взаимодействия без посредников."],
-      tr: ["LYNX'e Hoş Geldiniz", "LYNX, Merkeziyetsiz Dijital Kimlik (DID) tabanlı bir iletişim ekosistemidir. Amacımız, bireylerin ve toplulukların aracı olmadan bağlantı kurabileceği, etkileşimde bulunabileceği güvenli, özel ve kesintisiz bir ortam sunarak küresel iletişimi dönüştürmektir."],
-      ar: ["مرحبًا بكم في LYNX", "LYNX هو نظام بيئي للاتصالات اللامركزية مبني على الهوية الرقمية اللامركزية (DID). هدفنا هو تحويل الاتصالات العالمية من خلال تقديم بيئة آمنة وخاصة وسلسة للتواصل والتفاعل بدون وسطاء."]
-    };
+  <p class="lang lang-en">The decentralized communication ecosystem for a connected future.</p>
+  <p class="lang lang-fa">اکوسیستم ارتباطی غیرمتمرکز برای آینده‌ای متصل و امن.</p>
+  <p class="lang lang-zh">面向互联未来的去中心化通信生态系统。</p>
+  <p class="lang lang-ru">Децентрализованная коммуникационная экосистема для будущего.</p>
+  <p class="lang lang-tr">Bağlantılı bir gelecek için merkeziyetsiz iletişim ekosistemi.</p>
+  <p class="lang lang-ar">نظام اتصال لا مركزي لمستقبل متصل.</p>
 
-    const lang = localStorage.getItem("lynx-lang") || "en";
-    const t = translations[lang];
-    document.getElementById("mainTitle").innerText = t[0];
-    document.getElementById("mainDesc").innerText = t[1];
-  </script></body>
+  <div id="dashboard-buttons">
+    <a href="dashboard.html" class="dashboard-btn lang lang-en">Enter LYNX Dashboard</a>
+    <a href="dashboard.html" class="dashboard-btn lang lang-fa">ورود به داشبورد LYNX</a>
+    <a href="dashboard.html" class="dashboard-btn lang lang-zh">进入 LYNX 仪表板</a>
+    <a href="dashboard.html" class="dashboard-btn lang lang-ru">Войти в панель LYNX</a>
+    <a href="dashboard.html" class="dashboard-btn lang lang-tr">LYNX Paneline Giriş</a>
+    <a href="dashboard.html" class="dashboard-btn lang lang-ar">دخول لوحة تحكم LYNX</a>
+  </div>
+
+  <footer>
+    All rights reserved. LYNX 2025
+  </footer>
+
+  <script>
+    const userLang = localStorage.getItem("lang") || "en";
+    document.querySelectorAll(".lang").forEach(el => {
+      el.style.display = el.classList.contains("lang-" + userLang) ? "block" : "none";
+    });
+  </script>
+
+</body>
 </html>
