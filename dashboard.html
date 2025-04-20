@@ -2,71 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LYNX Web3 Dashboard</title>
+  <title>LYNX Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
+      font-family: Arial, sans-serif;
       background-color: #0f0f0f;
-      color: #00ff99;
-      font-family: 'Courier New', monospace;
+      color: #00ffcc;
       text-align: center;
-      padding: 40px;
+      padding: 50px;
     }
-    h1 {
-      font-size: 2em;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1em;
-      background-color: #00ff99;
-      color: #0f0f0f;
+    .btn {
+      padding: 14px 24px;
+      font-size: 1rem;
+      background-color: #00cc99;
+      color: black;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      margin: 20px;
     }
     .info {
       margin-top: 30px;
-      font-size: 1em;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
-  <h1>LYNX Web3 Dashboard</h1>
-  <button onclick="connectWallet()">اتصال متامسک</button>
-  <div class="info" id="walletInfo"></div>
-  <div class="info" id="lynxBalance"></div>
+
+  <h1>LYNX Dashboard</h1>
+  <button class="btn" onclick="connectWallet()">اتصال به متامسک</button>
+
+  <div class="info" id="walletInfo">
+    <!-- اطلاعات کیف پول اینجا میاد -->
+  </div>
 
   <script>
-    const tokenAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40"; // آدرس توکن LYNX
-    const tokenABI = [
-      "function balanceOf(address owner) view returns (uint256)",
-      "function decimals() view returns (uint8)"
-    ];
-
     async function connectWallet() {
-      if (window.ethereum) {
+      if (typeof window.ethereum !== 'undefined') {
         try {
-          const [account] = await window.ethereum.request({ method: "eth_requestAccounts" });
-          document.getElementById("walletInfo").innerText = "آدرس کیف پول: " + account;
-          await showTokenBalance(account);
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const walletAddress = accounts[0];
+          document.getElementById('walletInfo').innerText = 'آدرس کیف پول: ' + walletAddress;
         } catch (error) {
-          document.getElementById("walletInfo").innerText = "اتصال به کیف پول لغو شد.";
+          document.getElementById('walletInfo').innerText = 'اتصال به کیف پول لغو شد.';
         }
       } else {
-        alert("لطفاً افزونه MetaMask را نصب کنید.");
+        document.getElementById('walletInfo').innerText = 'متامسک نصب نیست!';
       }
-    }
-
-    async function showTokenBalance(account) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(tokenAddress, tokenABI, provider);
-      const decimals = await contract.decimals();
-      const balance = await contract.balanceOf(account);
-      const formatted = balance / (10 ** decimals);
-      document.getElementById("lynxBalance").innerText = "موجودی توکن LYNX: " + formatted;
     }
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 </body>
 </html>
