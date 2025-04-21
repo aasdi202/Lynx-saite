@@ -3,105 +3,75 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LYNX Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      background-color: #f4f4f4;
-    }
-    .sidebar {
-      width: 240px;
-      background: #111827;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
-    .sidebar h2 {
-      margin-bottom: 30px;
-      font-size: 24px;
-    }
-    .sidebar button {
-      background: none;
-      border: none;
-      color: white;
-      text-align: left;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .sidebar button:hover {
-      background: #1f2937;
-      border-radius: 6px;
-    }
-    .main {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      background: white;
-    }
-    .section {
-      display: none;
-    }
-    .section.active {
-      display: block;
-    }
-    .header {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script defer src="/js/language.js"></script>
 </head>
-<body>
-  <div class="sidebar">
-    <h2>LYNX</h2>
-    <button onclick="showSection('profile')">پروفایل</button>
-    <button onclick="showSection('contacts')">مخاطبین</button>
-    <button onclick="showSection('settings')">تنظیمات</button>
-    <button onclick="showSection('wallet')">اتصال کیف پول</button>
-    <button onclick="showSection('balance')">موجودی</button>
-    <button onclick="showSection('send')">ارسال توکن</button>
-    <button onclick="showSection('chat')">چت غیرمتمرکز</button>
-<div id="language-menu" class="language-selector"></div> 
+<body class="bg-gray-100 font-sans">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white shadow-md p-4">
+      <h2 class="text-2xl font-bold text-blue-600 mb-6">LYNX</h2>
+      <ul class="space-y-4">
+        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('wallet')">Wallet</button></li>
+        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('chat')">Chat</button></li>
+        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('contacts')">Contacts</button></li>
+        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('settings')">Settings</button></li>
+        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('language')">Language</button></li>
+      </ul>
+    </div><!-- Main Content -->
+<div class="flex-1 p-6 overflow-y-auto">
+  <!-- Wallet Section -->
+  <div id="wallet" class="hidden">
+    <h3 class="text-xl font-semibold mb-4">Wallet Info</h3>
+    <button id="connectWallet" class="bg-blue-500 text-white px-4 py-2 rounded">Connect Wallet</button>
+    <p id="walletAddress" class="mt-4 text-gray-700"></p>
+    <p id="tokenBalance" class="mt-2 text-gray-700"></p>
   </div>
-  <div class="main">
-    <div id="profile" class="section active">
-      <div class="header">پروفایل</div>
-      <!-- محتوای پروفایل -->
-    </div>
-    <div id="contacts" class="section">
-      <div class="header">مخاطبین</div>
-      <!-- لیست مخاطبین -->
-    </div>
-    <div id="settings" class="section">
-      <div class="header">تنظیمات</div>
-      <!-- تنظیمات کاربر -->
-    </div>
-    <div id="wallet" class="section">
-      <div class="header">اتصال کیف پول</div>
-      <!-- دکمه اتصال متامسک -->
-    </div>
-    <div id="balance" class="section">
-      <div class="header">موجودی</div>
-      <!-- موجودی توکن -->
-    </div>
-    <div id="send" class="section">
-      <div class="header">ارسال توکن</div>
-      <!-- فرم ارسال توکن -->
-    </div>
-    <div id="chat" class="section">
-      <div class="header">چت غیرمتمرکز</div>
-      <!-- چت با کاربران -->
-    </div>
+
+  <!-- Chat Section -->
+  <div id="chat" class="hidden">
+    <h3 class="text-xl font-semibold mb-4">Decentralized Chat</h3>
+    <p class="text-gray-600">Coming soon...</p>
+  </div>
+
+  <!-- Contacts Section -->
+  <div id="contacts" class="hidden">
+    <h3 class="text-xl font-semibold mb-4">Contacts</h3>
+    <p class="text-gray-600">No contacts yet.</p>
+  </div>
+
+  <!-- Settings Section -->
+  <div id="settings" class="hidden">
+    <h3 class="text-xl font-semibold mb-4">Settings</h3>
+    <p class="text-gray-600">Customize your preferences here.</p>
+  </div>
+
+  <!-- Language Section -->
+  <div id="language" class="hidden">
+    <h3 class="text-xl font-semibold mb-4">Choose Your Language</h3>
+    <div id="languageSelector"></div>
+  </div>
+</div>
+
   </div>  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('[id^="wallet"], [id^="chat"], [id^="contacts"], [id^="settings"], [id^="language"]');
+      sections.forEach(section => section.classList.add('hidden'));
+      document.getElementById(sectionId).classList.remove('hidden');
     }
-  </script></body><script src="js/language.js"></script>
-<script src="js/language_selector.js"></script>
+
+    document.getElementById("connectWallet").addEventListener("click", async () => {
+      if (window.ethereum) {
+        try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          document.getElementById("walletAddress").textContent = `Wallet: ${accounts[0]}`;
+          // Optional: fetch LYNX token balance
+        } catch (error) {
+          alert("Wallet connection failed");
+        }
+      } else {
+        alert("Please install MetaMask");
+      }
+    });
+  </script></body>
 </html>
