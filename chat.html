@@ -1,119 +1,91 @@
-<!DOCTYPE html><html lang="fa">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>چت غیرمتمرکز LYNX</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
-  <script type="module">
-    import { Client } from "https://unpkg.com/@xmtp/xmtp-js?module";let signer, provider, xmtp, conversation;
-
-async function initXMTP() {
-  provider = new ethers.BrowserProvider(window.ethereum);
-  signer = await provider.getSigner();
-  xmtp = await Client.create(signer, { env: "dev" });
-}
-
-async function startChat() {
-  const peerAddress = document.getElementById("peerAddress").value;
-  conversation = await xmtp.conversations.newConversation(peerAddress);
-  document.getElementById("chatSection").style.display = 'block';
-  document.getElementById("startSection").style.display = 'none';
-  loadMessages();
-}
-
-async function loadMessages() {
-  const container = document.getElementById("messages");
-  container.innerHTML = "در حال دریافت پیام‌ها...";
-  const messages = await conversation.messages();
-  container.innerHTML = "";
-  for (const msg of messages) {
-    const div = document.createElement("div");
-    div.className = msg.senderAddress === conversation.clientAddress ? 'me' : 'you';
-    div.innerText = msg.content;
-    container.appendChild(div);
-  }
-  container.scrollTop = container.scrollHeight;
-}
-
-async function sendMessage() {
-  const input = document.getElementById("messageInput");
-  await conversation.send(input.value);
-  input.value = "";
-  loadMessages();
-}
-
-window.addEventListener('load', initXMTP);
-window.startChat = startChat;
-window.sendMessage = sendMessage;
-
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>چت غیرمتمرکز - LYNX</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #e5e5e5;
       margin: 0;
-    }
-    header {
-      background: #3b82f6;
-      color: white;
-      padding: 10px 20px;
-      font-size: 1.2em;
-      text-align: center;
-    }
-    #startSection, #chatSection {
-      padding: 20px;
-    }
-    input[type=text] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    #messages {
-      height: 400px;
-      overflow-y: scroll;
-      background: white;
-      padding: 10px;
-      border-radius: 12px;
-      margin-bottom: 10px;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      height: 100vh;
     }
-    .me {
-      align-self: flex-end;
-      background: #3b82f6;
+    header {
+      background: #4caf50;
       color: white;
-      padding: 8px 12px;
-      border-radius: 15px 15px 0 15px;
+      padding: 15px;
+      text-align: center;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-message {
+      background: #e0e0e0;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
       max-width: 70%;
     }
-    .you {
-      align-self: flex-start;
+    .chat-message.self {
+      align-self: flex-end;
+      background: #c8e6c9;
+    }
+    footer {
+      display: flex;
+      padding: 10px;
       background: #ddd;
-      padding: 8px 12px;
-      border-radius: 15px 15px 15px 0;
-      max-width: 70%;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
     button {
-      padding: 10px 20px;
-      border: none;
-      background: #10b981;
+      background: #4caf50;
       color: white;
-      border-radius: 8px;
+      padding: 10px 15px;
+      border: none;
+      margin-left: 10px;
+      border-radius: 6px;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <header>پیام‌رسان غیرمتمرکز LYNX</header>  <div id="startSection">
-    <input type="text" id="peerAddress" placeholder="آدرس کیف پول مخاطب" />
-    <button onclick="startChat()">شروع چت</button>
-  </div>  <div id="chatSection" style="display:none">
-    <div id="messages"></div>
-    <input type="text" id="messageInput" placeholder="پیام خود را بنویسید..." onkeydown="if(event.key==='Enter') sendMessage()" />
+  <header>
+    چت با: <span id="peerName">آدرس</span>
+  </header>  <div class="chat-box" id="chatBox">
+    <!-- پیام‌ها اینجا نمایش داده می‌شن -->
+  </div>  <footer>
+    <input type="text" id="messageInput" placeholder="پیام خود را بنویسید..." />
     <button onclick="sendMessage()">ارسال</button>
-  </div>
-</body>
+  </footer>  <script>
+    const peerAddress = localStorage.getItem('peerAddress');
+    const chatBox = document.getElementById('chatBox');
+    document.getElementById('peerName').textContent = peerAddress;
+
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      addMessage(msg, true);
+      input.value = '';
+      // اینجا می‌تونیم پیامو به پروتکل XMTP یا سیستم واقعی متصل کنیم
+    }
+
+    function addMessage(text, self = false) {
+      const div = document.createElement('div');
+      div.className = 'chat-message' + (self ? ' self' : '');
+      div.innerText = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script></body>
 </html>
