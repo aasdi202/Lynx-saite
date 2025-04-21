@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LYNX Chat Dashboard</title>
+    <script type="module">
+      import { Client } from "https://unpkg.com/@xmtp/xmtp-js?module";let xmtp, signer, conversation;
+
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      alert("Metamask not found");
+      return;
+    }
+
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    const address = accounts[0];
+    document.getElementById("walletAddress").innerText = address;
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    signer = await provider.getSigner();
+
+    xmtp = await Client.create(signer, { env: "dev" });
+
+    document.getElementById("status").innerText = "Connected to XMTP";
+  };
+
+  const startChat = async () => {
+    const peerAddress = document.getElementById("peerAddress").value;
+    if (!peerAddress) return alert("Enter recipient address");
+
+    conversation = await xmtp.conversations.newConversation(peerAddress);
+    document.getElementById("chatBox").style.display = "block";
+    loadMessages();
+  };
+
+  const sendMessage = async () => {
+    const content = document.getElementById("messageInput").value;
+    if (!content || !conversation) return;
+
+    await conversation.send(content);
+    document.getElementById("messageInput").value = "";
+    loadMessages();
+  };
+
+  const loadMessages = async () => {
+    const container = document.getElementById("messages");
+    container.innerHTML = "";
+
+    for await (const msg of await conversation.streamMessages()) {
+      const msgDiv = document.createElement("div");
+      msgDiv.innerText = `${msg.senderAddress}: ${msg.content}`;
+      container.appendChild(msgDiv);
+    }
+  };
+
+  window.connectWallet = connectWallet;
+  window.startChat = startChat;
+  window.sendMessage = sendMessage;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background: #f9f9f9;
+  }
+  #chatBox {
+    display: none;
+    margin-top: 20px;
+  }
+  #messages {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #fff;
+    margin-bottom: 10px;
+  }
+  button {
+    padding: 10px 15px;
+    background: #1d4ed8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+  }
+  input {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+</style>
+
+  </head>
+  <body>
+    <h1>LYNX Web3 Chat</h1>
+    <button onclick="connectWallet()">اتصال کیف پول</button>
+    <p>آدرس: <span id="walletAddress"></span></p>
+    <p id="status"></p><input type="text" id="peerAddress" placeholder="آدرس کیف پول گیرنده را وارد کنید" />
+<button onclick="startChat()">شروع چت</button>
+
+<div id="chatBox">
+  <div id="messages"></div>
+  <input type="text" id="messageInput" placeholder="پیام خود را بنویسید..." />
+  <button onclick="sendMessage()">ارسال</button>
+</div>
+
+  </body>
+</html>
