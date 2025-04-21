@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LYNX Invitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://unpkg.com/@xmtp/xmtp-js@latest/dist/xmtp.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #00c6ff;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background-color: #007ab3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>دعوت به چت در LYNX</h2>
+    <p id="inviteText">در حال بارگذاری...</p>
+    <button class="btn" onclick="connectWallet()">اتصال کیف پول</button>
+  </div>  <script>
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from");
+    const to = params.get("to");
+    document.getElementById("inviteText").innerText =
+      `${from} شما را برای چت در LYNX دعوت کرده است.`;
+
+    async function connectWallet() {
+      if (!window.ethereum) return alert("لطفاً متامسک را نصب کنید.");
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+
+      const xmtp = await window.xmtp.Client.create(signer);
+
+      const canMessage = await xmtp.canMessage(from);
+      if (canMessage) {
+        alert("شما اکنون می‌توانید با " + from + " چت کنید!");
+        window.location.href = `/`; // می‌تونه به داشبورد یا صفحه چت منتقل شه
+      } else {
+        alert("اتصال برقرار شد، اما هنوز نمی‌توان پیام داد.");
+      }
+    }
+  </script></body>
+</html>
