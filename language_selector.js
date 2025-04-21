@@ -1,26 +1,33 @@
-// language_selector.js import languages from './languages';
+document.addEventListener("DOMContentLoaded", function () {
+  const languageList = [
+    { code: "en", name: "English", flag: "us" },
+    { code: "fa", name: "فارسی", flag: "ir" },
+    { code: "zh", name: "中文", flag: "cn" },
+    { code: "ru", name: "Русский", flag: "ru" },
+    { code: "tr", name: "Türkçe", flag: "tr" },
+    { code: "ar", name: "العربية", flag: "sa" },
+    { code: "es", name: "Español", flag: "es" },
+    { code: "fr", name: "Français", flag: "fr" },
+    { code: "de", name: "Deutsch", flag: "de" }
+  ];
 
-const createLanguageItem = (lang) => { const item = document.createElement('div'); item.className = 'language-item'; item.style.background = lang.bgColor;
+  const languageMenu = document.getElementById("language-menu");
 
-const flag = document.createElement('img'); flag.src = lang.flag; flag.alt = ${lang.name} Flag; flag.className = 'language-flag';
+  languageList.forEach(lang => {
+    const btn = document.createElement("button");
+    btn.className = "language-btn";
+    btn.innerHTML = `
+      <img src="flags/${lang.flag}.svg" alt="${lang.name}" class="flag-icon">
+      <span>${lang.name}</span>
+    `;
+    btn.onclick = () => switchLanguage(lang.code);
+    languageMenu.appendChild(btn);
+  });
 
-const name = document.createElement('span'); name.textContent = lang.name; name.className = 'language-name';
-
-item.appendChild(flag); item.appendChild(name);
-
-item.addEventListener('click', () => { console.log(Language selected: ${lang.code}); // TODO: Add language switching logic });
-
-return item; };
-
-const loadLanguages = () => { const container = document.getElementById('language-selector'); container.innerHTML = '';
-
-const mainLanguages = languages.filter((lang) => lang.main); mainLanguages.forEach((lang) => { const item = createLanguageItem(lang); container.appendChild(item); });
-
-const moreBtn = document.createElement('button'); moreBtn.textContent = 'زبان‌های بیشتر'; moreBtn.className = 'language-more-button';
-
-moreBtn.addEventListener('click', () => { const moreLanguages = languages.filter((lang) => !lang.main); moreLanguages.forEach((lang) => { const item = createLanguageItem(lang); container.appendChild(item); }); moreBtn.remove(); });
-
-container.appendChild(moreBtn); };
-
-export default loadLanguages;
-
+  // دکمه زبان‌های بیشتر
+  const moreBtn = document.createElement("button");
+  moreBtn.className = "language-btn more-langs";
+  moreBtn.innerText = "زبان‌های بیشتر...";
+  moreBtn.onclick = () => alert("در نسخه‌های آینده در دسترس خواهد بود.");
+  languageMenu.appendChild(moreBtn);
+});
