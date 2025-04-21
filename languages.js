@@ -1,4 +1,3 @@
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const translations = {
     en: { greeting: "Hello" },
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const button = document.createElement("button");
   button.className = "fixed bottom-4 left-4 bg-white shadow-lg rounded-xl px-4 py-2 flex items-center gap-2 border hover:bg-gray-100 z-50";
   const current = languages.find(l => l.code === savedLang);
-  button.innerHTML = `<span>${current.flag}</span><span>${current.name}</span>`;
+  button.innerHTML = `<span>${current.flag}</span><span data-i18n="greeting">${current.name}</span>`;
 
   const dropdown = document.createElement("ul");
   dropdown.className = "hidden absolute bottom-14 left-4 mb-2 bg-white border rounded-xl shadow-xl overflow-hidden z-50";
@@ -40,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     item.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
     item.onclick = () => {
       localStorage.setItem("selectedLang", lang.code);
-      button.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
+      button.innerHTML = `<span>${lang.flag}</span><span data-i18n="greeting">${lang.name}</span>`;
       dropdown.classList.add("hidden");
       updateTexts(lang.code);
     };
@@ -50,7 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const more = document.createElement("li");
   more.className = "px-4 py-2 text-gray-500 border-t bg-gray-50 cursor-pointer hover:bg-gray-100";
   more.innerText = "زبان‌های بیشتر...";
-  more.onclick = () => alert("Dynamic language loading coming soon!");
+  more.onclick = () => {
+    alert("Dynamic language loading coming soon!");
+  };
   dropdown.appendChild(more);
 
   button.onclick = () => {
@@ -70,4 +71,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateTexts(savedLang); // اعمال ترجمه هنگام بارگذاری
 });
-</script>
