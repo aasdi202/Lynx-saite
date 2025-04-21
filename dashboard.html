@@ -3,82 +3,93 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LYNX Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script src="https://unpkg.com/@xmtp/xmtp-js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+    .container { margin-top: 30px; }
+    .chat-box { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: white; }
+    .menu-icon { cursor: pointer; font-size: 24px; position: absolute; top: 10px; right: 10px; }
+    .dropdown-menu.show { display: block; }
+  </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen p-4">
-  <header class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold">LYNX Dashboard</h1>
-    <div class="relative">
-      <button onclick="toggleMenu()" class="text-white text-3xl focus:outline-none">&#9776;</button>
-      <div id="menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-xl shadow-lg z-10">
-        <a href="profile.html" class="block px-4 py-2 hover:bg-gray-700">ویرایش نمایه</a>
-        <a href="#" onclick="sendInvite()" class="block px-4 py-2 hover:bg-gray-700">ارسال دعوت‌نامه</a>
-        <a href="#" onclick="disconnectWallet()" class="block px-4 py-2 hover:bg-gray-700">خروج</a>
-      </div>
-    </div>
-  </header>  <div class="space-y-4">
-    <button onclick="connectWallet()" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-xl">اتصال کیف پول</button><div id="walletInfo" class="hidden">
-  <p>آدرس کیف پول: <span id="walletAddress" class="font-mono"></span></p>
-  <p>موجودی توکن LYNX: <span id="tokenBalance" class="font-bold"></span></p>
-</div>
+<body>
+<div class="container">
+  <div class="menu-icon" id="menuIcon">☰</div>
+  <div class="dropdown-menu position-absolute" id="menuDropdown" style="right: 10px; top: 40px; display: none;">
+    <button class="dropdown-item" onclick="viewProfile()">پروفایل من</button>
+    <button class="dropdown-item" onclick="viewContacts()">مخاطبین</button>
+    <button class="dropdown-item" onclick="openSettings()">تنظیمات</button>
+  </div>  <h1 class="mb-4">داشبورد LYNX</h1><button class="btn btn-primary mb-3" onclick="connectWallet()">اتصال کیف پول</button>
 
-<div id="sendTokenSection" class="mt-6">
-  <h2 class="text-xl font-semibold mb-2">ارسال توکن LYNX</h2>
-  <input id="recipient" type="text" placeholder="آدرس گیرنده" class="w-full p-2 rounded bg-gray-800 border border-gray-700 mb-2" />
-  <input id="amount" type="number" placeholder="مقدار توکن" class="w-full p-2 rounded bg-gray-800 border border-gray-700 mb-2" />
-  <button onclick="sendToken()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">ارسال</button>
-</div>
+  <div id="walletAddress"></div>
+  <div id="tokenBalance"></div>  <div class="mb-3">
+    <h4>ارسال توکن LYNX</h4>
+    <input type="text" id="receiverAddress" class="form-control" placeholder="آدرس گیرنده">
+    <input type="number" id="amountToSend" class="form-control mt-2" placeholder="مقدار">
+    <button class="btn btn-success mt-2" onclick="sendTokens()">ارسال</button>
+  </div>  <div class="mb-3">
+    <h4>ارسال دعوت‌نامه چت</h4>
+    <input type="text" id="chatReceiver" class="form-control" placeholder="آدرس کیف پول مخاطب">
+    <button class="btn btn-warning mt-2" onclick="sendInvite()">ارسال دعوت‌نامه</button>
+  </div>
+</div><script>
+  const CONTRACT_ADDRESS = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
+  const ABI = [
+    {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
+    {"constant":false,"inputs":[{"name":"recipient","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"type":"function"}
+  ];
 
-  </div>  <script>
-    const tokenAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
-    const tokenABI = [
-      {"constant":true,"inputs":[{"name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-      {"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"type":"function"}
-    ];
+  let web3;
+  let account;
+  let tokenContract;
 
-    let web3, account;
+  async function connectWallet() {
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await web3.eth.getAccounts();
+      account = accounts[0];
+      document.getElementById("walletAddress").innerText = `آدرس: ${account}`;
 
-    async function connectWallet() {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accounts = await web3.eth.getAccounts();
-        account = accounts[0];
-        document.getElementById('walletAddress').textContent = account;
-        document.getElementById('walletInfo').classList.remove('hidden');
-        getBalance();
-      }
+      tokenContract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
+      const balance = await tokenContract.methods.balanceOf(account).call();
+      document.getElementById("tokenBalance").innerText = `موجودی: ${web3.utils.fromWei(balance)} LYNX`;
     }
+  }
 
-    async function getBalance() {
-      const contract = new web3.eth.Contract(tokenABI, tokenAddress);
-      const balance = await contract.methods.balanceOf(account).call();
-      document.getElementById('tokenBalance').textContent = web3.utils.fromWei(balance, 'ether') + ' LYNX';
-    }
+  async function sendTokens() {
+    const receiver = document.getElementById("receiverAddress").value;
+    const amount = document.getElementById("amountToSend").value;
+    if (!receiver || !amount) return alert("لطفاً تمام فیلدها را پر کنید");
+    const value = web3.utils.toWei(amount);
+    await tokenContract.methods.transfer(receiver, value).send({ from: account });
+    alert("ارسال شد");
+  }
 
-    async function sendToken() {
-      const to = document.getElementById('recipient').value;
-      const amount = document.getElementById('amount').value;
-      const contract = new web3.eth.Contract(tokenABI, tokenAddress);
-      const weiAmount = web3.utils.toWei(amount, 'ether');
-      await contract.methods.transfer(to, weiAmount).send({ from: account });
-      alert('توکن با موفقیت ارسال شد!');
-      getBalance();
-    }
+  async function sendInvite() {
+    const receiver = document.getElementById("chatReceiver").value;
+    if (!receiver) return alert("آدرس گیرنده را وارد کنید");
+    alert("دعوت‌نامه ارسال شد به: " + receiver);
+    // اتصال واقعی با XMTP در مراحل بعدی اضافه می‌شود
+  }
 
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      menu.classList.toggle('hidden');
-    }
+  function viewProfile() {
+    alert("نمایش پروفایل کاربر");
+  }
 
-    function sendInvite() {
-      const inviteLink = `${location.origin}/?invite=${account}`;
-      navigator.clipboard.writeText(inviteLink).then(() => alert('دعوت‌نامه کپی شد!'));
-    }
+  function viewContacts() {
+    alert("لیست مخاطبین نمایش داده می‌شود");
+  }
 
-    function disconnectWallet() {
-      alert('برای قطع اتصال، مرورگر را رفرش یا کیف پول را جدا کنید.');
-    }
-  </script></body>
+  function openSettings() {
+    alert("صفحه تنظیمات باز می‌شود");
+  }
+
+  document.getElementById("menuIcon").addEventListener("click", () => {
+    const dropdown = document.getElementById("menuDropdown");
+    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+  });
+</script></body>
 </html>
