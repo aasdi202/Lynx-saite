@@ -66,6 +66,7 @@
     <button onclick="showSection('balance')">موجودی</button>
     <button onclick="showSection('send')">ارسال توکن</button>
     <button onclick="showSection('chat')">چت غیرمتمرکز</button>
+<div id="language-menu" class="language-selector"></div> 
   </div>
   <div class="main">
     <div id="profile" class="section active">
@@ -101,5 +102,6 @@
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
-  </script></body>
+  </script></body><script src="js/language.js"></script>
+<script src="js/language_selector.js"></script>
 </html>
