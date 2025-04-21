@@ -1,6 +1,33 @@
-// languages.js
+document.addEventListener("DOMContentLoaded", function () {
+  const languageList = [
+    { code: "en", name: "English", flag: "us" },
+    { code: "fa", name: "فارسی", flag: "ir" },
+    { code: "zh", name: "中文", flag: "cn" },
+    { code: "ru", name: "Русский", flag: "ru" },
+    { code: "tr", name: "Türkçe", flag: "tr" },
+    { code: "ar", name: "العربية", flag: "sa" },
+    { code: "es", name: "Español", flag: "es" },
+    { code: "fr", name: "Français", flag: "fr" },
+    { code: "de", name: "Deutsch", flag: "de" }
+  ];
 
-export const primaryLanguages = [ { code: "en", name: "English", country: "United States", flag: "https://flagcdn.com/us.svg", background: "#f0f8ff" }, { code: "fa", name: "فارسی", country: "Iran", flag: "https://flagcdn.com/ir.svg", background: "#fff0f5" }, { code: "ar", name: "العربية", country: "Saudi Arabia", flag: "https://flagcdn.com/sa.svg", background: "#f5f5dc" }, { code: "zh", name: "中文", country: "China", flag: "https://flagcdn.com/cn.svg", background: "#f5deb3" }, { code: "ru", name: "Русский", country: "Russia", flag: "https://flagcdn.com/ru.svg", background: "#f0fff0" }, { code: "tr", name: "Türkçe", country: "Turkey", flag: "https://flagcdn.com/tr.svg", background: "#f0f8e2" }, { code: "fr", name: "Français", country: "France", flag: "https://flagcdn.com/fr.svg", background: "#e6e6fa" }, { code: "es", name: "Español", country: "Spain", flag: "https://flagcdn.com/es.svg", background: "#ffe4e1" }, { code: "de", name: "Deutsch", country: "Germany", flag: "https://flagcdn.com/de.svg", background: "#e0ffff" } ];
+  const languageMenu = document.getElementById("language-menu");
 
-export const moreLanguagesLoader = async () => { // شبیه‌سازی بارگذاری زبان‌های بیشتر از سرور return [ { code: "ja", name: "日本語", country: "Japan", flag: "https://flagcdn.com/jp.svg", background: "#fffacd" }, { code: "hi", name: "हिन्दी", country: "India", flag: "https://flagcdn.com/in.svg", background: "#fafad2" } // زبان‌های دیگر بعداً اضافه می‌شن ]; };
+  languageList.forEach(lang => {
+    const btn = document.createElement("button");
+    btn.className = "language-btn";
+    btn.innerHTML = `
+      <img src="flags/${lang.flag}.svg" alt="${lang.name}" class="flag-icon">
+      <span>${lang.name}</span>
+    `;
+    btn.onclick = () => switchLanguage(lang.code);
+    languageMenu.appendChild(btn);
+  });
 
+  // دکمه زبان‌های بیشتر
+  const moreBtn = document.createElement("button");
+  moreBtn.className = "language-btn more-langs";
+  moreBtn.innerText = "زبان‌های بیشتر...";
+  moreBtn.onclick = () => alert("در نسخه‌های آینده در دسترس خواهد بود.");
+  languageMenu.appendChild(moreBtn);
+});
