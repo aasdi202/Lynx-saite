@@ -3,97 +3,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LYNX Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
-  <script type="module">
-    import { Client } from "https://unpkg.com/@xmtp/xmtp-js?module";let signer, provider, xmtp, conversation;
-const LYNX_ADDRESS = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
-const LYNX_ABI = [
-  "function balanceOf(address owner) view returns (uint256)",
-  "function transfer(address to, uint256 amount) returns (bool)"
-];
-
-async function connectWallet() {
-  if (!window.ethereum) {
-    alert("Metamask not found");
-    return;
-  }
-  const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-  const address = accounts[0];
-  document.getElementById("walletAddress").innerText = address;
-
-  provider = new ethers.BrowserProvider(window.ethereum);
-  signer = await provider.getSigner();
-
-  const token = new ethers.Contract(LYNX_ADDRESS, LYNX_ABI, provider);
-  const balance = await token.balanceOf(address);
-  document.getElementById("balance").innerText = ethers.formatUnits(balance, 18);
-
-  document.getElementById("status").innerText = "کیف پول متصل شد";
-}
-
-async function sendToken() {
-  const to = document.getElementById("toAddress").value;
-  const amount = document.getElementById("amount").value;
-  const token = new ethers.Contract(LYNX_ADDRESS, LYNX_ABI, signer);
-  await token.transfer(to, ethers.parseUnits(amount, 18));
-  alert("توکن با موفقیت ارسال شد");
-}
-
-async function connectXMTP() {
-  xmtp = await Client.create(signer, { env: "dev" });
-  document.getElementById("xmtpStatus").innerText = "XMTP آماده است";
-}
-
-window.connectWallet = connectWallet;
-window.sendToken = sendToken;
-window.connectXMTP = connectXMTP;
-
-  </script>
   <style>
     body {
-      font-family: Arial;
-      background: #f4f4f4;
+      font-family: Arial, sans-serif;
       padding: 20px;
+      background: #f1f1f1;
     }
     .card {
       background: white;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
-    button {
-      background: #3b82f6;
+    .button {
+      background: #4caf50;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 15px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
     }
-    input {
+    .button:disabled {
+      background: #999;
+    }
+    input[type="text"] {
       padding: 10px;
       width: 100%;
       margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <h1>داشبورد پروژه LYNX</h1>  <div class="card">
-    <button onclick="connectWallet()">اتصال کیف پول</button>
-    <p>آدرس کیف پول: <span id="walletAddress"></span></p>
-    <p>موجودی LYNX: <span id="balance">-</span></p>
-    <p id="status"></p>
+  <div class="card">
+    <h2>اتصال به کیف پول</h2>
+    <button class="button" onclick="connectWallet()">اتصال به متامسک</button>
+    <p><strong>آدرس:</strong> <span id="walletAddress">--</span></p>
+    <p><strong>موجودی LYNX:</strong> <span id="lynxBalance">--</span></p>
   </div>  <div class="card">
-    <h3>ارسال توکن</h3>
-    <input id="toAddress" placeholder="آدرس گیرنده" />
-    <input id="amount" placeholder="مقدار (مثلاً 1)" />
-    <button onclick="sendToken()">ارسال</button>
-  </div>  <div class="card">
-    <h3>چت غیرمتمرکز</h3>
-    <p id="xmtpStatus"></p>
-    <button onclick="connectXMTP()">اتصال به XMTP</button>
-    <br/><br/>
-    <a href="chat.html"><button>ورود به چت غیرمتمرکز</button></a>
-  </div>
-</body>
+    <h2>چت غیرمتمرکز</h2>
+    <input type="text" id="peerAddress" placeholder="آدرس کیف پول مخاطب را وارد کنید" oninput="checkChatEnable()" />
+    <button class="button" id="chatButton" onclick="startChat()" disabled>چت کنید</button>
+  </div>  <script>
+    let userAddress = null;
+    const LYNX_CONTRACT = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
+    const LYNX_ABI = [
+      "function balanceOf(address account) view returns (uint256)"
+    ];
+
+    async function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        userAddress = accounts[0];
+        document.getElementById('walletAddress').innerText = userAddress;
+        getBalance();
+      } else {
+        alert('متامسک نصب نیست');
+      }
+    }
+
+    async function getBalance() {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(LYNX_CONTRACT, LYNX_ABI, provider);
+      const balance = await contract.balanceOf(userAddress);
+      const formatted = ethers.utils.formatUnits(balance, 18);
+      document.getElementById('lynxBalance').innerText = formatted + ' LYNX';
+    }
+
+    function checkChatEnable() {
+      const val = document.getElementById('peerAddress').value;
+      document.getElementById('chatButton').disabled = val.length !== 42;
+    }
+
+    function startChat() {
+      const peer = document.getElementById('peerAddress').value;
+      if (peer.length === 42) {
+        localStorage.setItem('peerAddress', peer);
+        window.location.href = 'chat.html';
+      }
+    }
+  </script>  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script></body>
 </html>
