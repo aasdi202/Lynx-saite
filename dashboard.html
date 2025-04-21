@@ -1,142 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX Dashboard</title>
+  <title>LYNX Web3 Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans">
-  <div class="flex h-screen">
+<body class="bg-gray-100 text-gray-900">
+  <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <div class="w-64 bg-white shadow-md p-4 relative">
-      <h2 class="text-2xl font-bold text-blue-600 mb-6">LYNX</h2>
-      <ul class="space-y-4">
-        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('wallet')">Wallet</button></li>
-        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('chat')">Chat</button></li>
-        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('contacts')">Contacts</button></li>
-        <li><button class="w-full text-left text-gray-700 hover:text-blue-600" onclick="showSection('settings')">Settings</button></li>
-        <li>
-          <button id="languageButton" class="w-full text-left text-gray-700 hover:text-blue-600" onclick="toggleLanguageMenu()">Language</button>
-          <ul id="languageMenu" class="hidden mt-2 bg-white border rounded shadow absolute left-4 top-52 w-56 z-50">
-            <!-- زبان‌ها اینجا اضافه می‌شن -->
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="flex-1 p-6 overflow-y-auto">
-      <div id="wallet" class="hidden">
-        <h3 class="text-xl font-semibold mb-4" data-i18n="wallet_title">Wallet Info</h3>
-        <button id="connectWallet" class="bg-blue-500 text-white px-4 py-2 rounded" data-i18n="connect">Connect Wallet</button>
-        <p id="walletAddress" class="mt-4 text-gray-700"></p>
-        <p id="tokenBalance" class="mt-2 text-gray-700"></p>
+    <aside class="w-64 bg-white shadow-xl p-4">
+      <div class="mb-6 text-2xl font-bold">LYNX Dashboard</div>
+      <nav class="space-y-4">
+        <a href="#wallet" class="block" id="wallet_title"></a>
+        <a href="#chat" class="block" id="chat_title"></a>
+        <a href="#contacts" class="block" id="contacts_title"></a>
+        <a href="#settings" class="block" id="settings_title"></a>
+      </nav>
+      <div class="mt-8 relative">
+        <button id="languageButton" class="w-full px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-left"></button>
+        <ul id="languageMenu" class="absolute left-0 mt-2 bg-white border rounded shadow hidden z-10 max-h-64 overflow-y-auto"></ul>
       </div>
+    </aside><!-- Main Content -->
+<main class="flex-1 p-8">
+  <section id="wallet">
+    <h2 class="text-xl font-semibold mb-4" id="wallet_title"></h2>
+    <button id="connectButton" class="bg-blue-600 text-white px-4 py-2 rounded" onclick="connectWallet()"></button>
+    <p class="mt-2" id="walletAddress"></p>
+    <p id="tokenBalance"></p>
+  </section>
 
-      <div id="chat" class="hidden">
-        <h3 class="text-xl font-semibold mb-4" data-i18n="chat_title">Decentralized Chat</h3>
-        <p class="text-gray-600" data-i18n="coming_soon">Coming soon...</p>
-      </div>
+  <section id="chat" class="mt-12">
+    <h2 class="text-xl font-semibold mb-4" id="chat_title"></h2>
+    <p id="coming_soon"></p>
+  </section>
 
-      <div id="contacts" class="hidden">
-        <h3 class="text-xl font-semibold mb-4" data-i18n="contacts_title">Contacts</h3>
-        <p class="text-gray-600" data-i18n="no_contacts">No contacts yet.</p>
-      </div>
+  <section id="contacts" class="mt-12">
+    <h2 class="text-xl font-semibold mb-4" id="contacts_title"></h2>
+    <p id="no_contacts"></p>
+  </section>
 
-      <div id="settings" class="hidden">
-        <h3 class="text-xl font-semibold mb-4" data-i18n="settings_title">Settings</h3>
-        <p class="text-gray-600" data-i18n="customize">Customize your preferences here.</p>
-      </div>
+  <section id="settings" class="mt-12">
+    <h2 class="text-xl font-semibold mb-4" id="settings_title"></h2>
+    <p id="customize"></p>
+    <h3 class="mt-6 font-semibold" id="language_title"></h3>
+    <p id="language_description"></p>
+  </section>
+</main>
 
-      <div id="language" class="hidden">
-        <h3 class="text-xl font-semibold mb-4" data-i18n="language_title">Choose Your Language</h3>
-        <p class="text-gray-600" data-i18n="language_description">Use the button in the sidebar to choose your language.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function showSection(sectionId) {
-      const sections = document.querySelectorAll('#wallet, #chat, #contacts, #settings, #language');
-      sections.forEach(section => section.classList.add('hidden'));
-      document.getElementById(sectionId).classList.remove('hidden');
-    }
-
-    document.getElementById("connectWallet").addEventListener("click", async () => {
-      if (window.ethereum) {
-        try {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          document.getElementById("walletAddress").textContent = `Wallet: ${accounts[0]}`;
-        } catch (error) {
-          alert("Wallet connection failed");
-        }
-      } else {
-        alert("Please install MetaMask");
-      }
-    });
-
-    const translations = {
-      en: {
-        wallet_title: "Wallet Info",
-        connect: "Connect Wallet",
-        chat_title: "Decentralized Chat",
-        coming_soon: "Coming soon...",
-        contacts_title: "Contacts",
-        no_contacts: "No contacts yet.",
-        settings_title: "Settings",
-        customize: "Customize your preferences here.",
-        language_title: "Choose Your Language",
-        language_description: "Use the button in the sidebar to choose your language."
-      },
-      fa: {
-        wallet_title: "اطلاعات کیف پول",
-        connect: "اتصال کیف پول",
-        chat_title: "گفت‌وگوی غیرمتمرکز",
-        coming_soon: "به‌زودی در دسترس...",
-        contacts_title: "مخاطبین",
-        no_contacts: "هنوز مخاطبی ندارید.",
-        settings_title: "تنظیمات",
-        customize: "تنظیمات خود را اینجا شخصی‌سازی کنید.",
-        language_title: "انتخاب زبان",
-        language_description: "از منوی کناری برای انتخاب زبان استفاده کنید."
-      },
-      zh: { wallet_title: "钱包信息", connect: "连接钱包" },
-      ru: { wallet_title: "Информация о кошельке", connect: "Подключить кошелек" },
-      tr: { wallet_title: "Cüzdan Bilgisi", connect: "Cüzdanı Bağla" },
-      ar: { wallet_title: "معلومات المحفظة", connect: "اتصل بالمحفظة" },
-      es: { wallet_title: "Información de la billetera", connect: "Conectar billetera" },
-      fr: { wallet_title: "Infos portefeuille", connect: "Connecter le portefeuille" },
-      de: { wallet_title: "Wallet-Info", connect: "Wallet verbinden" },
-    };
-
+  </div>  <script>
     const languages = [
-      { code: "en", name: "English", flag: "🇬🇧" },
-      { code: "fa", name: "فارسی", flag: "🇮🇷" },
+      { code: "en", name: "English", flag: "🇺🇸" },
+      { code: "fa", name: "فارسی", flag: "🇦🇨" },
       { code: "zh", name: "中文", flag: "🇨🇳" },
       { code: "ru", name: "Русский", flag: "🇷🇺" },
       { code: "tr", name: "Türkçe", flag: "🇹🇷" },
-      { code: "ar", name: "العربية", flag: "🇸🇦" },
+      { code: "ar", name: "العربية", flag: "🇦🇪" },
       { code: "es", name: "Español", flag: "🇪🇸" },
       { code: "fr", name: "Français", flag: "🇫🇷" },
-      { code: "de", name: "Deutsch", flag: "🇩🇪" },
+      { code: "de", name: "Deutsch", flag: "🇩🇪" }
     ];
 
-    const savedLang = localStorage.getItem("selectedLang") || "en";
-
-    function updateTexts(lang) {
-      const t = translations[lang];
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        const key = el.getAttribute("data-i18n");
-        el.textContent = t?.[key] || key;
-      });
-    }
-
-    function toggleLanguageMenu() {
-      document.getElementById("languageMenu").classList.toggle("hidden");
-    }
+    const translations = {
+      en: { wallet_title: "Wallet Info", connect: "Connect Wallet", chat_title: "Decentralized Chat", coming_soon: "Coming soon...", contacts_title: "Contacts", no_contacts: "No contacts yet.", settings_title: "Settings", customize: "Customize your preferences here.", language_title: "Choose Your Language", language_description: "Use the button in the sidebar to choose your language." },
+      fa: { wallet_title: "اطلاعات کیف پول", connect: "اتصال کیف پول", chat_title: "گفت‌وگوی غیرمتمرکز", coming_soon: "به‌زودی در دسترس...", contacts_title: "مخاطبین", no_contacts: "هنوز مخاطبی ندارید.", settings_title: "تنظیمات", customize: "تنظیمات خود را اینجا شخصی‌سازی کنید.", language_title: "انتخاب زبان", language_description: "از منوی کناری برای انتخاب زبان استفاده کنید." },
+      zh: { wallet_title: "钱包信息", connect: "连接钱包", chat_title: "去中心化聊天", coming_soon: "即将推出...", contacts_title: "联系人", no_contacts: "还没有联系人。", settings_title: "设置", customize: "在此自定义您的偏好。", language_title: "选择语言", language_description: "使用侧边栏按钮选择语言。" },
+      ru: { wallet_title: "Информация о кошельке", connect: "Подключить кошелек", chat_title: "Децентрализованный чат", coming_soon: "Скоро будет...", contacts_title: "Контакты", no_contacts: "Контактов пока нет.", settings_title: "Настройки", customize: "Настройте свои предпочтения здесь.", language_title: "Выбор языка", language_description: "Используйте боковую панель для выбора языка." },
+      tr: { wallet_title: "Cüzdan Bilgisi", connect: "Cüzdanı Bağla", chat_title: "Merkeziyetsiz Sohbet", coming_soon: "Yakında geliyor...", contacts_title: "Kişiler", no_contacts: "Henüz kişi yok.", settings_title: "Ayarlar", customize: "Tercihlerinizi buradan özelleştirin.", language_title: "Dil Seçin", language_description: "Dili seçmek için yan menüyü kullanın." },
+      ar: { wallet_title: "معلومات المحفظة", connect: "اتصل بالمحفظة", chat_title: "دردشة لامركزية", coming_soon: "قريبًا...", contacts_title: "جهات الاتصال", no_contacts: "لا توجد جهات اتصال حتى الآن.", settings_title: "الإعدادات", customize: "قم بتخصيص تفضيلاتك هنا.", language_title: "اختر لغتك", language_description: "استخدم الزر في الشريط الجانبي لاختيار لغتك." },
+      es: { wallet_title: "Información de la billetera", connect: "Conectar billetera", chat_title: "Chat descentralizado", coming_soon: "Próximamente...", contacts_title: "Contactos", no_contacts: "Aún no hay contactos.", settings_title: "Configuraciones", customize: "Personaliza tus preferencias aquí.", language_title: "Elige tu idioma", language_description: "Usa el menú lateral para elegir el idioma." },
+      fr: { wallet_title: "Infos portefeuille", connect: "Connecter le portefeuille", chat_title: "Chat décentralisé", coming_soon: "Bientôt disponible...", contacts_title: "Contacts", no_contacts: "Aucun contact pour le moment.", settings_title: "Paramètres", customize: "Personnalisez vos préférences ici.", language_title: "Choisissez votre langue", language_description: "Utilisez le menu latéral pour choisir votre langue." },
+      de: { wallet_title: "Wallet-Info", connect: "Wallet verbinden", chat_title: "Dezentrale Chat", coming_soon: "Kommt bald...", contacts_title: "Kontakte", no_contacts: "Noch keine Kontakte.", settings_title: "Einstellungen", customize: "Passen Sie hier Ihre Einstellungen an.", language_title: "Sprache auswählen", language_description: "Verwenden Sie die Seitenleiste, um Ihre Sprache auszuwählen." }
+    };
 
     const menu = document.getElementById("languageMenu");
+    const button = document.getElementById("languageButton");
+
     languages.forEach(lang => {
       const item = document.createElement("li");
       item.className = "px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2";
@@ -144,20 +83,53 @@
       item.onclick = () => {
         localStorage.setItem("selectedLang", lang.code);
         updateTexts(lang.code);
-        document.getElementById("languageMenu").classList.add("hidden");
+        menu.classList.add("hidden");
       };
       menu.appendChild(item);
     });
 
-    const moreItem = document.createElement("li");
-    moreItem.className = "px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-600 text-center";
-    moreItem.textContent = "زبان‌های بیشتر...";
-    moreItem.onclick = () => {
-      alert("در نسخه‌های بعدی فعال خواهد شد!");
-    };
-    menu.appendChild(moreItem);
+    button.onclick = () => menu.classList.toggle("hidden");
 
+    function updateTexts(lang) {
+      const t = translations[lang];
+      document.getElementById("wallet_title").textContent = t.wallet_title;
+      document.getElementById("connectButton").textContent = t.connect;
+      document.getElementById("chat_title").textContent = t.chat_title;
+      document.getElementById("coming_soon").textContent = t.coming_soon;
+      document.getElementById("contacts_title").textContent = t.contacts_title;
+      document.getElementById("no_contacts").textContent = t.no_contacts;
+      document.getElementById("settings_title").textContent = t.settings_title;
+      document.getElementById("customize").textContent = t.customize;
+      document.getElementById("language_title").textContent = t.language_title;
+      document.getElementById("language_description").textContent = t.language_description;
+      button.innerHTML = `${languages.find(l => l.code === lang).flag} ${languages.find(l => l.code === lang).name}`;
+    }
+
+    const savedLang = localStorage.getItem("selectedLang") || "en";
     updateTexts(savedLang);
-  </script>
-</body>
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const address = accounts[0];
+          document.getElementById("walletAddress").textContent = "Address: " + address;
+
+          const contractAddress = "0x..."; // آدرس توکن LYNX رو بذار اینجا
+          const contractABI = [
+            { constant: true, inputs: [{ name: "owner", type: "address" }], name: "balanceOf", outputs: [{ name: "balance", type: "uint256" }], type: "function" }
+          ];
+
+          const contract = new web3.eth.Contract(contractABI, contractAddress);
+          const balance = await contract.methods.balanceOf(address).call();
+          document.getElementById("tokenBalance").textContent = `LYNX Balance: ${web3.utils.fromWei(balance)} LYNX`;
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        alert("Please install MetaMask");
+      }
+    }
+  </script></body>
 </html>
