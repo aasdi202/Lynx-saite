@@ -1,100 +1,154 @@
-<!DOCTYPE html><html lang="fa">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>داشبورد LYNX</title>
+  <title>LYNX Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  <script src="https://unpkg.com/@xmtp/xmtp-js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background: #333;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .menu {
+      cursor: pointer;
+      font-size: 24px;
+    }
+    .sidebar {
+      background: #444;
+      color: #fff;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar button {
+      background: none;
+      color: white;
+      border: none;
+      text-align: left;
+      padding: 15px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .sidebar button:hover {
+      background: #555;
+    }
+    .main {
+      margin-left: 220px;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="max-w-3xl mx-auto p-4 space-y-4">
-    <h1 class="text-2xl font-bold text-center">داشبورد LYNX</h1><!-- اتصال کیف پول -->
-<button id="connectWallet" class="bg-green-600 text-white px-4 py-2 rounded">اتصال کیف پول</button>
-<p id="walletAddress" class="text-sm mt-2"></p>
-
-<!-- نمایش موجودی -->
-<div class="mt-4">
-  <p class="font-bold">موجودی LYNX:</p>
-  <p id="lynxBalance">0</p>
-</div>
-
-<!-- ارسال توکن -->
-<div class="mt-6">
-  <h2 class="font-bold text-lg">ارسال توکن</h2>
-  <input id="recipient" type="text" placeholder="آدرس گیرنده" class="border p-2 w-full mt-2" />
-  <input id="amount" type="number" placeholder="مقدار" class="border p-2 w-full mt-2" />
-  <button id="sendToken" class="bg-blue-600 text-white px-4 py-2 rounded mt-2">ارسال</button>
-</div>
-
-<!-- دکمه چت -->
-<div class="mt-6">
-  <a href="chat.html" class="bg-purple-600 text-white px-4 py-2 rounded block text-center">چت غیرمتمرکز</a>
-</div>
-
-<!-- پروفایل و تنظیمات -->
-<div class="mt-6">
-  <h2 class="font-bold text-lg">پروفایل و تنظیمات</h2>
-  <div class="flex space-x-2 mt-2">
-    <button id="viewProfile" class="bg-gray-700 text-white px-3 py-1 rounded">پروفایل</button>
-    <button id="settings" class="bg-gray-700 text-white px-3 py-1 rounded">تنظیمات</button>
-    <button id="contacts" class="bg-gray-700 text-white px-3 py-1 rounded">مخاطبین</button>
+<body>
+  <div class="navbar">
+    <h1>LYNX Dashboard</h1>
+    <div class="menu">≡</div>
   </div>
-  <div id="extraInfo" class="mt-4 hidden border p-2 bg-white"></div>
+  <div class="sidebar">
+    <button onclick="showSection('profile')">پروفایل</button>
+    <button onclick="showSection('settings')">تنظیمات</button>
+    <button onclick="showSection('contacts')">مخاطبین</button>
+    <button onclick="connectWallet()">اتصال کیف پول</button>
+    <button onclick="showSection('balance')">موجودی</button>
+    <button onclick="showSection('transfer')">ارسال توکن</button>
+    <button onclick="showSection('chat')">چت</button>
+  </div>  <div class="main">
+    <div id="profile" class="card hidden">پروفایل شما</div>
+    <div id="settings" class="card hidden">تنظیمات</div>
+    <div id="contacts" class="card hidden">مخاطبین</div><div id="balance" class="card hidden">
+  <h3>موجودی LYNX:</h3>
+  <div id="walletAddress"></div>
+  <div id="lynxBalance"></div>
+</div>
+
+<div id="transfer" class="card hidden">
+  <h3>ارسال توکن LYNX</h3>
+  <input type="text" id="recipient" placeholder="آدرس گیرنده" />
+  <input type="number" id="amount" placeholder="مقدار" />
+  <button onclick="sendToken()">ارسال</button>
+</div>
+
+<div id="chat" class="card hidden">
+  <h3>چت غیرمتمرکز</h3>
+  <input type="text" id="chatWallet" placeholder="آدرس کیف پول گیرنده" />
+  <button onclick="startChat()">شروع چت</button>
 </div>
 
   </div>  <script>
-    const tokenAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
-    const tokenABI = [
-      { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "balance", "type": "uint256" }], "type": "function" },
-      { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "success", "type": "bool" } ], "type": "function" }
+    const contractAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
+    const contractABI = [
+      {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
+      {"constant":false,"inputs":[{"name":"recipient","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"type":"function"}
     ];
 
     let web3;
     let userAccount;
+    let lynxContract;
 
-    async function loadWeb3() {
+    async function connectWallet() {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        await window.ethereum.enable();
         const accounts = await web3.eth.getAccounts();
         userAccount = accounts[0];
-        document.getElementById('walletAddress').innerText = `آدرس: ${userAccount}`;
-        loadBalance();
+        document.getElementById("walletAddress").textContent = `آدرس کیف پول: ${userAccount}`;
+        lynxContract = new web3.eth.Contract(contractABI, contractAddress);
+        const balance = await lynxContract.methods.balanceOf(userAccount).call();
+        document.getElementById("lynxBalance").textContent = `موجودی: ${web3.utils.fromWei(balance)} LYNX`;
       }
-    }
-
-    async function loadBalance() {
-      const contract = new web3.eth.Contract(tokenABI, tokenAddress);
-      const balance = await contract.methods.balanceOf(userAccount).call();
-      document.getElementById("lynxBalance").innerText = web3.utils.fromWei(balance, 'ether');
     }
 
     async function sendToken() {
       const recipient = document.getElementById("recipient").value;
       const amount = document.getElementById("amount").value;
-      const contract = new web3.eth.Contract(tokenABI, tokenAddress);
-      await contract.methods.transfer(recipient, web3.utils.toWei(amount, 'ether')).send({ from: userAccount });
-      alert("توکن ارسال شد!");
-      loadBalance();
+      if (!recipient || !amount) return alert("لطفاً آدرس و مقدار را وارد کنید.");
+      await lynxContract.methods.transfer(recipient, web3.utils.toWei(amount)).send({ from: userAccount });
+      alert("ارسال انجام شد");
     }
 
-    document.getElementById("connectWallet").onclick = loadWeb3;
-    document.getElementById("sendToken").onclick = sendToken;
+    function startChat() {
+      const chatWallet = document.getElementById("chatWallet").value;
+      if (!chatWallet) return alert("آدرس کیف پول را وارد کنید.");
+      alert(`چت با ${chatWallet} آغاز شد (نسخه نمایشی)`);
+    }
 
-    document.getElementById("viewProfile").onclick = () => {
-      document.getElementById("extraInfo").classList.remove("hidden");
-      document.getElementById("extraInfo").innerText = `نام نمایشی: مشدی\nآدرس: ${userAccount}`;
-    };
-
-    document.getElementById("settings").onclick = () => {
-      document.getElementById("extraInfo").classList.remove("hidden");
-      document.getElementById("extraInfo").innerText = `تنظیمات در دست ساخت است.`;
-    };
-
-    document.getElementById("contacts").onclick = () => {
-      document.getElementById("extraInfo").classList.remove("hidden");
-      document.getElementById("extraInfo").innerText = `لیست مخاطبین بزودی بارگذاری می‌شود.`;
-    };
+    function showSection(id) {
+      document.querySelectorAll('.card').forEach(el => el.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
   </script></body>
 </html>
