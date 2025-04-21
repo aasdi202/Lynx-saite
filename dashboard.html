@@ -1,95 +1,100 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="fa">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <title>داشبورد LYNX</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   <script src="https://unpkg.com/@xmtp/xmtp-js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
-    .container { margin-top: 30px; }
-    .chat-box { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: white; }
-    .menu-icon { cursor: pointer; font-size: 24px; position: absolute; top: 10px; right: 10px; }
-    .dropdown-menu.show { display: block; }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container">
-  <div class="menu-icon" id="menuIcon">☰</div>
-  <div class="dropdown-menu position-absolute" id="menuDropdown" style="right: 10px; top: 40px; display: none;">
-    <button class="dropdown-item" onclick="viewProfile()">پروفایل من</button>
-    <button class="dropdown-item" onclick="viewContacts()">مخاطبین</button>
-    <button class="dropdown-item" onclick="openSettings()">تنظیمات</button>
-  </div>  <h1 class="mb-4">داشبورد LYNX</h1><button class="btn btn-primary mb-3" onclick="connectWallet()">اتصال کیف پول</button>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-3xl mx-auto p-4 space-y-4">
+    <h1 class="text-2xl font-bold text-center">داشبورد LYNX</h1><!-- اتصال کیف پول -->
+<button id="connectWallet" class="bg-green-600 text-white px-4 py-2 rounded">اتصال کیف پول</button>
+<p id="walletAddress" class="text-sm mt-2"></p>
 
-  <div id="walletAddress"></div>
-  <div id="tokenBalance"></div>  <div class="mb-3">
-    <h4>ارسال توکن LYNX</h4>
-    <input type="text" id="receiverAddress" class="form-control" placeholder="آدرس گیرنده">
-    <input type="number" id="amountToSend" class="form-control mt-2" placeholder="مقدار">
-    <button class="btn btn-success mt-2" onclick="sendTokens()">ارسال</button>
-  </div>  <div class="mb-3">
-    <h4>ارسال دعوت‌نامه چت</h4>
-    <input type="text" id="chatReceiver" class="form-control" placeholder="آدرس کیف پول مخاطب">
-    <button class="btn btn-warning mt-2" onclick="sendInvite()">ارسال دعوت‌نامه</button>
+<!-- نمایش موجودی -->
+<div class="mt-4">
+  <p class="font-bold">موجودی LYNX:</p>
+  <p id="lynxBalance">0</p>
+</div>
+
+<!-- ارسال توکن -->
+<div class="mt-6">
+  <h2 class="font-bold text-lg">ارسال توکن</h2>
+  <input id="recipient" type="text" placeholder="آدرس گیرنده" class="border p-2 w-full mt-2" />
+  <input id="amount" type="number" placeholder="مقدار" class="border p-2 w-full mt-2" />
+  <button id="sendToken" class="bg-blue-600 text-white px-4 py-2 rounded mt-2">ارسال</button>
+</div>
+
+<!-- دکمه چت -->
+<div class="mt-6">
+  <a href="chat.html" class="bg-purple-600 text-white px-4 py-2 rounded block text-center">چت غیرمتمرکز</a>
+</div>
+
+<!-- پروفایل و تنظیمات -->
+<div class="mt-6">
+  <h2 class="font-bold text-lg">پروفایل و تنظیمات</h2>
+  <div class="flex space-x-2 mt-2">
+    <button id="viewProfile" class="bg-gray-700 text-white px-3 py-1 rounded">پروفایل</button>
+    <button id="settings" class="bg-gray-700 text-white px-3 py-1 rounded">تنظیمات</button>
+    <button id="contacts" class="bg-gray-700 text-white px-3 py-1 rounded">مخاطبین</button>
   </div>
-</div><script>
-  const CONTRACT_ADDRESS = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
-  const ABI = [
-    {"constant":true,"inputs":[{"name":"account","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"type":"function"},
-    {"constant":false,"inputs":[{"name":"recipient","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"type":"function"}
-  ];
+  <div id="extraInfo" class="mt-4 hidden border p-2 bg-white"></div>
+</div>
 
-  let web3;
-  let account;
-  let tokenContract;
+  </div>  <script>
+    const tokenAddress = "0xbd61721063343EC6CCD7c077a11c1cD200AAFB40";
+    const tokenABI = [
+      { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "balance", "type": "uint256" }], "type": "function" },
+      { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "success", "type": "bool" } ], "type": "function" }
+    ];
 
-  async function connectWallet() {
-    if (window.ethereum) {
-      web3 = new Web3(window.ethereum);
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const accounts = await web3.eth.getAccounts();
-      account = accounts[0];
-      document.getElementById("walletAddress").innerText = `آدرس: ${account}`;
+    let web3;
+    let userAccount;
 
-      tokenContract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
-      const balance = await tokenContract.methods.balanceOf(account).call();
-      document.getElementById("tokenBalance").innerText = `موجودی: ${web3.utils.fromWei(balance)} LYNX`;
+    async function loadWeb3() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await web3.eth.getAccounts();
+        userAccount = accounts[0];
+        document.getElementById('walletAddress').innerText = `آدرس: ${userAccount}`;
+        loadBalance();
+      }
     }
-  }
 
-  async function sendTokens() {
-    const receiver = document.getElementById("receiverAddress").value;
-    const amount = document.getElementById("amountToSend").value;
-    if (!receiver || !amount) return alert("لطفاً تمام فیلدها را پر کنید");
-    const value = web3.utils.toWei(amount);
-    await tokenContract.methods.transfer(receiver, value).send({ from: account });
-    alert("ارسال شد");
-  }
+    async function loadBalance() {
+      const contract = new web3.eth.Contract(tokenABI, tokenAddress);
+      const balance = await contract.methods.balanceOf(userAccount).call();
+      document.getElementById("lynxBalance").innerText = web3.utils.fromWei(balance, 'ether');
+    }
 
-  async function sendInvite() {
-    const receiver = document.getElementById("chatReceiver").value;
-    if (!receiver) return alert("آدرس گیرنده را وارد کنید");
-    alert("دعوت‌نامه ارسال شد به: " + receiver);
-    // اتصال واقعی با XMTP در مراحل بعدی اضافه می‌شود
-  }
+    async function sendToken() {
+      const recipient = document.getElementById("recipient").value;
+      const amount = document.getElementById("amount").value;
+      const contract = new web3.eth.Contract(tokenABI, tokenAddress);
+      await contract.methods.transfer(recipient, web3.utils.toWei(amount, 'ether')).send({ from: userAccount });
+      alert("توکن ارسال شد!");
+      loadBalance();
+    }
 
-  function viewProfile() {
-    alert("نمایش پروفایل کاربر");
-  }
+    document.getElementById("connectWallet").onclick = loadWeb3;
+    document.getElementById("sendToken").onclick = sendToken;
 
-  function viewContacts() {
-    alert("لیست مخاطبین نمایش داده می‌شود");
-  }
+    document.getElementById("viewProfile").onclick = () => {
+      document.getElementById("extraInfo").classList.remove("hidden");
+      document.getElementById("extraInfo").innerText = `نام نمایشی: مشدی\nآدرس: ${userAccount}`;
+    };
 
-  function openSettings() {
-    alert("صفحه تنظیمات باز می‌شود");
-  }
+    document.getElementById("settings").onclick = () => {
+      document.getElementById("extraInfo").classList.remove("hidden");
+      document.getElementById("extraInfo").innerText = `تنظیمات در دست ساخت است.`;
+    };
 
-  document.getElementById("menuIcon").addEventListener("click", () => {
-    const dropdown = document.getElementById("menuDropdown");
-    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
-  });
-</script></body>
+    document.getElementById("contacts").onclick = () => {
+      document.getElementById("extraInfo").classList.remove("hidden");
+      document.getElementById("extraInfo").innerText = `لیست مخاطبین بزودی بارگذاری می‌شود.`;
+    };
+  </script></body>
 </html>
