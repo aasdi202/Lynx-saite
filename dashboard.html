@@ -19,7 +19,7 @@
         <li>
           <button id="languageButton" class="w-full text-left text-gray-700 hover:text-blue-600" onclick="toggleLanguageMenu()">Language</button>
           <ul id="languageMenu" class="hidden mt-2 bg-white border rounded shadow absolute left-4 top-52 w-56 z-50">
-            <!-- زبان‌ها اینجا با جاوااسکریپت اضافه می‌شن -->
+            <!-- زبان‌ها اینجا اضافه می‌شن -->
           </ul>
         </li>
       </ul>
@@ -28,30 +28,30 @@
     <!-- Main Content -->
     <div class="flex-1 p-6 overflow-y-auto">
       <div id="wallet" class="hidden">
-        <h3 class="text-xl font-semibold mb-4">Wallet Info</h3>
-        <button id="connectWallet" class="bg-blue-500 text-white px-4 py-2 rounded">Connect Wallet</button>
+        <h3 class="text-xl font-semibold mb-4" data-i18n="wallet_title">Wallet Info</h3>
+        <button id="connectWallet" class="bg-blue-500 text-white px-4 py-2 rounded" data-i18n="connect">Connect Wallet</button>
         <p id="walletAddress" class="mt-4 text-gray-700"></p>
         <p id="tokenBalance" class="mt-2 text-gray-700"></p>
       </div>
 
       <div id="chat" class="hidden">
-        <h3 class="text-xl font-semibold mb-4">Decentralized Chat</h3>
-        <p class="text-gray-600">Coming soon...</p>
+        <h3 class="text-xl font-semibold mb-4" data-i18n="chat_title">Decentralized Chat</h3>
+        <p class="text-gray-600" data-i18n="coming_soon">Coming soon...</p>
       </div>
 
       <div id="contacts" class="hidden">
-        <h3 class="text-xl font-semibold mb-4">Contacts</h3>
-        <p class="text-gray-600">No contacts yet.</p>
+        <h3 class="text-xl font-semibold mb-4" data-i18n="contacts_title">Contacts</h3>
+        <p class="text-gray-600" data-i18n="no_contacts">No contacts yet.</p>
       </div>
 
       <div id="settings" class="hidden">
-        <h3 class="text-xl font-semibold mb-4">Settings</h3>
-        <p class="text-gray-600">Customize your preferences here.</p>
+        <h3 class="text-xl font-semibold mb-4" data-i18n="settings_title">Settings</h3>
+        <p class="text-gray-600" data-i18n="customize">Customize your preferences here.</p>
       </div>
 
       <div id="language" class="hidden">
-        <h3 class="text-xl font-semibold mb-4">Choose Your Language</h3>
-        <p class="text-gray-600">Use the button in the sidebar to choose your language.</p>
+        <h3 class="text-xl font-semibold mb-4" data-i18n="language_title">Choose Your Language</h3>
+        <p class="text-gray-600" data-i18n="language_description">Use the button in the sidebar to choose your language.</p>
       </div>
     </div>
   </div>
@@ -77,15 +77,37 @@
     });
 
     const translations = {
-      en: { greeting: "Hello" },
-      fa: { greeting: "سلام" },
-      zh: { greeting: "你好" },
-      ru: { greeting: "Привет" },
-      tr: { greeting: "Merhaba" },
-      ar: { greeting: "مرحبا" },
-      es: { greeting: "Hola" },
-      fr: { greeting: "Bonjour" },
-      de: { greeting: "Hallo" },
+      en: {
+        wallet_title: "Wallet Info",
+        connect: "Connect Wallet",
+        chat_title: "Decentralized Chat",
+        coming_soon: "Coming soon...",
+        contacts_title: "Contacts",
+        no_contacts: "No contacts yet.",
+        settings_title: "Settings",
+        customize: "Customize your preferences here.",
+        language_title: "Choose Your Language",
+        language_description: "Use the button in the sidebar to choose your language."
+      },
+      fa: {
+        wallet_title: "اطلاعات کیف پول",
+        connect: "اتصال کیف پول",
+        chat_title: "گفت‌وگوی غیرمتمرکز",
+        coming_soon: "به‌زودی در دسترس...",
+        contacts_title: "مخاطبین",
+        no_contacts: "هنوز مخاطبی ندارید.",
+        settings_title: "تنظیمات",
+        customize: "تنظیمات خود را اینجا شخصی‌سازی کنید.",
+        language_title: "انتخاب زبان",
+        language_description: "از منوی کناری برای انتخاب زبان استفاده کنید."
+      },
+      zh: { wallet_title: "钱包信息", connect: "连接钱包" },
+      ru: { wallet_title: "Информация о кошельке", connect: "Подключить кошелек" },
+      tr: { wallet_title: "Cüzdan Bilgisi", connect: "Cüzdanı Bağla" },
+      ar: { wallet_title: "معلومات المحفظة", connect: "اتصل بالمحفظة" },
+      es: { wallet_title: "Información de la billetera", connect: "Conectar billetera" },
+      fr: { wallet_title: "Infos portefeuille", connect: "Connecter le portefeuille" },
+      de: { wallet_title: "Wallet-Info", connect: "Wallet verbinden" },
     };
 
     const languages = [
@@ -101,11 +123,12 @@
     ];
 
     const savedLang = localStorage.getItem("selectedLang") || "en";
+
     function updateTexts(lang) {
       const t = translations[lang];
       document.querySelectorAll("[data-i18n]").forEach((el) => {
         const key = el.getAttribute("data-i18n");
-        el.textContent = t[key] || key;
+        el.textContent = t?.[key] || key;
       });
     }
 
@@ -125,6 +148,14 @@
       };
       menu.appendChild(item);
     });
+
+    const moreItem = document.createElement("li");
+    moreItem.className = "px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-600 text-center";
+    moreItem.textContent = "زبان‌های بیشتر...";
+    moreItem.onclick = () => {
+      alert("در نسخه‌های بعدی فعال خواهد شد!");
+    };
+    menu.appendChild(moreItem);
 
     updateTexts(savedLang);
   </script>
