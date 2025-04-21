@@ -30,6 +30,7 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
+      display: block;
     }
     input {
       padding: 10px;
@@ -49,8 +50,9 @@
     <h2>موجودی توکن LYNX</h2>
     <p id="tokenBalance">—</p>
   </div>  <div class="card">
-    <h2>ارسال دعوت‌نامه چت</h2>
+    <h2>چت غیرمتمرکز</h2>
     <input id="receiver" placeholder="آدرس کیف پول گیرنده را وارد کنید" />
+    <button class="btn" onclick="startChat()">چت کنید</button>
     <button class="btn" onclick="sendInvite()">ارسال دعوت‌نامه</button>
   </div>  <script>
     let walletAddress = "";
@@ -71,6 +73,12 @@
       const decimals = await tokenContract.decimals();
       const formattedBalance = ethers.utils.formatUnits(rawBalance, decimals);
       document.getElementById("tokenBalance").innerText = formattedBalance + " LYNX";
+    }
+
+    function startChat() {
+      const to = document.getElementById("receiver").value;
+      if (!walletAddress || !to) return alert("لطفاً ابتدا کیف پول را متصل کرده و آدرس گیرنده را وارد کنید.");
+      window.location.href = `chat.html?from=${walletAddress}&to=${to}`;
     }
 
     function sendInvite() {
