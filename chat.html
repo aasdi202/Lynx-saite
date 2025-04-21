@@ -3,6 +3,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>چت غیرمتمرکز - LYNX</title>
+  <script src="https://unpkg.com/@xmtp/xmtp-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -68,16 +70,39 @@
     <button onclick="sendMessage()">ارسال</button>
   </footer>  <script>
     const peerAddress = localStorage.getItem('peerAddress');
-    const chatBox = document.getElementById('chatBox');
     document.getElementById('peerName').textContent = peerAddress;
+    const chatBox = document.getElementById('chatBox');
+    let xmtp, conversation;
 
-    function sendMessage() {
+    async function initXMTP() {
+      if (!window.ethereum) return alert('MetaMask نصب نیست!');
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      xmtp = await window.xmtp.Client.create(signer);
+
+      const canMessage = await xmtp.canMessage(peerAddress);
+      if (!canMessage) return alert('طرف مقابل در XMTP ثبت‌نام نکرده.');
+
+      conversation = await xmtp.conversations.newConversation(peerAddress);
+      streamMessages();
+    }
+
+    async function sendMessage() {
       const input = document.getElementById('messageInput');
       const msg = input.value.trim();
-      if (!msg) return;
+      if (!msg || !conversation) return;
+      await conversation.send(msg);
       addMessage(msg, true);
       input.value = '';
-      // اینجا می‌تونیم پیامو به پروتکل XMTP یا سیستم واقعی متصل کنیم
+    }
+
+    async function streamMessages() {
+      for await (const msg of await conversation.streamMessages()) {
+        if (msg.senderAddress !== xmtp.address) {
+          addMessage(msg.content, false);
+        }
+      }
     }
 
     function addMessage(text, self = false) {
@@ -87,5 +112,7 @@
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    initXMTP();
   </script></body>
 </html>
