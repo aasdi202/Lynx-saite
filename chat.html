@@ -1,109 +1,119 @@
-<!DOCTYPE html><html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LYNX Chat Dashboard</title>
-    <script type="module">
-      import { Client } from "https://unpkg.com/@xmtp/xmtp-js?module";let xmtp, signer, conversation;
+<!DOCTYPE html><html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>چت غیرمتمرکز LYNX</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+  <script type="module">
+    import { Client } from "https://unpkg.com/@xmtp/xmtp-js?module";let signer, provider, xmtp, conversation;
 
-  const connectWallet = async () => {
-    if (!window.ethereum) {
-      alert("Metamask not found");
-      return;
+async function initXMTP() {
+  provider = new ethers.BrowserProvider(window.ethereum);
+  signer = await provider.getSigner();
+  xmtp = await Client.create(signer, { env: "dev" });
+}
+
+async function startChat() {
+  const peerAddress = document.getElementById("peerAddress").value;
+  conversation = await xmtp.conversations.newConversation(peerAddress);
+  document.getElementById("chatSection").style.display = 'block';
+  document.getElementById("startSection").style.display = 'none';
+  loadMessages();
+}
+
+async function loadMessages() {
+  const container = document.getElementById("messages");
+  container.innerHTML = "در حال دریافت پیام‌ها...";
+  const messages = await conversation.messages();
+  container.innerHTML = "";
+  for (const msg of messages) {
+    const div = document.createElement("div");
+    div.className = msg.senderAddress === conversation.clientAddress ? 'me' : 'you';
+    div.innerText = msg.content;
+    container.appendChild(div);
+  }
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById("messageInput");
+  await conversation.send(input.value);
+  input.value = "";
+  loadMessages();
+}
+
+window.addEventListener('load', initXMTP);
+window.startChat = startChat;
+window.sendMessage = sendMessage;
+
+  </script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e5e5e5;
+      margin: 0;
     }
-
-    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-    const address = accounts[0];
-    document.getElementById("walletAddress").innerText = address;
-
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    signer = await provider.getSigner();
-
-    xmtp = await Client.create(signer, { env: "dev" });
-
-    document.getElementById("status").innerText = "Connected to XMTP";
-  };
-
-  const startChat = async () => {
-    const peerAddress = document.getElementById("peerAddress").value;
-    if (!peerAddress) return alert("Enter recipient address");
-
-    conversation = await xmtp.conversations.newConversation(peerAddress);
-    document.getElementById("chatBox").style.display = "block";
-    loadMessages();
-  };
-
-  const sendMessage = async () => {
-    const content = document.getElementById("messageInput").value;
-    if (!content || !conversation) return;
-
-    await conversation.send(content);
-    document.getElementById("messageInput").value = "";
-    loadMessages();
-  };
-
-  const loadMessages = async () => {
-    const container = document.getElementById("messages");
-    container.innerHTML = "";
-
-    for await (const msg of await conversation.streamMessages()) {
-      const msgDiv = document.createElement("div");
-      msgDiv.innerText = `${msg.senderAddress}: ${msg.content}`;
-      container.appendChild(msgDiv);
+    header {
+      background: #3b82f6;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      text-align: center;
     }
-  };
-
-  window.connectWallet = connectWallet;
-  window.startChat = startChat;
-  window.sendMessage = sendMessage;
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 0;
-    background: #f9f9f9;
-  }
-  #chatBox {
-    display: none;
-    margin-top: 20px;
-  }
-  #messages {
-    height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    background: #fff;
-    margin-bottom: 10px;
-  }
-  button {
-    padding: 10px 15px;
-    background: #1d4ed8;
-    color: white;
-    border: none;
-    border-radius: 6px;
-  }
-  input {
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-</style>
-
-  </head>
-  <body>
-    <h1>LYNX Web3 Chat</h1>
-    <button onclick="connectWallet()">اتصال کیف پول</button>
-    <p>آدرس: <span id="walletAddress"></span></p>
-    <p id="status"></p><input type="text" id="peerAddress" placeholder="آدرس کیف پول گیرنده را وارد کنید" />
-<button onclick="startChat()">شروع چت</button>
-
-<div id="chatBox">
-  <div id="messages"></div>
-  <input type="text" id="messageInput" placeholder="پیام خود را بنویسید..." />
-  <button onclick="sendMessage()">ارسال</button>
-</div>
-
-  </body>
+    #startSection, #chatSection {
+      padding: 20px;
+    }
+    input[type=text] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    #messages {
+      height: 400px;
+      overflow-y: scroll;
+      background: white;
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .me {
+      align-self: flex-end;
+      background: #3b82f6;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 15px 15px 0 15px;
+      max-width: 70%;
+    }
+    .you {
+      align-self: flex-start;
+      background: #ddd;
+      padding: 8px 12px;
+      border-radius: 15px 15px 15px 0;
+      max-width: 70%;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #10b981;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>پیام‌رسان غیرمتمرکز LYNX</header>  <div id="startSection">
+    <input type="text" id="peerAddress" placeholder="آدرس کیف پول مخاطب" />
+    <button onclick="startChat()">شروع چت</button>
+  </div>  <div id="chatSection" style="display:none">
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="پیام خود را بنویسید..." onkeydown="if(event.key==='Enter') sendMessage()" />
+    <button onclick="sendMessage()">ارسال</button>
+  </div>
+</body>
 </html>
