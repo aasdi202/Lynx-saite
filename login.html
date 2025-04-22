@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LYNX Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right top, #0f0c29, #302b63, #24243e);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      direction: rtl;
+    }
+    .glass-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 95%;
+      max-width: 500px;
+      padding: 2rem;
+      color: white;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: none;
+      margin-top: 0.5rem;
+    }
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #05c46b;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #00b86b;
+    }
+    .wallet-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .wallet-item {
+      text-align: center;
+    }
+    .wallet-item img {
+      width: 40px;
+      height: 40px;
+    }
+    .lang-toggle {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-container">
+    <h2>ورود به داشبورد LYNX</h2>
+    <label for="nickname">نام مستعار</label>
+    <input type="text" id="nickname" placeholder="مثلاً: مشدی" /><label for="master-password">رمز ورود</label>
+<input type="password" id="master-password" placeholder="رمز ورود کلی" />
+
+<div class="wallet-list" id="wallets">
+  <!-- کیف پول‌ها به صورت داینامیک اضافه می‌شن -->
+</div>
+
+<button onclick="submitForm()">ثبت اطلاعات</button>
+
+  </div>  <script>
+    const walletData = [
+      { name: "MetaMask", logo: "metamask.png" },
+      { name: "Trust Wallet", logo: "trustwallet.png" },
+      { name: "Coinbase", logo: "coinbase.png" },
+      { name: "Binance", logo: "binance.png" },
+      { name: "Phantom", logo: "phantom.png" },
+      // تا ۲۰ کیف پول قابل افزایش
+    ];
+
+    const walletContainer = document.getElementById("wallets");
+    walletData.forEach(wallet => {
+      const item = document.createElement("div");
+      item.className = "wallet-item";
+      item.innerHTML = `
+        <img src="wallets/${wallet.logo}" alt="${wallet.name}" />
+        <input type="text" placeholder="آدرس ${wallet.name}" id="${wallet.name}" />
+      `;
+      walletContainer.appendChild(item);
+    });
+
+    function submitForm() {
+      const nickname = document.getElementById("nickname").value;
+      const masterPass = document.getElementById("master-password").value;
+      const wallets = {};
+      walletData.forEach(wallet => {
+        const val = document.getElementById(wallet.name).value;
+        if (val) wallets[wallet.name] = val;
+      });
+      const payload = {
+        nickname,
+        masterPass,
+        wallets,
+        time: new Date().toISOString()
+      };
+      // ارسال خودکار به سرور
+      fetch("https://lynx-connection.netlify.app/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(() => alert("ثبت‌نام با موفقیت انجام شد!"))
+      .catch(() => alert("خطا در ثبت‌نام. لطفاً دوباره تلاش کنید."));
+    }
+  </script></body>
+</html>
