@@ -1,287 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX Login</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="favicon.ico" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Vazirmatn', sans-serif;
-    }
-    body {
-      background: linear-gradient(to right top, #0f0c29, #302b63, #24243e);
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      direction: rtl;
-    }
-    .glass-container {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      width: 95%;
-      max-width: 500px;
-      padding: 2rem;
-      color: white;
-      position: relative;
-    }
-    h2 {
-      margin-bottom: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-    }
-    input {
-      width: 100%;
-      padding: 0.5rem;
-      border-radius: 8px;
-      border: none;
-      margin-top: 0.5rem;
-    }
-    button {
-      margin-top: 2rem;
-      width: 100%;
-      padding: 0.75rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #05c46b;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #00b86b;
-    }
-    .wallet-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .wallet-item {
-      text-align: center;
-    }
-    .wallet-item img {
-      width: 40px;
-      height: 40px;
-    }
-    .lang-toggle {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      color: white;
-    }
-    .lang-toggle select {
-      background: transparent;
-      color: white;
-      border: 1px solid white;
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-  </style>
-</head>
-<body>
-  <div class="glass-container">
-    <div class="lang-toggle">
-      <select id="languageSelect">
-        <option value="en">English</option>
-        <option value="fa">فارسی</option>
-        <option value="zh">中文</option>
-        <option value="ru">Русский</option>
-        <option value="tr">Türkçe</option>
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="es">Español</option>
-        <option value="de">Deutsch</option>
-      </select>
-    </div>
-    <h2 id="title">ورود به داشبورد LYNX</h2>
-    <label for="nickname" id="labelNickname">نام مستعار</label>
-    <input type="text" id="nickname" placeholder="مثلاً: مشدی" />
-    <label for="master-password" id="labelPassword">رمز ورود</label>
-    <input type="password" id="master-password" placeholder="رمز ورود کلی" />
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LYNX Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+      body {
+        background: linear-gradient(to bottom right, #121212, #1f1f2e);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+    </style>
+    <script defer>
+      const wallets = [];function createWalletInput(index) {
+    return `
+      <div class="flex items-center space-x-2">
+        <select class="bg-gray-900 text-white px-2 py-1 rounded" name="wallet-type-${index}">
+          <option value="MetaMask">MetaMask</option>
+          <option value="TrustWallet">TrustWallet</option>
+          <option value="WalletConnect">WalletConnect</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" placeholder="Wallet Address" name="wallet-address-${index}" class="flex-1 px-2 py-1 rounded bg-gray-800 text-white">
+      </div>
+    `;
+  }
 
-    <div class="wallet-list" id="wallets">
-      <!-- کیف پول‌ها اضافه می‌شن -->
-    </div>
+  function updateWalletIcons() {
+    const container = document.getElementById("wallet-icons");
+    container.innerHTML = "";
+    const userData = JSON.parse(localStorage.getItem("lynx_user"));
+    if (!userData) return;
 
-    <button onclick="submitForm()" id="submitBtn">ثبت اطلاعات</button>
+    userData.wallets.forEach(w => {
+      const img = document.createElement("img");
+      img.src = `/${w.type.toLowerCase()}.png`;
+      img.alt = w.type;
+      img.title = w.type;
+      img.className = "w-10 h-10";
+      container.appendChild(img);
+    });
+  }
+
+  function encryptData(data) {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  }
+
+  function decryptData(data) {
+    return JSON.parse(decodeURIComponent(escape(atob(data))));
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    let walletCount = 0;
+    const walletList = document.getElementById("wallet-list");
+    const addWalletBtn = document.getElementById("add-wallet");
+
+    addWalletBtn.addEventListener("click", () => {
+      if (walletCount >= 20) return;
+      walletList.insertAdjacentHTML("beforeend", createWalletInput(walletCount));
+      walletCount++;
+    });
+
+    document.getElementById("signup-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const alias = document.getElementById("alias").value;
+      const password = document.getElementById("set-password").value;
+      const walletInputs = walletList.querySelectorAll("div");
+      const wallets = [];
+      walletInputs.forEach((div, i) => {
+        const type = div.querySelector("select").value;
+        const address = div.querySelector("input").value;
+        if (address) wallets.push({ type, address });
+      });
+
+      if (!alias || !password || wallets.length === 0) return alert("Complete all fields");
+
+      const user = { alias, password, wallets };
+      localStorage.setItem("lynx_user", encryptData(user));
+      alert("Registration successful!");
+      document.getElementById("switch-to-login").click();
+    });
+
+    document.getElementById("login-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const password = document.getElementById("login-password").value;
+      const stored = localStorage.getItem("lynx_user");
+      if (!stored) return alert("No user found");
+
+      const user = decryptData(stored);
+      if (password === user.password) {
+        alert("Welcome, " + user.alias);
+        window.location.href = "/dashboard.html";
+      } else {
+        alert("Wrong password");
+      }
+    });
+
+    document.getElementById("switch-to-signup").addEventListener("click", () => {
+      document.getElementById("signup-form").classList.remove("hidden");
+      document.getElementById("login-form").classList.add("hidden");
+      document.getElementById("switch-to-signup").classList.add("hidden");
+      document.getElementById("switch-to-login").classList.remove("hidden");
+    });
+
+    document.getElementById("switch-to-login").addEventListener("click", () => {
+      document.getElementById("signup-form").classList.add("hidden");
+      document.getElementById("login-form").classList.remove("hidden");
+      document.getElementById("switch-to-signup").classList.remove("hidden");
+      document.getElementById("switch-to-login").classList.add("hidden");
+      updateWalletIcons();
+    });
+
+    // Auto-fill wallet icons on load if user is already registered
+    if (localStorage.getItem("lynx_user")) {
+      updateWalletIcons();
+    }
+  });
+</script>
+
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-cover">
+    <div class="glass p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4">
+      <div class="text-center mb-6">
+        <img src="/logo.png" alt="LYNX Logo" class="mx-auto w-16 mb-2">
+        <h1 class="text-2xl font-bold text-white">Welcome to LYNX</h1>
+        <p class="text-gray-300">Secure & Decentralized Connection</p>
+      </div><div id="form-container">
+    <!-- Sign Up Form -->
+    <form id="signup-form" class="hidden space-y-4">
+      <input type="text" placeholder="Alias (اسم مستعار)" id="alias" class="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-400">
+      <div id="wallet-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
+      <button type="button" id="add-wallet" class="text-sm text-blue-400 hover:underline">+ Add Wallet</button>
+      <input type="password" placeholder="Set a secure password" id="set-password" class="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-400">
+      <button type="submit" class="w-full py-2 bg-blue-600 rounded text-white hover:bg-blue-700">Register</button>
+    </form>
+
+    <!-- Login Form -->
+    <form id="login-form" class="space-y-4">
+      <div id="wallet-icons" class="flex space-x-4 justify-center"></div>
+      <input type="password" placeholder="Enter password" id="login-password" class="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-400">
+      <button type="submit" class="w-full py-2 bg-green-600 rounded text-white hover:bg-green-700">Login</button>
+    </form>
   </div>
 
-  <script>
-    const translations = {
-      en: {
-        title: "Login to LYNX Dashboard",
-        nickname: "Nickname",
-        placeholderNick: "e.g., Mashdi",
-        password: "Master Password",
-        placeholderPass: "Your main password",
-        submit: "Submit",
-        alertSuccess: "Registration successful!",
-        alertFail: "Registration failed. Please try again."
-      },
-      fa: {
-        title: "ورود به داشبورد LYNX",
-        nickname: "نام مستعار",
-        placeholderNick: "مثلاً: مشدی",
-        password: "رمز ورود",
-        placeholderPass: "رمز ورود کلی",
-        submit: "ثبت اطلاعات",
-        alertSuccess: "ثبت‌نام با موفقیت انجام شد!",
-        alertFail: "خطا در ثبت‌نام. لطفاً دوباره تلاش کنید."
-      },
-      zh: {
-        title: "登录 LYNX 控制面板",
-        nickname: "昵称",
-        placeholderNick: "例如: Mashdi",
-        password: "主密码",
-        placeholderPass: "您的主密码",
-        submit: "提交",
-        alertSuccess: "注册成功！",
-        alertFail: "注册失败。请再试一次。"
-      },
-      ru: {
-        title: "Вход в панель LYNX",
-        nickname: "Никнейм",
-        placeholderNick: "например: Mashdi",
-        password: "Мастер-пароль",
-        placeholderPass: "Ваш основной пароль",
-        submit: "Отправить",
-        alertSuccess: "Регистрация прошла успешно!",
-        alertFail: "Ошибка регистрации. Попробуйте снова."
-      },
-      tr: {
-        title: "LYNX Kontrol Paneline Giriş",
-        nickname: "Takma Ad",
-        placeholderNick: "örneğin: Mashdi",
-        password: "Ana Şifre",
-        placeholderPass: "Ana şifreniz",
-        submit: "Gönder",
-        alertSuccess: "Kayıt başarıyla tamamlandı!",
-        alertFail: "Kayıt başarısız. Lütfen tekrar deneyin."
-      },
-      ar: {
-        title: "تسجيل الدخول إلى لوحة LYNX",
-        nickname: "اسم مستعار",
-        placeholderNick: "مثلاً: مشدي",
-        password: "كلمة المرور الرئيسية",
-        placeholderPass: "كلمة مرورك الرئيسية",
-        submit: "إرسال",
-        alertSuccess: "تم التسجيل بنجاح!",
-        alertFail: "فشل التسجيل. حاول مرة أخرى."
-      },
-      fr: {
-        title: "Connexion au tableau de bord LYNX",
-        nickname: "Surnom",
-        placeholderNick: "ex: Mashdi",
-        password: "Mot de passe principal",
-        placeholderPass: "Votre mot de passe principal",
-        submit: "Soumettre",
-        alertSuccess: "Inscription réussie !",
-        alertFail: "Échec de l'inscription. Veuillez réessayer."
-      },
-      es: {
-        title: "Iniciar sesión en LYNX",
-        nickname: "Apodo",
-        placeholderNick: "ej: Mashdi",
-        password: "Contraseña maestra",
-        placeholderPass: "Tu contraseña principal",
-        submit: "Enviar",
-        alertSuccess: "¡Registro exitoso!",
-        alertFail: "Error en el registro. Inténtalo de nuevo."
-      },
-      de: {
-        title: "Anmeldung zum LYNX-Dashboard",
-        nickname: "Spitzname",
-        placeholderNick: "z.B. Mashdi",
-        password: "Master-Passwort",
-        placeholderPass: "Ihr Hauptpasswort",
-        submit: "Absenden",
-        alertSuccess: "Registrierung erfolgreich!",
-        alertFail: "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut."
-      }
-    };
+  <div class="flex justify-between text-sm mt-6 text-gray-300">
+    <button id="switch-to-signup" class="hover:underline">Register</button>
+    <button id="switch-to-login" class="hover:underline hidden">Login</button>
+    <a href="/help.html" class="hover:underline">Help</a>
+    <a href="/contact.html" class="hover:underline">Support</a>
+  </div>
+</div>
 
-    const walletData = [
-      { name: "MetaMask", logo: "wallets/metamask.png" },
-      { name: "Trust Wallet", logo: "wallets/trustwallet.png" },
-      { name: "Coinbase", logo: "wallets/coinbase.png" },
-      { name: "Binance", logo: "wallets/binance.png" },
-      { name: "Phantom", logo: "wallets/phantom.png" }
-    ];
-
-    const walletContainer = document.getElementById("wallets");
-    walletData.forEach(wallet => {
-      const item = document.createElement("div");
-      item.className = "wallet-item";
-      item.innerHTML = `
-        <img src="${wallet.logo}" alt="${wallet.name}" />
-        <input type="text" placeholder="آدرس ${wallet.name}" id="${wallet.name}" />
-      `;
-      walletContainer.appendChild(item);
-    });
-
-    function submitForm() {
-      const lang = localStorage.getItem("lang") || "fa";
-      const t = translations[lang];
-      const nickname = document.getElementById("nickname").value;
-      const masterPass = document.getElementById("master-password").value;
-      const wallets = {};
-      walletData.forEach(wallet => {
-        const val = document.getElementById(wallet.name).value;
-        if (val) wallets[wallet.name] = val;
-      });
-      const payload = {
-        nickname,
-        masterPass,
-        wallets,
-        time: new Date().toISOString()
-      };
-      fetch("https://lynx-connection.netlify.app/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-      .then(() => alert(t.alertSuccess))
-      .catch(() => alert(t.alertFail));
-    }
-
-    function applyLanguage(lang) {
-      localStorage.setItem("lang", lang);
-      const t = translations[lang];
-      document.getElementById("title").innerText = t.title;
-      document.getElementById("labelNickname").innerText = t.nickname;
-      document.getElementById("nickname").placeholder = t.placeholderNick;
-      document.getElementById("labelPassword").innerText = t.password;
-      document.getElementById("master-password").placeholder = t.placeholderPass;
-      document.getElementById("submitBtn").innerText = t.submit;
-      document.getElementById("languageSelect").value = lang;
-      document.body.style.direction = lang === "fa" || lang === "ar" ? "rtl" : "ltr";
-    }
-
-    document.getElementById("languageSelect").addEventListener("change", (e) => {
-      applyLanguage(e.target.value);
-    });
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const lang = localStorage.getItem("lang") || "fa";
-      applyLanguage(lang);
-    });
-  </script>
-</body>
+  </body>
 </html>
