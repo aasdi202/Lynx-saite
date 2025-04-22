@@ -1,21 +1,25 @@
-<!DOCTYPE html><html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LYNX Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  </head>
-  <body class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center">
-    <div id="app" class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-8 w-full max-w-md text-white shadow-2xl">
-      <div id="connectSection" class="text-center">
-        <h2 class="text-2xl font-bold mb-4">به LYNX خوش آمدید</h2>
-        <button id="connectWalletBtn" class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-xl font-bold">
-          اتصال کیف پول
-        </button>
-      </div><!-- فرم ثبت‌نام -->
+<!DOCTYPE html><html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LYNX Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script src="language.js"></script> <!-- فایل زبان‌ها -->
+</head>
+<body class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center">
+
+<div id="app" class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-8 w-full max-w-md text-white shadow-2xl">
+  <div id="connectSection" class="text-center">
+    <h2 id="titleText" class="text-2xl font-bold mb-4">به LYNX خوش آمدید</h2>
+    <button id="connectWalletBtn" class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-xl font-bold">
+      اتصال کیف پول
+    </button>
+  </div>
+
+  <!-- فرم ثبت‌نام -->
   <div id="signupForm" class="hidden mt-6">
-    <h3 class="text-xl mb-4">ثبت‌نام</h3>
+    <h3 id="signupTitle" class="text-xl mb-4">ثبت‌نام</h3>
     <input id="nickname" placeholder="اسم مستعار" class="w-full p-2 rounded bg-white/20 mb-3" />
     <input id="password" type="password" placeholder="رمز اختصاصی" class="w-full p-2 rounded bg-white/20 mb-3" />
     <button id="saveSignup" class="bg-green-500 px-4 py-2 rounded">ثبت اطلاعات</button>
@@ -23,7 +27,7 @@
 
   <!-- فرم ورود -->
   <div id="loginForm" class="hidden mt-6">
-    <h3 class="text-xl mb-4">ورود</h3>
+    <h3 id="loginTitle" class="text-xl mb-4">ورود</h3>
     <p id="loginWallet" class="mb-2"></p>
     <input id="loginPassword" type="password" placeholder="رمز اختصاصی" class="w-full p-2 rounded bg-white/20 mb-3" />
     <button id="submitLogin" class="bg-blue-500 px-4 py-2 rounded">ورود</button>
@@ -33,13 +37,31 @@
 <!-- مودال خوش‌آمد -->
 <div id="welcomeModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
   <div class="bg-white text-black rounded-2xl p-6 max-w-sm w-full text-center">
-    <h2 class="text-2xl font-bold mb-2">خوش آمدی!</h2>
+    <h2 class="text-2xl font-bold mb-2" id="welcomeTitle">خوش آمدی!</h2>
     <p id="welcomeMsg"></p>
   </div>
 </div>
 
 <script>
   let currentAccount = null;
+  const lang = localStorage.getItem("lang") || "fa";
+
+  function applyLanguage() {
+    const t = translations[lang];
+    if (!t) return;
+
+    document.getElementById('titleText').textContent = t.welcome;
+    document.getElementById('connectWalletBtn').textContent = t.connect_wallet;
+    document.getElementById('signupTitle').textContent = t.signup;
+    document.getElementById('saveSignup').textContent = t.save;
+    document.getElementById('loginTitle').textContent = t.login;
+    document.getElementById('submitLogin').textContent = t.enter;
+    document.getElementById('welcomeTitle').textContent = t.welcome_short;
+
+    document.getElementById('nickname').placeholder = t.nickname;
+    document.getElementById('password').placeholder = t.password;
+    document.getElementById('loginPassword').placeholder = t.password;
+  }
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -47,22 +69,20 @@
       currentAccount = accounts[0];
       const userData = JSON.parse(localStorage.getItem('lynx_users')) || {};
       if (userData[currentAccount]) {
-        // اگه ثبت‌نام شده باشه
         document.getElementById('connectSection').classList.add('hidden');
         document.getElementById('loginWallet').textContent = `کیف پول: ${currentAccount}`;
         document.getElementById('loginForm').classList.remove('hidden');
       } else {
-        // اگر ثبت‌نام نشده
         document.getElementById('connectSection').classList.add('hidden');
         document.getElementById('signupForm').classList.remove('hidden');
       }
     } else {
-      alert('لطفاً متامسک یا کیف پول وب3 نصب کنید.');
+      alert("لطفاً متامسک نصب کنید.");
     }
   }
 
   function encryptData(data, password) {
-    return btoa(JSON.stringify({ password, ...data })); // ساده‌شده برای تست
+    return btoa(JSON.stringify({ password, ...data }));
   }
 
   function decryptData(encrypted, password) {
@@ -98,12 +118,13 @@
 
   function showWelcome(nick) {
     document.getElementById('welcomeModal').classList.remove('hidden');
-    document.getElementById('welcomeMsg').textContent = `${nick} عزیز، خوش آمدی!`
+    document.getElementById('welcomeMsg').textContent = `${nick} عزیز، خوش آمدی!`;
     setTimeout(() => {
       window.location.href = 'dashboard.html';
     }, 2000);
   }
-</script>
 
-  </body>
+  document.addEventListener("DOMContentLoaded", applyLanguage);
+</script>
+</body>
 </html>
