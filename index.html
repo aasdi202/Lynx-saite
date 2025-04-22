@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>LYNX - Decentralized Connection</title>
@@ -10,98 +11,116 @@
       background-color: #0f0f0f;
       color: #00ffcc;
       text-align: center;
-    }header {
-  position: relative;
-  padding: 20px;
-  background-color: #0f0f0f;
-}
+    }
 
-.language-select {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #1e1e1e;
-  border-radius: 12px;
-  padding: 6px 10px;
-  box-shadow: 0 0 10px #00ffcc60;
-}
+    header {
+      position: relative;
+      padding: 20px;
+      background-color: #0f0f0f;
+    }
 
-.language-select select {
-  background: transparent;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  font-size: 1rem;
-  padding: 4px 6px;
-  cursor: pointer;
-}
+    .language-select {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 6px 10px;
+      box-shadow: 0 0 10px #00ffcc60;
+    }
 
-.language-select option {
-  background-color: #111;
-  color: #00ffcc;
-  border-bottom: 1px solid #00ffcc50;
-}
+    .language-select select {
+      background: transparent;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      font-size: 1rem;
+      padding: 4px 6px;
+      cursor: pointer;
+    }
 
-h1 {
-  font-size: 2.2rem;
-  margin-top: 20px;
-}
+    .language-select option {
+      background-color: #111;
+      color: #00ffcc;
+      border-bottom: 1px solid #00ffcc50;
+    }
 
-p {
-  font-size: 1.1rem;
-  margin: 10px auto 30px;
-  max-width: 700px;
-  line-height: 1.8;
-}
+    h1 {
+      font-size: 2.2rem;
+      margin-top: 20px;
+    }
 
-.connect-btn {
-  padding: 14px 28px;
-  font-size: 1rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, #00ffcc, #00cc99);
-  color: #000;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  box-shadow: 0 0 12px #00ffcc80;
-  text-decoration: none;
-  display: inline-block;
-  margin-bottom: 30px;
-}
+    p {
+      font-size: 1.1rem;
+      margin: 10px auto 30px;
+      max-width: 700px;
+      line-height: 1.8;
+    }
 
-.connect-btn:hover {
-  background: linear-gradient(135deg, #00cc99, #009977);
-  color: #fff;
-  transform: scale(1.05);
-}
+    .connect-btn {
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #00ffcc, #00cc99);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px #00ffcc80;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 30px;
+    }
 
-img.banner {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  border-radius: 20px;
-  margin: 40px auto;
-  display: block;
-}
+    .connect-btn:hover {
+      background: linear-gradient(135deg, #00cc99, #009977);
+      color: #fff;
+      transform: scale(1.05);
+    }
 
-.footer-links {
-  margin-top: 10px;
-}
+    img.banner {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 20px;
+      margin: 40px auto;
+      display: block;
+    }
 
-.footer-links a {
-  color: #00ffcc;
-  text-decoration: none;
-  margin: 0 12px;
-  font-weight: bold;
-  transition: 0.3s;
-}
+    .footer-links {
+      margin-top: 10px;
+    }
 
-.footer-links a:hover {
-  color: #fff;
-  text-shadow: 0 0 5px #00ffcc;
-}
+    .footer-links a {
+      color: #00ffcc;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
 
+    .footer-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 5px #00ffcc;
+    }
+
+    @media (max-width: 600px) {
+      .language-select {
+        top: 10px;
+        right: 10px;
+        padding: 4px 6px;
+      }
+
+      .connect-btn {
+        width: 80%;
+        font-size: 0.9rem;
+      }
+
+      p {
+        padding: 0 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -119,14 +138,18 @@ img.banner {
         <option value="es">🇪🇸 Español</option>
       </select>
     </div>
-  </header>  <main>
+  </header>
+
+  <main>
     <h1 class="txt" data-lang="welcome">Welcome to LYNX</h1>
     <p class="txt" data-lang="subtitle">
       LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely using blockchain-powered identities, paving the way for decentralized chat, secure transactions, and community-driven applications.
     </p>
     <a href="login.html" class="connect-btn txt" data-lang="connect">Connect to Network</a>
     <img src="lynx-banner.jpg" alt="Lynx Banner" class="banner" />
-  </main>  <footer style="background-color:#0f0f0f; color:#aaa; padding:15px 10px; text-align:center; font-size:0.9rem; border-top:1px solid #222;">
+  </main>
+
+  <footer style="background-color:#0f0f0f; color:#aaa; padding:15px 10px; text-align:center; font-size:0.9rem; border-top:1px solid #222;">
     <div class="footer-links">
       <a href="about.html">About Us</a>
       <a href="roadmap.html">Roadmap</a>
@@ -135,7 +158,9 @@ img.banner {
     <div style="margin-top:8px;">
       All rights reserved. LYNX 2025
     </div>
-  </footer>  <script>
+  </footer>
+
+  <script>
     const translations = {
       en: {
         welcome: "Welcome to LYNX",
@@ -186,5 +211,6 @@ img.banner {
     const savedLang = localStorage.getItem("lang") || "en";
     document.getElementById("lang-select").value = savedLang;
     updateText(savedLang);
-  </script></body>
+  </script>
+</body>
 </html>
