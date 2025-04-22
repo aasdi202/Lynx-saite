@@ -1,155 +1,164 @@
-<!DOCTYPE html><html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LYNX Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-      body {
-        background: linear-gradient(to bottom right, #121212, #1f1f2e);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LYNX Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lynx: '#10B981',
+            glass: 'rgba(255,255,255,0.1)'
+          },
+          backdropBlur: {
+            sm: '4px',
+            md: '8px',
+          }
+        }
       }
-    </style>
-    <script defer>
-      const wallets = [];function createWalletInput(index) {
-    return `
-      <div class="flex items-center space-x-2">
-        <select class="bg-gray-900 text-white px-2 py-1 rounded" name="wallet-type-${index}">
-          <option value="MetaMask">MetaMask</option>
-          <option value="TrustWallet">TrustWallet</option>
-          <option value="WalletConnect">WalletConnect</option>
-          <option value="Other">Other</option>
-        </select>
-        <input type="text" placeholder="Wallet Address" name="wallet-address-${index}" class="flex-1 px-2 py-1 rounded bg-gray-800 text-white">
-      </div>
-    `;
-  }
-
-  function updateWalletIcons() {
-    const container = document.getElementById("wallet-icons");
-    container.innerHTML = "";
-    const userData = JSON.parse(localStorage.getItem("lynx_user"));
-    if (!userData) return;
-
-    userData.wallets.forEach(w => {
-      const img = document.createElement("img");
-      img.src = `/${w.type.toLowerCase()}.png`;
-      img.alt = w.type;
-      img.title = w.type;
-      img.className = "w-10 h-10";
-      container.appendChild(img);
-    });
-  }
-
-  function encryptData(data) {
-    return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-  }
-
-  function decryptData(data) {
-    return JSON.parse(decodeURIComponent(escape(atob(data))));
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    let walletCount = 0;
-    const walletList = document.getElementById("wallet-list");
-    const addWalletBtn = document.getElementById("add-wallet");
-
-    addWalletBtn.addEventListener("click", () => {
-      if (walletCount >= 20) return;
-      walletList.insertAdjacentHTML("beforeend", createWalletInput(walletCount));
-      walletCount++;
-    });
-
-    document.getElementById("signup-form").addEventListener("submit", e => {
-      e.preventDefault();
-      const alias = document.getElementById("alias").value;
-      const password = document.getElementById("set-password").value;
-      const walletInputs = walletList.querySelectorAll("div");
-      const wallets = [];
-      walletInputs.forEach((div, i) => {
-        const type = div.querySelector("select").value;
-        const address = div.querySelector("input").value;
-        if (address) wallets.push({ type, address });
-      });
-
-      if (!alias || !password || wallets.length === 0) return alert("Complete all fields");
-
-      const user = { alias, password, wallets };
-      localStorage.setItem("lynx_user", encryptData(user));
-      alert("Registration successful!");
-      document.getElementById("switch-to-login").click();
-    });
-
-    document.getElementById("login-form").addEventListener("submit", e => {
-      e.preventDefault();
-      const password = document.getElementById("login-password").value;
-      const stored = localStorage.getItem("lynx_user");
-      if (!stored) return alert("No user found");
-
-      const user = decryptData(stored);
-      if (password === user.password) {
-        alert("Welcome, " + user.alias);
-        window.location.href = "/dashboard.html";
-      } else {
-        alert("Wrong password");
-      }
-    });
-
-    document.getElementById("switch-to-signup").addEventListener("click", () => {
-      document.getElementById("signup-form").classList.remove("hidden");
-      document.getElementById("login-form").classList.add("hidden");
-      document.getElementById("switch-to-signup").classList.add("hidden");
-      document.getElementById("switch-to-login").classList.remove("hidden");
-    });
-
-    document.getElementById("switch-to-login").addEventListener("click", () => {
-      document.getElementById("signup-form").classList.add("hidden");
-      document.getElementById("login-form").classList.remove("hidden");
-      document.getElementById("switch-to-signup").classList.remove("hidden");
-      document.getElementById("switch-to-login").classList.add("hidden");
-      updateWalletIcons();
-    });
-
-    // Auto-fill wallet icons on load if user is already registered
-    if (localStorage.getItem("lynx_user")) {
-      updateWalletIcons();
     }
-  });
-</script>
+  </script>
+</head><body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center text-white">
+  <div class="absolute inset-0 bg-cover bg-center blur-md" style="background-image: url('https://source.unsplash.com/1920x1080/?technology');"></div>  <div id="auth-container" class="relative z-10 w-full max-w-md mx-auto p-6 rounded-2xl backdrop-blur-md bg-glass border border-white/10 shadow-xl">
+    <div class="flex justify-between mb-4">
+      <button onclick="showRegister()" class="text-lynx font-semibold">ثبت‌نام</button>
+      <button onclick="showLogin()" class="text-gray-300 hover:text-white">ورود</button>
+    </div><!-- Register Form -->
+<form id="register-form" class="space-y-4 hidden">
+  <h2 class="text-xl font-bold text-lynx">ثبت‌نام</h2>
+  <input type="text" id="nickname" placeholder="اسم مستعار" class="w-full p-2 rounded bg-white/10 border border-white/20" />
 
-  </head>
-  <body class="flex items-center justify-center min-h-screen bg-cover">
-    <div class="glass p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4">
-      <div class="text-center mb-6">
-        <img src="/logo.png" alt="LYNX Logo" class="mx-auto w-16 mb-2">
-        <h1 class="text-2xl font-bold text-white">Welcome to LYNX</h1>
-        <p class="text-gray-300">Secure & Decentralized Connection</p>
-      </div><div id="form-container">
-    <!-- Sign Up Form -->
-    <form id="signup-form" class="hidden space-y-4">
-      <input type="text" placeholder="Alias (اسم مستعار)" id="alias" class="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-400">
-      <div id="wallet-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
-      <button type="button" id="add-wallet" class="text-sm text-blue-400 hover:underline">+ Add Wallet</button>
-      <input type="password" placeholder="Set a secure password" id="set-password" class="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-400">
-      <button type="submit" class="w-full py-2 bg-blue-600 rounded text-white hover:bg-blue-700">Register</button>
-    </form>
+  <div id="wallets" class="space-y-2 max-h-48 overflow-y-auto"></div>
+  <button type="button" onclick="addWalletField()" class="text-sm text-lynx underline">+ افزودن کیف پول</button>
 
-    <!-- Login Form -->
-    <form id="login-form" class="space-y-4">
-      <div id="wallet-icons" class="flex space-x-4 justify-center"></div>
-      <input type="password" placeholder="Enter password" id="login-password" class="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-400">
-      <button type="submit" class="w-full py-2 bg-green-600 rounded text-white hover:bg-green-700">Login</button>
-    </form>
-  </div>
+  <input type="password" id="register-password" placeholder="رمز اختصاصی" class="w-full p-2 rounded bg-white/10 border border-white/20" />
 
-  <div class="flex justify-between text-sm mt-6 text-gray-300">
-    <button id="switch-to-signup" class="hover:underline">Register</button>
-    <button id="switch-to-login" class="hover:underline hidden">Login</button>
-    <a href="/help.html" class="hover:underline">Help</a>
-    <a href="/contact.html" class="hover:underline">Support</a>
-  </div>
+  <button type="button" onclick="saveProfile()" class="w-full py-2 bg-lynx text-white rounded">ذخیره اطلاعات</button>
+</form>
+
+<!-- Login Form -->
+<form id="login-form" class="space-y-4 hidden">
+  <h2 class="text-xl font-bold text-lynx">ورود</h2>
+  <div id="wallet-icons" class="flex space-x-2"></div>
+  <input type="password" id="login-password" placeholder="رمز اختصاصی یا اثر انگشت" class="w-full p-2 rounded bg-white/10 border border-white/20" />
+  <button type="button" onclick="login()" class="w-full py-2 bg-lynx text-white rounded">ورود</button>
+</form>
+
+<!-- Connect Wallet Button -->
+<div id="connect-wallet-section" class="text-center mt-4">
+  <button onclick="connectWallet()" class="py-2 px-4 border border-lynx text-lynx rounded-full hover:bg-lynx hover:text-white">اتصال کیف پول</button>
 </div>
 
-  </body>
-</html>
+<!-- Navigation -->
+<div class="flex justify-between mt-4 text-sm">
+  <a href="help.html" class="text-gray-300 hover:text-white">راهنما</a>
+  <a href="/contact" class="text-gray-300 hover:text-white">پشتیبانی</a>
+</div>
+
+  </div>  <!-- Welcome Modal -->  <div id="welcome-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+    <div class="bg-white text-black p-6 rounded-xl text-center">
+      <p id="welcome-message" class="text-lg font-semibold mb-4"></p>
+      <button onclick="goToDashboard()" class="bg-lynx text-white px-4 py-2 rounded">ادامه</button>
+    </div>
+  </div>  <script>
+    const walletsContainer = document.getElementById('wallets');
+    const walletIcons = document.getElementById('wallet-icons');
+
+    function showRegister() {
+      document.getElementById('register-form').classList.remove('hidden');
+      document.getElementById('login-form').classList.add('hidden');
+    }
+
+    function showLogin() {
+      document.getElementById('login-form').classList.remove('hidden');
+      document.getElementById('register-form').classList.add('hidden');
+    }
+
+    function addWalletField() {
+      const div = document.createElement('div');
+      div.className = 'flex space-x-2';
+      div.innerHTML = `
+        <select class="p-2 bg-white/10 rounded border border-white/20">
+          <option>MetaMask</option>
+          <option>TrustWallet</option>
+        </select>
+        <input type="text" placeholder="آدرس کیف پول" class="flex-1 p-2 bg-white/10 rounded border border-white/20" />
+      `;
+      walletsContainer.appendChild(div);
+    }
+
+    function saveProfile() {
+      const nickname = document.getElementById('nickname').value;
+      const password = document.getElementById('register-password').value;
+      const wallets = Array.from(walletsContainer.querySelectorAll('div')).map(div => {
+        const [type, address] = div.querySelectorAll('select, input');
+        return { type: type.value, address: address.value };
+      });
+
+      const profile = { nickname, password, wallets };
+      const encrypted = btoa(JSON.stringify(profile));
+      localStorage.setItem('lynx_profile_' + nickname, encrypted);
+      alert('ثبت‌نام با موفقیت انجام شد.');
+      showLogin();
+    }
+
+    function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+          const address = accounts[0];
+          checkProfile(address);
+        });
+      } else {
+        alert('لطفاً کیف پولی مثل MetaMask نصب کنید.');
+      }
+    }
+
+    function checkProfile(address) {
+      let matched = null;
+      for (let key in localStorage) {
+        if (key.startsWith('lynx_profile_')) {
+          const data = JSON.parse(atob(localStorage.getItem(key)));
+          if (data.wallets.some(w => w.address.toLowerCase() === address.toLowerCase())) {
+            matched = data;
+            break;
+          }
+        }
+      }
+      if (matched) {
+        showLogin();
+        localStorage.setItem('lynx_current_user', matched.nickname);
+        loadWalletIcons(matched.wallets);
+      } else {
+        showRegister();
+        alert('آدرس کیف پول شما در پروفایل ثبت نشده. لطفاً ثبت‌نام کنید.');
+      }
+    }
+
+    function loadWalletIcons(wallets) {
+      walletIcons.innerHTML = '';
+      wallets.forEach(w => {
+        const icon = document.createElement('div');
+        icon.className = 'w-10 h-10 flex items-center justify-center rounded-full bg-white text-black';
+        icon.innerText = w.type[0];
+        walletIcons.appendChild(icon);
+      });
+    }
+
+    function login() {
+      const enteredPass = document.getElementById('login-password').value;
+      const user = localStorage.getItem('lynx_current_user');
+      const profile = JSON.parse(atob(localStorage.getItem('lynx_profile_' + user)));
+
+      if (enteredPass === profile.password) {
+        document.getElementById('welcome-message').innerText = `${profile.nickname} خوش آمدی!`;
+        document.getElementById('welcome-modal').classList.remove('hidden');
+      } else {
+        alert('رمز اشتباه است.');
+      }
+    }
+
+    function goToDashboard() {
+      window.location.href = '/dashboard';
+    }
+  </script></body></html>
