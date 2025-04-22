@@ -23,49 +23,56 @@ document.addEventListener("DOMContentLoaded", function () {
     { code: "de", name: "Deutsch", flag: "🇩🇪" },
   ];
 
-  const savedLang = localStorage.getItem("selectedLang") || "en";
+  let currentLang = localStorage.getItem("selectedLang") || "en";
 
-  // ساخت دکمه شناور
+  // ساخت دکمه شناور زبان
   const button = document.createElement("button");
-  button.className = "fixed top-4 left-4 bg-white shadow-lg rounded-xl px-4 py-2 flex items-center gap-2 border hover:bg-gray-100 z-50";
-  const current = languages.find((l) => l.code === savedLang);
+  button.className =
+    "fixed top-4 left-4 bg-white text-black shadow-lg rounded-xl px-4 py-2 flex items-center gap-2 border hover:bg-gray-100 z-50";
+  const current = languages.find((l) => l.code === currentLang);
   button.innerHTML = `<span>${current.flag}</span><span data-i18n="greeting">${current.name}</span>`;
 
   // ساخت منوی بازشو
   const dropdown = document.createElement("ul");
-  dropdown.className = "hidden absolute top-16 left-4 mt-2 bg-white border rounded-xl shadow-xl overflow-hidden z-50";
+  dropdown.className =
+    "hidden absolute top-16 left-4 mt-2 bg-white text-black border rounded-xl shadow-xl overflow-hidden z-50 w-48";
 
+  // افزودن زبان‌ها
   languages.forEach((lang) => {
     const item = document.createElement("li");
-    item.className = "cursor-pointer px-4 py-2 hover:bg-gray-100 flex items-center gap-2";
+    item.className =
+      "cursor-pointer px-4 py-2 hover:bg-gray-100 flex items-center gap-2";
     item.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
     item.onclick = () => {
       localStorage.setItem("selectedLang", lang.code);
+      currentLang = lang.code;
       button.innerHTML = `<span>${lang.flag}</span><span data-i18n="greeting">${lang.name}</span>`;
       dropdown.classList.add("hidden");
-      updateTexts(lang.code);
+      updateTexts(currentLang);
     };
     dropdown.appendChild(item);
   });
 
-  // آیتم زبان‌های بیشتر
+  // آیتم زبان‌های بیشتر (رزرو برای آینده)
   const more = document.createElement("li");
-  more.className = "px-4 py-2 text-gray-500 border-t bg-gray-50 cursor-pointer hover:bg-gray-100";
+  more.className =
+    "px-4 py-2 text-gray-500 border-t bg-gray-50 cursor-pointer hover:bg-gray-100";
   more.innerText = "زبان‌های بیشتر...";
   more.onclick = () => {
-    alert("Dynamic language loading coming soon!");
+    alert("امکان افزودن زبان‌های بیشتر به‌زودی فعال می‌شود.");
   };
   dropdown.appendChild(more);
 
-  // رویداد کلیک دکمه
+  // رویداد کلیک روی دکمه
   button.onclick = () => {
     dropdown.classList.toggle("hidden");
   };
 
-  // افزودن دکمه و لیست به بدنه
+  // افزودن به صفحه
   document.body.appendChild(button);
   document.body.appendChild(dropdown);
 
+  // اعمال ترجمه
   function updateTexts(lang) {
     const t = translations[lang];
     document.querySelectorAll("[data-i18n]").forEach((el) => {
@@ -74,5 +81,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  updateTexts(savedLang); // ترجمه اولیه
+  updateTexts(currentLang); // اولین بار اجرا شود
 });
