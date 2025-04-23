@@ -1,38 +1,89 @@
-// login.js برای صفحه لاگین LYNX
+// login.js
 
-// DOM Elements const registerForm = document.getElementById('register-form'); const loginForm = document.getElementById('login-form'); const walletListContainer = document.getElementById('wallet-list'); const loginWalletList = document.getElementById('login-wallet-list'); const languageSelect = document.getElementById('language-select');
+// لیست کیف پول‌ها (۲۰ مورد) با آیکون‌ها و نام‌ها
+const wallets = [
+  { name: "MetaMask", icon: "wallets-icons/metamask.png" },
+  { name: "Trust Wallet", icon: "wallets-icons/trustwallet.png" },
+  { name: "Coinbase", icon: "wallets-icons/coinbase.png" },
+  { name: "Binance", icon: "wallets-icons/binance.png" },
+  { name: "WalletConnect", icon: "wallets-icons/walletconnect.png" },
+  { name: "Rainbow", icon: "wallets-icons/rainbow.png" },
+  { name: "TokenPocket", icon: "wallets-icons/tokenpocket.png" },
+  { name: "MathWallet", icon: "wallets-icons/mathwallet.png" },
+  { name: "SafePal", icon: "wallets-icons/safepal.png" },
+  { name: "BitKeep", icon: "wallets-icons/bitkeep.png" },
+  { name: "Zerion", icon: "wallets-icons/zerion.png" },
+  { name: "Exodus", icon: "wallets-icons/exodus.png" },
+  { name: "Ledger", icon: "wallets-icons/ledger.png" },
+  { name: "Trezor", icon: "wallets-icons/trezor.png" },
+  { name: "Enjin", icon: "wallets-icons/enjin.png" },
+  { name: "Argent", icon: "wallets-icons/argent.png" },
+  { name: "Opera", icon: "wallets-icons/opera.png" },
+  { name: "Guarda", icon: "wallets-icons/guarda.png" },
+  { name: "BitPay", icon: "wallets-icons/bitpay.png" },
+  { name: "Huobi Wallet", icon: "wallets-icons/huobi.png" },
+];
 
-// بارگذاری زبان‌ها import { translations, currentLanguage, setLanguage } from './language.js'; function updateTexts() { document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); el.textContent = translations[currentLanguage][key] || key; }); } updateTexts();
+// تابع ساخت لیست کیف‌پول‌ها در فرم ثبت‌نام
+function renderWalletInputs() {
+  const container = document.getElementById("walletsContainer");
+  container.innerHTML = "";
 
-languageSelect.addEventListener('change', (e) => { setLanguage(e.target.value); updateTexts(); });
+  wallets.forEach((wallet, index) => {
+    const walletDiv = document.createElement("div");
+    walletDiv.className = "flex items-center space-x-2 mb-3";
 
-// لیست کیف‌پول‌ها const wallets = [ 'MetaMask', 'TrustWallet', 'Coinbase', 'Binance', 'OKX', 'SafePal', 'TokenPocket', 'MathWallet', 'Zerion', 'Argent', '1inch', 'Rainbow', 'Brave', 'Ledger', 'Trezor', 'Phantom', 'Keplr', 'XDEFI', 'Nabox', 'ONTO' ];
+    walletDiv.innerHTML = `
+      <img src="${wallet.icon}" alt="${wallet.name}" class="w-6 h-6">
+      <label class="w-40 text-sm">${wallet.name}</label>
+      <input type="text" id="wallet-${index}" placeholder="Wallet address..." class="flex-1 p-1 px-2 border rounded" />
+    `;
 
-function renderWallets() { walletListContainer.innerHTML = ''; loginWalletList.innerHTML = ''; wallets.forEach(name => { const id = name.toLowerCase(); const iconPath = ./wallets-icons/${id}.png;
+    container.appendChild(walletDiv);
+  });
+}
 
-// برای ثبت‌نام
-const div = document.createElement('div');
-div.className = 'flex items-center gap-2 mb-2';
-div.innerHTML = `
-  <img src="${iconPath}" alt="${name}" class="w-6 h-6"/>
-  <span class="font-semibold">${name}</span>
-  <input type="text" placeholder="Wallet Address" class="ml-auto input input-bordered w-full max-w-xs" data-wallet-name="${name}"/>
-`;
-walletListContainer.appendChild(div);
+// ذخیره اطلاعات رمزگذاری‌شده در localStorage
+async function saveUserData() {
+  const nickname = document.getElementById("nickname").value;
+  const password = document.getElementById("signupPassword").value;
+  const encoder = new TextEncoder();
 
-// برای ورود
-const loginItem = document.createElement('option');
-loginItem.value = name;
-loginItem.textContent = name;
-loginWalletList.appendChild(loginItem);
+  const data = {
+    nickname,
+    password,
+    wallets: {},
+  };
 
-}); } renderWallets();
+  wallets.forEach((wallet, index) => {
+    const address = document.getElementById(`wallet-${index}`).value.trim();
+    if (address) {
+      data.wallets[wallet.name] = address;
+    }
+  });
 
-// رمزگذاری با Web Crypto API async function encryptData(data, password) { const enc = new TextEncoder(); const keyMaterial = await window.crypto.subtle.importKey( 'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveKey'] ); const key = await window.crypto.subtle.deriveKey( { name: 'PBKDF2', salt: enc.encode('lynx-salt'), iterations: 100000, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['encrypt'] ); const iv = window.crypto.getRandomValues(new Uint8Array(12)); const encrypted = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(data))); return { data: Array.from(new Uint8Array(encrypted)), iv: Array.from(iv) }; }
+  const encoded = encoder.encode(JSON.stringify(data));
+  const key = await window.crypto.subtle.digest("SHA-256", encoder.encode(password));
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
-async function decryptData(encrypted, password) { const enc = new TextEncoder(); const dec = new TextDecoder(); const keyMaterial = await window.crypto.subtle.importKey( 'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveKey'] ); const key = await window.crypto.subtle.deriveKey( { name: 'PBKDF2', salt: enc.encode('lynx-salt'), iterations: 100000, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['decrypt'] ); const decrypted = await window.crypto.subtle.decrypt( { name: 'AES-GCM', iv: new Uint8Array(encrypted.iv) }, key, new Uint8Array(encrypted.data) ); return JSON.parse(dec.decode(decrypted)); }
+  const cryptoKey = await window.crypto.subtle.importKey(
+    "raw", key, { name: "AES-GCM" }, false, ["encrypt"]
+  );
 
-// ثبت‌نام کاربر registerForm.addEventListener('submit', async (e) => { e.preventDefault(); const nickname = registerForm.nickname.value; const password = registerForm.password.value; const walletsData = {}; document.querySelectorAll('[data-wallet-name]').forEach(input => { walletsData[input.dataset.walletName] = input.value.trim(); }); const encrypted = await encryptData({ nickname, walletsData }, password); localStorage.setItem('lynx_user', JSON.stringify(encrypted)); alert(${translations[currentLanguage]['registration_success']} ${nickname}); });
+  const encrypted = await window.crypto.subtle.encrypt(
+    { name: "AES-GCM", iv }, cryptoKey, encoded
+  );
 
-// ورود loginForm.addEventListener('submit', async (e) => { e.preventDefault(); const selectedWallet = loginForm.wallet.value; const password = loginForm.password.value; const encrypted = JSON.parse(localStorage.getItem('lynx_user')); try { const data = await decryptData(encrypted, password); if (data.walletsData[selectedWallet]) { alert(${translations[currentLanguage]['welcome_back']} ${data.nickname}); window.location.href = './dashboard.html'; } else { alert(translations[currentLanguage]['wallet_not_found']); } } catch (e) { alert(translations[currentLanguage]['invalid_password']); } });
+  localStorage.setItem("lynx_user", JSON.stringify({
+    iv: Array.from(iv),
+    data: Array.from(new Uint8Array(encrypted))
+  }));
 
+  document.getElementById("successMessage").innerText = `ثبت‌نام موفق بود، خوش‌اومدی ${nickname} عزیز!`;
+}
+
+// آماده‌سازی
+document.addEventListener("DOMContentLoaded", () => {
+  renderWalletInputs();
+  document.getElementById("signupBtn").addEventListener("click", saveUserData);
+});
