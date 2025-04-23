@@ -87,3 +87,90 @@ document.addEventListener("DOMContentLoaded", () => {
   renderWalletInputs();
   document.getElementById("signupBtn").addEventListener("click", saveUserData);
 });
+// -------------- ثبت اطلاعات در localStorage با رمزگذاری --------------
+function encryptData(data, password) {
+  const enc = new TextEncoder();
+  const keyMaterial = crypto.subtle.importKey(
+    "raw",
+    enc.encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+
+  return keyMaterial.then((keyMat) =>
+    crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: enc.encode("lynx-salt"),
+        iterations: 100000,
+        hash: "SHA-256",
+      },
+      keyMat,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["encrypt"]
+    )
+  ).then((key) =>
+    crypto.subtle.encrypt(
+      { name: "AES-GCM", iv: enc.encode("lynx-iv-123456") },
+      key,
+      enc.encode(JSON.stringify(data))
+    )
+  ).then((encrypted) => {
+    return btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+  });
+}
+
+function decryptData(encryptedBase64, password) {
+  const dec = new TextDecoder();
+  const enc = new TextEncoder();
+  const encrypted = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+
+  const keyMaterial = crypto.subtle.importKey(
+    "raw",
+    enc.encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+
+  return keyMaterial.then((keyMat) =>
+    crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: enc.encode("lynx-salt"),
+        iterations: 100000,
+        hash: "SHA-256",
+      },
+      keyMat,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["decrypt"]
+    )
+  ).then((key) =>
+    crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: enc.encode("lynx-iv-123456") },
+      key,
+      encrypted
+    )
+  ).then((decrypted) => JSON.parse(dec.decode(decrypted)));
+}
+
+// ---------------- پیام خوش‌آمد ----------------
+function showWelcome(alias) {
+  const msg = document.createElement("div");
+  msg.className = "text-green-500 text-lg font-bold text-center mt-4";
+  msg.innerText = `خوش آمدی ${alias}! ثبت‌نام با موفقیت انجام شد.`;
+  document.getElementById("registerForm").appendChild(msg);
+}
+
+// ---------------- لاگین خودکار با WebAuthn ----------------
+// پیاده‌سازی پایه‌ای، بعداً تکمیل می‌کنیم
+
+function autoLoginWithWebAuthn() {
+  if (!window.PublicKeyCredential) return;
+  console.log("WebAuthn supported. Ready for future integration.");
+}
+
+autoLoginWithWebAuthn();
