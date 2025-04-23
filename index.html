@@ -1,228 +1,99 @@
 <!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>LYNX - Decentralized Connection</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0f0f0f;
-  color: #00ffcc;
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  padding: 20px;
-  background-color: #0f0f0f;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #00ffcc;
-}
-
-.language-select {
-  background-color: #1e1e1e;
-  border-radius: 12px;
-  padding: 6px 10px;
-  box-shadow: 0 0 10px #00ffcc60;
-}
-
-.language-select select {
-  background: transparent;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  font-size: 1rem;
-  padding: 4px 6px;
-  cursor: pointer;
-}
-
-.language-select option {
-  background-color: #111;
-  color: #00ffcc;
-}
-
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-h1 {
-  font-size: 2.4rem;
-  margin-bottom: 20px;
-}
-
-p {
-  font-size: 1.1rem;
-  max-width: 750px;
-  margin-bottom: 30px;
-  line-height: 1.8;
-}
-
-.connect-btn {
-  padding: 14px 28px;
-  font-size: 1rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, #00ffcc, #00cc99);
-  color: #000;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  box-shadow: 0 0 12px #00ffcc80;
-  text-decoration: none;
-  display: inline-block;
-  margin-bottom: 30px;
-}
-
-.connect-btn:hover {
-  background: linear-gradient(135deg, #00cc99, #009977);
-  color: #fff;
-  transform: scale(1.05);
-}
-
-img.banner {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 20px;
-  margin-bottom: 30px;
-}
-
-footer {
-  background-color: #0f0f0f;
-  color: #aaa;
-  padding: 15px 10px;
-  font-size: 0.9rem;
-  border-top: 1px solid #222;
-}
-
-.footer-links a {
-  color: #00ffcc;
-  text-decoration: none;
-  margin: 0 12px;
-  font-weight: bold;
-}
-
-.footer-links a:hover {
-  color: #fff;
-  text-shadow: 0 0 5px #00ffcc;
-}
-
-@media (max-width: 600px) {
-  .language-select {
-    padding: 4px 6px;
-  }
-
-  .connect-btn {
-    width: 90%;
-    font-size: 0.9rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-}
-
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo">LYNX</div>
-    <div class="language-select">
-      <select id="lang-select" onchange="changeLang(this.value)">
-        <option value="en">🇺🇸 English</option>
-        <option value="fa">🇮🇷 فارسی</option>
-        <option value="zh">🇨🇳 中文</option>
-        <option value="ru">🇷🇺 Русский</option>
-        <option value="tr">🇹🇷 Türkçe</option>
-        <option value="ar">🇸🇦 العربية</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="de">🇩🇪 Deutsch</option>
-        <option value="es">🇪🇸 Español</option>
-      </select>
-    </div>
-  </header>  <main>
-    <h1 class="txt" data-lang="welcome">Welcome to LYNX</h1>
-    <p class="txt" data-lang="subtitle">
-      LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely using blockchain-powered identities, paving the way for decentralized chat, secure transactions, and community-driven applications.
-    </p>
-    <a href="login.html" class="connect-btn txt" data-lang="connect">Connect to Network</a>
-    <img src="lynx-banner.jpg" alt="Lynx Banner" class="banner" />
-  </main>  <footer>
-    <div class="footer-links">
-      <a href="about.html">About Us</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div style="margin-top:8px;">
-      All rights reserved. LYNX 2025
-    </div>
-  </footer>  <script>
-    const translations = {
-      en: {
-        welcome: "Welcome to LYNX",
-        subtitle: "LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely using blockchain-powered identities, paving the way for decentralized chat, secure transactions, and community-driven applications.",
-        connect: "Connect to Network"
-      },
-      fa: {
-        welcome: "به لاینکس خوش آمدید",
-        subtitle: "لاینکس یک اکوسیستم ارتباطی غیرمتمرکز است که با هدف ایجاد بستری امن، خصوصی و بدون محدودیت برای تعامل کاربران در سراسر جهان طراحی شده. ماموریت ما فراهم‌کردن امکان اتصال آزاد افراد از طریق هویت‌های مبتنی بر بلاکچین و ایجاد زیرساختی برای چت غیرمتمرکز، تراکنش ایمن و اپلیکیشن‌های اجتماع‌محور است.",
-        connect: "اتصال به شبکه"
-      },
-      zh: {
-        welcome: "欢迎来到 LYNX",
-        subtitle: "LYNX 是一个去中心化通信生态系统，旨在为全球用户提供私人、安全和无障碍的互动。我们的使命是通过区块链身份使用户自由连接，为去中心化聊天、安全交易和社区驱动的应用铺平道路。",
-        connect: "连接网络"
-      },
-      ru: {
-        welcome: "Добро пожаловать в LYNX",
-        subtitle: "LYNX — это децентрализованная коммуникационная экосистема, обеспечивающая приватное, безопасное и свободное взаимодействие между пользователями по всему миру. Наша цель — дать людям возможность свободно общаться с помощью блокчейн-идентичностей и развивать чат, транзакции и приложения на базе сообщества.",
-        connect: "Подключиться к сети"
-      },
-      tr: {
-        welcome: "LYNX'e Hoş Geldiniz",
-        subtitle: "LYNX, dünya çapında kullanıcılar arasında özel, güvenli ve sınırsız etkileşim sağlamak için tasarlanmış merkeziyetsiz bir iletişim ekosistemidir. Misyonumuz, blokzincir destekli kimliklerle bireylerin özgürce bağlantı kurmasını sağlamak, merkeziyetsiz sohbet, güvenli işlemler ve topluluk odaklı uygulamaların önünü açmaktır.",
-        connect: "Ağa Bağlan"
-      },
-      ar: {
-        welcome: "مرحباً بك في LYNX",
-        subtitle: "لينكس هو نظام اتصال لا مركزي يهدف إلى توفير تواصل خاص وآمن وغير مقيد بين المستخدمين في جميع أنحاء العالم. مهمتنا هي تمكين الأفراد من الاتصال بحرية باستخدام الهويات المدعومة من البلوك تشين، وفتح المجال للدردشة اللامركزية والمعاملات الآمنة والتطبيقات المجتمعية.",
-        connect: "الاتصال بالشبكة"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LYNX Connection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
       }
-    };
+      .flag {
+        width: 24px;
+        height: 16px;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex flex-col items-center justify-center">
+    <div class="absolute top-4 right-4">
+      <select id="languageSelect" class="bg-gray-800 text-white border border-gray-600 px-3 py-1 rounded">
+        <option value="en">English</option>
+        <option value="fa">فارسی</option>
+        <option value="zh">中文</option>
+        <option value="ru">Русский</option>
+        <option value="tr">Türkçe</option>
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+      </select>
+    </div><div class="text-center px-4">
+  <h1 id="welcome" class="text-4xl md:text-6xl font-bold mb-4">Welcome to LYNX</h1>
+  <p id="subtitle" class="text-lg md:text-xl max-w-2xl mx-auto mb-6">
+    LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely through blockchain-based identities, paving the way for decentralized chats, secure transactions, and community-driven applications.
+  </p>
+  <button id="connectButton" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-xl text-lg transition">Connect to Network</button>
+</div>
 
-    function changeLang(lang) {
-      localStorage.setItem("lang", lang);
-      updateText(lang);
+<script>
+  const translations = {
+    en: {
+      welcome: "Welcome to LYNX",
+      subtitle: "LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe. Our mission is to empower individuals to connect freely through blockchain-based identities, paving the way for decentralized chats, secure transactions, and community-driven applications.",
+      connect: "Connect to Network"
+    },
+    fa: {
+      welcome: "به LYNX خوش آمدید",
+      subtitle: "LYNX یک اکوسیستم ارتباطی غیرمتمرکز است که برای ایجاد تعاملات خصوصی، امن و بدون محدودیت بین کاربران سراسر جهان طراحی شده است. مأموریت ما توانمندسازی افراد برای ارتباط آزادانه از طریق هویت‌های مبتنی بر بلاک‌چین است تا راه را برای چت‌های غیرمتمرکز، تراکنش‌های امن و برنامه‌های جامعه‌محور هموار کنیم.",
+      connect: "اتصال به شبکه"
+    },
+    zh: {
+      welcome: "欢迎使用 LYNX",
+      subtitle: "LYNX 是一个去中心化的通信生态系统，旨在为全球用户提供私密、安全且不受限制的互动。我们的使命是通过基于区块链的身份赋予个人自由连接的能力，为去中心化聊天、安全交易和社区驱动的应用铺平道路。",
+      connect: "连接到网络"
+    },
+    ru: {
+      welcome: "Добро пожаловать в LYNX",
+      subtitle: "LYNX — это децентрализованная экосистема связи, предназначенная для обеспечения приватных, безопасных и неограниченных взаимодействий между пользователями по всему миру. Наша миссия — дать людям возможность свободно общаться через идентификации на блокчейне, создавая условия для децентрализованных чатов, безопасных транзакций и приложений, управляемых сообществом.",
+      connect: "Подключиться к сети"
+    },
+    tr: {
+      welcome: "LYNX'e Hoş Geldiniz",
+      subtitle: "LYNX, dünya genelindeki kullanıcılar arasında özel, güvenli ve sınırsız etkileşimler sağlamak üzere tasarlanmış merkeziyetsiz bir iletişim ekosistemidir. Misyonumuz, bireyleri blockchain tabanlı kimliklerle özgürce bağlantı kurmaları için güçlendirmek ve merkeziyetsiz sohbetler, güvenli işlemler ve topluluk odaklı uygulamalar için yol açmaktır.",
+      connect: "Ağa Bağlan"
+    },
+    ar: {
+      welcome: "مرحبًا بك في LYNX",
+      subtitle: "LYNX هو نظام بيئي للاتصالات اللامركزية مصمم لتوفير تفاعلات خاصة وآمنة وغير محدودة بين المستخدمين في جميع أنحاء العالم. مهمتنا هي تمكين الأفراد من التواصل بحرية من خلال هويات قائمة على البلوكشين، مما يمهد الطريق للدردشة اللامركزية والمعاملات الآمنة والتطبيقات المجتمعية.",
+      connect: "الاتصال بالشبكة"
+    },
+    fr: {
+      welcome: "Bienvenue sur LYNX",
+      subtitle: "LYNX est un écosystème de communication décentralisé conçu pour offrir des interactions privées, sécurisées et illimitées entre les utilisateurs du monde entier. Notre mission est de permettre aux individus de se connecter librement grâce à des identités basées sur la blockchain, ouvrant la voie à la messagerie décentralisée, aux transactions sécurisées et aux applications communautaires.",
+      connect: "Se connecter au réseau"
+    },
+    de: {
+      welcome: "Willkommen bei LYNX",
+      subtitle: "LYNX ist ein dezentrales Kommunikationsökosystem, das darauf ausgelegt ist, private, sichere und uneingeschränkte Interaktionen zwischen Nutzern weltweit zu ermöglichen. Unsere Mission ist es, Menschen zu befähigen, sich frei über blockchain-basierte Identitäten zu verbinden, und den Weg für dezentrale Chats, sichere Transaktionen und gemeinschaftsbasierte Anwendungen zu ebnen.",
+      connect: "Mit dem Netzwerk verbinden"
+    },
+    es: {
+      welcome: "Bienvenido a LYNX",
+      subtitle: "LYNX es un ecosistema de comunicación descentralizado diseñado para proporcionar interacciones privadas, seguras y sin restricciones entre usuarios de todo el mundo. Nuestra misión es empoderar a las personas para que se conecten libremente mediante identidades impulsadas por blockchain, allanando el camino para chats descentralizados, transacciones seguras y aplicaciones impulsadas por la comunidad.",
+      connect: "Conectarse a la red"
     }
+  };
 
-    function updateText(lang) {
-      document.querySelectorAll(".txt").forEach(el => {
-        const key = el.getAttribute("data-lang");
-        if (translations[lang] && translations[lang][key]) {
-          el.textContent = translations[lang][key];
-        }
-      });
-    }
+  const select = document.getElementById('languageSelect');
+  select.addEventListener('change', () => {
+    const lang = select.value;
+    document.getElementById('welcome').textContent = translations[lang].welcome;
+    document.getElementById('subtitle').textContent = translations[lang].subtitle;
+    document.getElementById('connectButton').textContent = translations[lang].connect;
+  });
+</script>
 
-    const savedLang = localStorage.getItem("lang") || "en";
-    document.getElementById("lang-select").value = savedLang;
-    updateText(savedLang);
-  </script></body>
+  </body>
 </html>
