@@ -1,84 +1,48 @@
-document.getElementById("show-register").addEventListener("click", showRegisterForm);
+// login.js - LYNX Login Page Script
 
-function showRegisterForm() {
-  const wallets = [
-    { name: "MetaMask", icon: "wallets/metamask.svg" },
-    { name: "Trust Wallet", icon: "wallets/trustwallet.svg" },
-    { name: "Coinbase", icon: "wallets/coinbase.svg" },
-    { name: "Binance", icon: "wallets/binance.svg" },
-    { name: "Phantom", icon: "wallets/phantom.svg" },
-    { name: "WalletConnect", icon: "wallets/walletconnect.svg" },
-    { name: "OKX", icon: "wallets/okx.svg" },
-    { name: "SafePal", icon: "wallets/safepal.svg" },
-    { name: "TokenPocket", icon: "wallets/tokenpocket.svg" },
-    { name: "Zerion", icon: "wallets/zerion.svg" },
-    { name: "MathWallet", icon: "wallets/mathwallet.svg" },
-    { name: "BitKeep", icon: "wallets/bitkeep.svg" },
-    { name: "ONTO", icon: "wallets/onto.svg" },
-    { name: "OneKey", icon: "wallets/onekey.svg" },
-    { name: "ImToken", icon: "wallets/imtoken.svg" },
-    { name: "Rainbow", icon: "wallets/rainbow.svg" },
-    { name: "AlphaWallet", icon: "wallets/alphawallet.svg" },
-    { name: "Enkrypt", icon: "wallets/enkrypt.svg" },
-    { name: "Keplr", icon: "wallets/keplr.svg" },
-    { name: "XDEFI", icon: "wallets/xdefi.svg" }
-  ];
+// ----------- CONFIG ------------ const WALLETS = [ "metamask", "trustwallet", "coinbase", "binance", "okx", "kraken", "bitpay", "phantom", "xdefi", "keplr", "mathwallet", "safe", "rainbow", "argent", "frame", "zerion", "brave", "walletconnect", "onekey", "onto" ];
 
-  const formHTML = `
-    <form id="register-form" class="space-y-4">
-      <div>
-        <label class="block mb-1 font-semibold" data-i18n="nickname">Nickname</label>
-        <input type="text" id="nickname" required class="w-full px-4 py-2 rounded bg-white bg-opacity-10 border border-white placeholder-white text-white" placeholder="e.g. مشدی">
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto pr-2">
-        ${wallets.map((w, i) => `
-          <div class="flex items-center space-x-2">
-            <img src="${w.icon}" alt="${w.name}" class="w-8 h-8">
-            <span class="font-semibold text-white">${w.name}</span>
-          </div>
-          <input type="text" name="wallet-${i}" class="w-full px-3 py-1 rounded bg-white bg-opacity-10 border border-white text-white placeholder-white" placeholder="Wallet Address">
-        `).join("")}
-      </div>
-      <div>
-        <label class="block mb-1 font-semibold" data-i18n="customPassword">Custom Password</label>
-        <input type="password" id="custom-password" required class="w-full px-4 py-2 rounded bg-white bg-opacity-10 border border-white text-white placeholder-white" placeholder="********">
-      </div>
-      <button type="submit" class="w-full py-2 bg-blue-500 hover:bg-blue-600 rounded font-bold" data-i18n="submit">Register</button>
-    </form>
-    <div id="register-success" class="hidden mt-4 text-green-300 text-lg font-bold text-center">
-      <span data-i18n="registrationSuccess">Registration successful!</span><br/>
-      <span data-i18n="thankYou">Thank you for joining LYNX.</span>
-    </div>
-  `;
+const walletsContainer = document.getElementById("wallets-container"); const language = getSelectedLanguage(); // Function from language.js
 
-  document.getElementById("form-container").innerHTML = formHTML;
+// --------- UI BUILDER ---------- function buildWalletFields() { walletsContainer.innerHTML = ""; WALLETS.forEach(wallet => { const wrapper = document.createElement("div"); wrapper.className = "flex items-center mb-2";
 
-  document.getElementById("register-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    
-    const nickname = document.getElementById("nickname").value;
-    const password = document.getElementById("custom-password").value;
+const icon = document.createElement("img");
+icon.src = `wallets-icons/${wallet}.png`;
+icon.alt = wallet;
+icon.className = "w-6 h-6 mr-2";
 
-    const walletAddresses = {};
-    wallets.forEach((w, i) => {
-      const input = document.querySelector(`input[name="wallet-${i}"]`);
-      if (input.value.trim()) {
-        walletAddresses[w.name] = input.value.trim();
-      }
-    });
+const label = document.createElement("span");
+label.textContent = wallet.charAt(0).toUpperCase() + wallet.slice(1);
+label.className = "text-white font-medium w-32";
 
-    const data = {
-      nickname,
-      password,
-      wallets: walletAddresses
-    };
+const input = document.createElement("input");
+input.type = "text";
+input.placeholder = "0x...";
+input.className = "flex-1 rounded p-2 text-sm bg-white/10 backdrop-blur text-white";
+input.name = `wallet-${wallet}`;
 
-    // ذخیره در localStorage با رمزگذاری
-    const encrypted = btoa(JSON.stringify(data)); // به زودی با Web Crypto جایگزین میشه
-    localStorage.setItem("lynx_user", encrypted);
+wrapper.appendChild(icon);
+wrapper.appendChild(label);
+wrapper.appendChild(input);
+walletsContainer.appendChild(wrapper);
 
-    // پیام موفقیت
-    document.getElementById("register-form").classList.add("hidden");
-    document.getElementById("register-success").classList.remove("hidden");
-  });
-}
+}); }
+
+// -------- STORAGE & SECURITY -------- async function encryptData(data, password) { const enc = new TextEncoder(); const key = await crypto.subtle.importKey("raw", enc.encode(password.padEnd(32, "0")), { name: "AES-GCM" }, false, ["encrypt"]); const iv = crypto.getRandomValues(new Uint8Array(12)); const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, enc.encode(JSON.stringify(data))); return { data: Array.from(new Uint8Array(encrypted)), iv: Array.from(iv) }; }
+
+async function saveUserData() { const nickname = document.getElementById("nickname").value; const password = document.getElementById("register-password").value; if (!nickname || !password) return alert("لطفاً نام مستعار و رمز را وارد کنید");
+
+const wallets = {}; WALLETS.forEach(wallet => { const value = document.querySelector(input[name='wallet-${wallet}']).value; if (value) wallets[wallet] = value; });
+
+const data = { nickname, wallets }; const encrypted = await encryptData(data, password); localStorage.setItem("lynxUser", JSON.stringify(encrypted));
+
+document.getElementById("register-success").classList.remove("hidden"); document.getElementById("register-success").textContent = ثبت‌نام با موفقیت انجام شد. از همراهی شما با پروژه LYNX سپاسگزاریم، ${nickname}!; setTimeout(() => document.getElementById("register-success").classList.add("hidden"), 7000); }
+
+// -------- LOGIN -------- async function decryptData(encData, password) { try { const { data, iv } = encData; const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password.padEnd(32, "0")), { name: "AES-GCM" }, false, ["decrypt"]); const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: new Uint8Array(iv) }, key, new Uint8Array(data)); return JSON.parse(new TextDecoder().decode(decrypted)); } catch (e) { return null; } }
+
+async function loginUser() { const password = document.getElementById("login-password").value; const enc = JSON.parse(localStorage.getItem("lynxUser")); const user = await decryptData(enc, password); if (!user) return alert("رمز نادرست است یا اطلاعات موجود نیست");
+
+document.getElementById("welcome-message").textContent = خوش آمدید ${user.nickname}; setTimeout(() => window.location.href = "dashboard.html", 2000); }
+
+// -------- INIT -------- document.addEventListener("DOMContentLoaded", () => { buildWalletFields(); document.getElementById("register-btn").addEventListener("click", saveUserData); document.getElementById("login-btn").addEventListener("click", loginUser); });
+
