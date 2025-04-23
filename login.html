@@ -1,150 +1,58 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  <script src="language.js"></script>
-</head>
-<body class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center">
-
-<div id="app" class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-8 w-full max-w-md text-white shadow-2xl">
-
-  <!-- بخش انتخاب کیف پول -->
-  <div id="connectSection" class="text-center space-y-6">
-    <h2 id="titleText" class="text-2xl font-bold">به LYNX خوش آمدید</h2>
-    <div class="flex justify-center space-x-4 rtl:space-x-reverse">
-      <button id="connectWalletBtn" class="flex items-center space-x-2 rtl:space-x-reverse bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl border border-white/30">
-        <img src="https://cdn.iconscout.com/icon/free/png-256/metamask-2728406-2261817.png" class="w-6 h-6" alt="MetaMask">
-        <span id="connect_wallet_text">اتصال متامسک</span>
-      </button>
-      <!-- کیف پول‌های دیگر (غیرفعال نمایشی) -->
-      <button disabled class="opacity-30 flex items-center space-x-2 rtl:space-x-reverse bg-white/10 px-4 py-2 rounded-xl border border-white/30">
-        <img src="https://cryptologos.cc/logos/walletconnect-walletconnect-logo.png" class="w-6 h-6" alt="WalletConnect">
-        <span>WalletConnect</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- فرم ثبت‌نام -->
-  <div id="signupForm" class="hidden mt-6 space-y-4">
-    <h3 id="signupTitle" class="text-xl">ثبت‌نام</h3>
-    <input id="nickname" placeholder="اسم مستعار" class="w-full p-2 rounded bg-white/20" />
-    <input id="password" type="password" placeholder="رمز اختصاصی" class="w-full p-2 rounded bg-white/20" />
-    <button id="saveSignup" class="bg-green-500 w-full py-2 rounded">ثبت اطلاعات</button>
-  </div>
-
-  <!-- فرم ورود -->
-  <div id="loginForm" class="hidden mt-6 space-y-4">
-    <h3 id="loginTitle" class="text-xl">ورود</h3>
-    <p id="loginWallet" class="mb-2"></p>
-    <div class="relative">
-      <input id="loginPassword" type="password" placeholder="رمز اختصاصی" class="w-full p-2 rounded bg-white/20 pr-10" />
-      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M12 11c0-1.105.895-2 2-2s2 .895 2 2-.895 2-2 2-2-.895-2-2zm-6.364 1.636a9 9 0 1112.728 0L12 21.414l-6.364-8.778z"/>
-        </svg>
-      </span>
-    </div>
-    <div class="text-right text-sm text-gray-300 hover:text-white cursor-pointer" onclick="alert('در نسخه بعدی فعال می‌شود')">
-      رمز را فراموش کرده‌اید؟
-    </div>
-    <button id="submitLogin" class="bg-blue-500 w-full py-2 rounded">ورود</button>
-  </div>
-</div>
-
-<!-- مودال خوش‌آمد -->
-<div id="welcomeModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-  <div class="bg-white text-black rounded-2xl p-6 max-w-sm w-full text-center">
-    <h2 class="text-2xl font-bold mb-2" id="welcomeTitle">خوش آمدی!</h2>
-    <p id="welcomeMsg"></p>
-  </div>
-</div>
-
-<script>
-  let currentAccount = null;
-  const lang = localStorage.getItem("lang") || "fa";
-
-  function applyLanguage() {
-    const t = translations[lang];
-    if (!t) return;
-
-    document.getElementById('titleText').textContent = t.welcome;
-    document.getElementById('connect_wallet_text').textContent = t.connect_wallet;
-    document.getElementById('signupTitle').textContent = t.signup;
-    document.getElementById('saveSignup').textContent = t.save;
-    document.getElementById('loginTitle').textContent = t.login;
-    document.getElementById('submitLogin').textContent = t.enter;
-    document.getElementById('welcomeTitle').textContent = t.welcome_short;
-    document.getElementById('nickname').placeholder = t.nickname;
-    document.getElementById('password').placeholder = t.password;
-    document.getElementById('loginPassword').placeholder = t.password;
-  }
-
-  async function connectWallet() {
-    if (window.ethereum) {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      currentAccount = accounts[0];
-      const userData = JSON.parse(localStorage.getItem('lynx_users')) || {};
-      if (userData[currentAccount]) {
-        document.getElementById('connectSection').classList.add('hidden');
-        document.getElementById('loginWallet').textContent = `کیف پول: ${currentAccount}`;
-        document.getElementById('loginForm').classList.remove('hidden');
-      } else {
-        document.getElementById('connectSection').classList.add('hidden');
-        document.getElementById('signupForm').classList.remove('hidden');
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LYNX Login</title>
+    <script defer src="login.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(32, 32, 32, 0.8)), url('/assets/bg.jpg') no-repeat center center fixed;
+        background-size: cover;
       }
-    } else {
-      alert("لطفاً متامسک نصب کنید.");
-    }
-  }
+      .glass {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center">
+    <div class="glass p-8 max-w-xl w-full text-white">
+      <img src="/assets/logo.png" alt="LYNX Logo" class="mx-auto w-20 mb-6"><div id="welcome" class="hidden text-center text-xl font-bold mb-4"></div>
 
-  function encryptData(data, password) {
-    return btoa(JSON.stringify({ password, ...data }));
-  }
+  <div class="flex justify-around mb-6">
+    <button id="btnRegister" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">ثبت‌نام</button>
+    <button id="btnLogin" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">ورود</button>
+    <a href="/help.html" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded">راهنما</a>
+    <a href="/contact" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded">پشتیبانی</a>
+  </div>
 
-  function decryptData(encrypted, password) {
-    try {
-      const decoded = JSON.parse(atob(encrypted));
-      if (decoded.password === password) return decoded;
-      return null;
-    } catch {
-      return null;
-    }
-  }
+  <div id="formRegister" class="hidden">
+    <h2 class="text-lg font-semibold mb-4">فرم ثبت‌نام</h2>
+    <input type="text" id="nickname" placeholder="اسم مستعار" class="w-full mb-3 p-2 rounded text-black">
 
-  document.getElementById('connectWalletBtn').onclick = connectWallet;
+    <div id="walletContainer" class="space-y-2 max-h-60 overflow-y-auto">
+      <!-- Wallet fields dynamically added here -->
+    </div>
+    <button id="addWallet" class="text-sm bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded mb-4">+ کیف پول جدید</button>
 
-  document.getElementById('saveSignup').onclick = () => {
-    const nickname = document.getElementById('nickname').value;
-    const password = document.getElementById('password').value;
-    if (!nickname || !password) return alert('لطفاً همه فیلدها را پر کنید.');
-    const encrypted = encryptData({ nickname }, password);
-    const users = JSON.parse(localStorage.getItem('lynx_users')) || {};
-    users[currentAccount] = encrypted;
-    localStorage.setItem('lynx_users', JSON.stringify(users));
-    showWelcome(nickname);
-  };
+    <input type="password" id="customPassword" placeholder="رمز اختصاصی" class="w-full mb-3 p-2 rounded text-black">
 
-  document.getElementById('submitLogin').onclick = () => {
-    const inputPassword = document.getElementById('loginPassword').value;
-    const encrypted = JSON.parse(localStorage.getItem('lynx_users'))[currentAccount];
-    const decrypted = decryptData(encrypted, inputPassword);
-    if (!decrypted) return alert('رمز نادرست است.');
-    showWelcome(decrypted.nickname);
-  };
+    <button id="saveRegister" class="w-full bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded">ذخیره اطلاعات</button>
+  </div>
 
-  function showWelcome(nick) {
-    document.getElementById('welcomeModal').classList.remove('hidden');
-    document.getElementById('welcomeMsg').textContent = `${nick} عزیز، خوش آمدی!`;
-    setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 2000);
-  }
+  <div id="formLogin" class="hidden">
+    <h2 class="text-lg font-semibold mb-4">ورود</h2>
+    <div id="walletOptions" class="flex flex-wrap gap-2 mb-4">
+      <!-- Wallet icons/buttons dynamically inserted -->
+    </div>
+    <input type="password" id="loginPassword" placeholder="رمز اختصاصی یا اثر انگشت" class="w-full mb-3 p-2 rounded text-black">
+    <button id="loginSubmit" class="w-full bg-green-700 hover:bg-green-800 px-4 py-2 rounded">ورود</button>
+  </div>
+</div>
 
-  document.addEventListener("DOMContentLoaded", applyLanguage);
-</script>
-</body>
+  </body>
 </html>
