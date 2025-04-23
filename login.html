@@ -1,61 +1,47 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LYNX Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      backdrop-filter: blur(10px);
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 1rem;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-  </style>
-</head><body class="min-h-screen flex items-center justify-center text-white font-sans">
-  <div class="glass p-8 w-full max-w-3xl">
-    <div class="text-center mb-6">
-      <img src="/assets/logo.png" alt="LYNX Logo" class="w-16 h-16 mx-auto mb-4">
-      <h1 class="text-3xl font-bold">Welcome to LYNX</h1>
-      <div class="flex justify-center mt-4 space-x-4">
-        <button id="signupTab" class="px-4 py-2 bg-white text-black rounded shadow">Sign Up</button>
-        <button id="loginTab" class="px-4 py-2 bg-gray-700 text-white rounded">Login</button>
-      </div>
-    </div><!-- Signup Form -->
-<div id="signupForm">
-  <input type="text" id="nickname" placeholder="Nickname" class="w-full p-2 mb-4 rounded bg-gray-900 text-white" />
-  <div class="h-64 overflow-y-scroll mb-4 bg-gray-800 p-2 rounded">
-    <h2 class="mb-2 font-bold">Wallet Addresses</h2>
-    <div id="walletsContainer"></div>
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LYNX Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <div class="glass rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden grid grid-cols-1 md:grid-cols-2">
+      <!-- Left Section - Welcome/Login Options -->
+      <div class="p-6 md:p-10 flex flex-col justify-between text-white bg-opacity-30">
+        <div>
+          <img src="/logo.png" alt="LYNX Logo" class="w-24 mb-6">
+          <h2 class="text-3xl font-bold mb-4">Welcome to LYNX</h2>
+          <p class="text-sm opacity-75 mb-6">Secure. Private. Decentralized Communication.</p>
+          <div class="flex flex-col gap-4">
+            <button id="registerBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl transition">Register</button>
+            <button id="loginBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl transition">Login</button>
+            <button onclick="window.location.href='help.html'" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-xl transition">Help</button>
+            <button onclick="window.location.href='contact.html'" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-xl transition">Support</button>
+          </div>
+        </div>
+        <div class="text-xs mt-10 opacity-50">&copy; 2025 LYNX Project</div>
+      </div><!-- Right Section - Dynamic Content Area -->
+  <div class="p-6 md:p-10 text-white bg-white bg-opacity-5" id="formContainer">
+    <!-- فرم‌ها با JS بارگذاری می‌شن -->
+    <div class="text-center animate-pulse">Loading form...</div>
   </div>
-  <input type="password" id="password" placeholder="Create Password" class="w-full p-2 mb-4 rounded bg-gray-900 text-white" />
-  <div class="mb-4">
-    <label class="inline-flex items-center">
-      <input type="checkbox" id="useBiometric" class="form-checkbox text-indigo-600">
-      <span class="ml-2">Enable Biometric Authentication</span>
-    </label>
-  </div>
-  <button onclick="register()" class="w-full py-2 bg-green-500 text-white rounded">Register</button>
 </div>
 
-<!-- Login Form -->
-<div id="loginForm" class="hidden">
-  <div id="savedWallets" class="mb-4"></div>
-  <input type="password" id="loginPassword" placeholder="Enter Password" class="w-full p-2 mb-4 rounded bg-gray-900 text-white" />
-  <button onclick="login()" class="w-full py-2 bg-blue-500 text-white rounded">Login</button>
-</div>
+<script src="login.js"></script>
 
-<div class="mt-6 flex justify-between">
-  <a href="help.html" class="text-sm underline">Help</a>
-  <a href="contact.html" class="text-sm underline">Support</a>
-</div>
-
-<div class="mt-4">
-  <div id="languageSelector"></div>
-</div>
-
-  </div>  <script src="/js/language.js"></script>  <script src="/js/login.js"></script></body></html>
+  </body>
+</html>
