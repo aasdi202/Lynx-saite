@@ -1,58 +1,66 @@
-<!DOCTYPE html><html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LYNX Login</title>
-    <script defer src="login.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <style>
-      body {
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(32, 32, 32, 0.8)), url('/assets/bg.jpg') no-repeat center center fixed;
-        background-size: cover;
-      }
-      .glass {
-        backdrop-filter: blur(20px);
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 1rem;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      }
-    </style>
-  </head>
-  <body class="min-h-screen flex items-center justify-center">
-    <div class="glass p-8 max-w-xl w-full text-white">
-      <img src="/assets/logo.png" alt="LYNX Logo" class="mx-auto w-20 mb-6"><div id="welcome" class="hidden text-center text-xl font-bold mb-4"></div>
-
-  <div class="flex justify-around mb-6">
-    <button id="btnRegister" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">ثبت‌نام</button>
-    <button id="btnLogin" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">ورود</button>
-    <a href="/help.html" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded">راهنما</a>
-    <a href="/contact" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded">پشتیبانی</a>
-  </div>
-
-  <div id="formRegister" class="hidden">
-    <h2 class="text-lg font-semibold mb-4">فرم ثبت‌نام</h2>
-    <input type="text" id="nickname" placeholder="اسم مستعار" class="w-full mb-3 p-2 rounded text-black">
-
-    <div id="walletContainer" class="space-y-2 max-h-60 overflow-y-auto">
-      <!-- Wallet fields dynamically added here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LYNX Login</title>
+  <script defer src="./js/language.js"></script>
+  <script defer src="./js/login.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1.5rem;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen px-4">
+  <div class="glass w-full max-w-2xl p-6 md:p-10 text-white relative">
+    <!-- زبان و پرچم بالا راست -->
+    <div class="absolute top-4 right-4">
+      <select id="language-selector" class="bg-transparent text-white border border-white px-2 py-1 rounded">
+        <option value="en">English</option>
+        <option value="fa">فارسی</option>
+        <option value="zh">中文</option>
+        <option value="ru">Русский</option>
+        <option value="tr">Türkçe</option>
+        <option value="ar">العربية</option>
+      </select>
     </div>
-    <button id="addWallet" class="text-sm bg-gray-500 hover:bg-gray-600 px-2 py-1 rounded mb-4">+ کیف پول جدید</button>
 
-    <input type="password" id="customPassword" placeholder="رمز اختصاصی" class="w-full mb-3 p-2 rounded text-black">
-
-    <button id="saveRegister" class="w-full bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded">ذخیره اطلاعات</button>
-  </div>
-
-  <div id="formLogin" class="hidden">
-    <h2 class="text-lg font-semibold mb-4">ورود</h2>
-    <div id="walletOptions" class="flex flex-wrap gap-2 mb-4">
-      <!-- Wallet icons/buttons dynamically inserted -->
+    <!-- لوگو -->
+    <div class="text-center mb-6">
+      <img src="./assets/logo.svg" alt="LYNX Logo" class="mx-auto w-20 h-20" />
+      <h1 class="text-2xl md:text-3xl font-bold mt-2" data-i18n="welcome">Welcome to LYNX</h1>
     </div>
-    <input type="password" id="loginPassword" placeholder="رمز اختصاصی یا اثر انگشت" class="w-full mb-3 p-2 rounded text-black">
-    <button id="loginSubmit" class="w-full bg-green-700 hover:bg-green-800 px-4 py-2 rounded">ورود</button>
-  </div>
-</div>
 
-  </body>
+    <!-- دکمه‌های صفحه -->
+    <div class="flex justify-between items-center mb-4">
+      <button id="show-register" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded" data-i18n="register">Register</button>
+      <button id="show-login" class="px-4 py-2 bg-green-500 hover:bg-green-600 rounded" data-i18n="login">Login</button>
+      <a href="help.html" class="text-sm underline" data-i18n="help">Help</a>
+      <a href="contact.html" class="text-sm underline" data-i18n="support">Support</a>
+    </div>
+
+    <!-- فرم‌ها -->
+    <div id="form-container">
+      <!-- فرم ثبت‌نام و فرم ورود اینجا با جاوااسکریپت لود می‌شن -->
+    </div>
+  </div>
+</body>
 </html>
