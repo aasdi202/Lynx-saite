@@ -1,48 +1,38 @@
-// login.js - LYNX Login Page Script
+// login.js برای صفحه لاگین LYNX
 
-// ----------- CONFIG ------------ const WALLETS = [ "metamask", "trustwallet", "coinbase", "binance", "okx", "kraken", "bitpay", "phantom", "xdefi", "keplr", "mathwallet", "safe", "rainbow", "argent", "frame", "zerion", "brave", "walletconnect", "onekey", "onto" ];
+// DOM Elements const registerForm = document.getElementById('register-form'); const loginForm = document.getElementById('login-form'); const walletListContainer = document.getElementById('wallet-list'); const loginWalletList = document.getElementById('login-wallet-list'); const languageSelect = document.getElementById('language-select');
 
-const walletsContainer = document.getElementById("wallets-container"); const language = getSelectedLanguage(); // Function from language.js
+// بارگذاری زبان‌ها import { translations, currentLanguage, setLanguage } from './language.js'; function updateTexts() { document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); el.textContent = translations[currentLanguage][key] || key; }); } updateTexts();
 
-// --------- UI BUILDER ---------- function buildWalletFields() { walletsContainer.innerHTML = ""; WALLETS.forEach(wallet => { const wrapper = document.createElement("div"); wrapper.className = "flex items-center mb-2";
+languageSelect.addEventListener('change', (e) => { setLanguage(e.target.value); updateTexts(); });
 
-const icon = document.createElement("img");
-icon.src = `wallets-icons/${wallet}.png`;
-icon.alt = wallet;
-icon.className = "w-6 h-6 mr-2";
+// لیست کیف‌پول‌ها const wallets = [ 'MetaMask', 'TrustWallet', 'Coinbase', 'Binance', 'OKX', 'SafePal', 'TokenPocket', 'MathWallet', 'Zerion', 'Argent', '1inch', 'Rainbow', 'Brave', 'Ledger', 'Trezor', 'Phantom', 'Keplr', 'XDEFI', 'Nabox', 'ONTO' ];
 
-const label = document.createElement("span");
-label.textContent = wallet.charAt(0).toUpperCase() + wallet.slice(1);
-label.className = "text-white font-medium w-32";
+function renderWallets() { walletListContainer.innerHTML = ''; loginWalletList.innerHTML = ''; wallets.forEach(name => { const id = name.toLowerCase(); const iconPath = ./wallets-icons/${id}.png;
 
-const input = document.createElement("input");
-input.type = "text";
-input.placeholder = "0x...";
-input.className = "flex-1 rounded p-2 text-sm bg-white/10 backdrop-blur text-white";
-input.name = `wallet-${wallet}`;
+// برای ثبت‌نام
+const div = document.createElement('div');
+div.className = 'flex items-center gap-2 mb-2';
+div.innerHTML = `
+  <img src="${iconPath}" alt="${name}" class="w-6 h-6"/>
+  <span class="font-semibold">${name}</span>
+  <input type="text" placeholder="Wallet Address" class="ml-auto input input-bordered w-full max-w-xs" data-wallet-name="${name}"/>
+`;
+walletListContainer.appendChild(div);
 
-wrapper.appendChild(icon);
-wrapper.appendChild(label);
-wrapper.appendChild(input);
-walletsContainer.appendChild(wrapper);
+// برای ورود
+const loginItem = document.createElement('option');
+loginItem.value = name;
+loginItem.textContent = name;
+loginWalletList.appendChild(loginItem);
 
-}); }
+}); } renderWallets();
 
-// -------- STORAGE & SECURITY -------- async function encryptData(data, password) { const enc = new TextEncoder(); const key = await crypto.subtle.importKey("raw", enc.encode(password.padEnd(32, "0")), { name: "AES-GCM" }, false, ["encrypt"]); const iv = crypto.getRandomValues(new Uint8Array(12)); const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, enc.encode(JSON.stringify(data))); return { data: Array.from(new Uint8Array(encrypted)), iv: Array.from(iv) }; }
+// رمزگذاری با Web Crypto API async function encryptData(data, password) { const enc = new TextEncoder(); const keyMaterial = await window.crypto.subtle.importKey( 'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveKey'] ); const key = await window.crypto.subtle.deriveKey( { name: 'PBKDF2', salt: enc.encode('lynx-salt'), iterations: 100000, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['encrypt'] ); const iv = window.crypto.getRandomValues(new Uint8Array(12)); const encrypted = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(data))); return { data: Array.from(new Uint8Array(encrypted)), iv: Array.from(iv) }; }
 
-async function saveUserData() { const nickname = document.getElementById("nickname").value; const password = document.getElementById("register-password").value; if (!nickname || !password) return alert("لطفاً نام مستعار و رمز را وارد کنید");
+async function decryptData(encrypted, password) { const enc = new TextEncoder(); const dec = new TextDecoder(); const keyMaterial = await window.crypto.subtle.importKey( 'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveKey'] ); const key = await window.crypto.subtle.deriveKey( { name: 'PBKDF2', salt: enc.encode('lynx-salt'), iterations: 100000, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['decrypt'] ); const decrypted = await window.crypto.subtle.decrypt( { name: 'AES-GCM', iv: new Uint8Array(encrypted.iv) }, key, new Uint8Array(encrypted.data) ); return JSON.parse(dec.decode(decrypted)); }
 
-const wallets = {}; WALLETS.forEach(wallet => { const value = document.querySelector(input[name='wallet-${wallet}']).value; if (value) wallets[wallet] = value; });
+// ثبت‌نام کاربر registerForm.addEventListener('submit', async (e) => { e.preventDefault(); const nickname = registerForm.nickname.value; const password = registerForm.password.value; const walletsData = {}; document.querySelectorAll('[data-wallet-name]').forEach(input => { walletsData[input.dataset.walletName] = input.value.trim(); }); const encrypted = await encryptData({ nickname, walletsData }, password); localStorage.setItem('lynx_user', JSON.stringify(encrypted)); alert(${translations[currentLanguage]['registration_success']} ${nickname}); });
 
-const data = { nickname, wallets }; const encrypted = await encryptData(data, password); localStorage.setItem("lynxUser", JSON.stringify(encrypted));
-
-document.getElementById("register-success").classList.remove("hidden"); document.getElementById("register-success").textContent = ثبت‌نام با موفقیت انجام شد. از همراهی شما با پروژه LYNX سپاسگزاریم، ${nickname}!; setTimeout(() => document.getElementById("register-success").classList.add("hidden"), 7000); }
-
-// -------- LOGIN -------- async function decryptData(encData, password) { try { const { data, iv } = encData; const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password.padEnd(32, "0")), { name: "AES-GCM" }, false, ["decrypt"]); const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: new Uint8Array(iv) }, key, new Uint8Array(data)); return JSON.parse(new TextDecoder().decode(decrypted)); } catch (e) { return null; } }
-
-async function loginUser() { const password = document.getElementById("login-password").value; const enc = JSON.parse(localStorage.getItem("lynxUser")); const user = await decryptData(enc, password); if (!user) return alert("رمز نادرست است یا اطلاعات موجود نیست");
-
-document.getElementById("welcome-message").textContent = خوش آمدید ${user.nickname}; setTimeout(() => window.location.href = "dashboard.html", 2000); }
-
-// -------- INIT -------- document.addEventListener("DOMContentLoaded", () => { buildWalletFields(); document.getElementById("register-btn").addEventListener("click", saveUserData); document.getElementById("login-btn").addEventListener("click", loginUser); });
+// ورود loginForm.addEventListener('submit', async (e) => { e.preventDefault(); const selectedWallet = loginForm.wallet.value; const password = loginForm.password.value; const encrypted = JSON.parse(localStorage.getItem('lynx_user')); try { const data = await decryptData(encrypted, password); if (data.walletsData[selectedWallet]) { alert(${translations[currentLanguage]['welcome_back']} ${data.nickname}); window.location.href = './dashboard.html'; } else { alert(translations[currentLanguage]['wallet_not_found']); } } catch (e) { alert(translations[currentLanguage]['invalid_password']); } });
 
