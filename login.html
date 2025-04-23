@@ -32,3 +32,34 @@
 
   </body>
 </html>
+<!-- Signup Section Start -->
+<section id="signup" class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#0f172a] to-[#1e293b] bg-opacity-50 backdrop-blur-sm p-4">
+  <div class="w-full max-w-3xl bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl p-6 sm:p-10 text-white">
+    <h2 class="text-3xl font-bold text-center mb-6">ثبت‌نام در LYNX</h2>
+    <form id="signupForm" class="space-y-6">
+      <div>
+        <label for="nickname" class="block mb-2 font-semibold">اسم مستعار</label>
+        <input type="text" id="nickname" name="nickname" required class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-lynx transition">
+      </div>
+
+      <div>
+        <label class="block mb-2 font-semibold">کیف‌پول‌ها</label>
+        <div id="walletList" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+          <!-- کیف‌پول‌ها اینجا به‌صورت داینامیک از login.js اضافه می‌شن -->
+        </div>
+        <button type="button" id="addWalletBtn" class="mt-4 px-4 py-2 bg-lynx hover:bg-lynx-dark transition rounded-lg text-sm font-semibold">+ افزودن کیف پول</button>
+      </div>
+
+      <div>
+        <label for="password" class="block mb-2 font-semibold">رمز اختصاصی</label>
+        <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-lynx transition">
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button type="submit" class="bg-lynx hover:bg-lynx-dark text-white font-bold py-2 px-6 rounded-lg transition">ثبت‌نام</button>
+        <a href="#login" class="text-sm hover:underline">ورود</a>
+      </div>
+    </form>
+  </div>
+</section>
+<!-- Signup Section End -->
