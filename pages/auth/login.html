@@ -1,1 +1,99 @@
-geet
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LYNX Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="bg-gradient-to-br from-purple-800 via-indigo-900 to-gray-900 min-h-screen flex items-center justify-center">
+    <div class="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl shadow-2xl p-8 w-full max-w-md text-white">
+      <div class="text-center mb-6">
+        <img src="assets/logo.png" alt="LYNX Logo" class="mx-auto w-16 mb-4">
+        <h1 class="text-2xl font-bold" data-i18n="welcome">Welcome to LYNX</h1>
+        <p class="text-sm" data-i18n="loginOrSignup">Login or create your identity</p>
+      </div><div class="space-y-4">
+    <button id="switchToLogin" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl" data-i18n="login">Login</button>
+    <button id="switchToSignup" class="w-full py-2 bg-purple-600 hover:bg-purple-500 rounded-xl" data-i18n="signup">Sign Up</button>
+  </div>
+
+  <!-- Placeholder: Dynamic form area -->
+  <div id="formContainer" class="mt-6"></div>
+
+  <div class="mt-8 text-center text-xs opacity-70">
+    <button class="hover:underline" onclick="window.location.href='help.html'" data-i18n="help">Help</button>
+    •
+    <button class="hover:underline" onclick="window.location.href='contact.html'" data-i18n="support">Support</button>
+  </div>
+</div>
+
+<script src="language.js"></script>
+<script src="login.js"></script>
+
+  </body>
+</html>
+<!-- Signup Section Start -->
+<section id="signup" class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#0f172a] to-[#1e293b] bg-opacity-50 backdrop-blur-sm p-4">
+  <div class="w-full max-w-3xl bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl p-6 sm:p-10 text-white">
+    <h2 class="text-3xl font-bold text-center mb-6">ثبت‌نام در LYNX</h2>
+    <form id="signupForm" class="space-y-6">
+      <div>
+        <label for="nickname" class="block mb-2 font-semibold">اسم مستعار</label>
+        <input type="text" id="nickname" name="nickname" required class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-lynx transition">
+      </div>
+
+      <div>
+        <label class="block mb-2 font-semibold">کیف‌پول‌ها</label>
+        <div id="walletList" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+          <!-- کیف‌پول‌ها اینجا به‌صورت داینامیک از login.js اضافه می‌شن -->
+        </div>
+        <button type="button" id="addWalletBtn" class="mt-4 px-4 py-2 bg-lynx hover:bg-lynx-dark transition rounded-lg text-sm font-semibold">+ افزودن کیف پول</button>
+      </div>
+
+      <div>
+        <label for="password" class="block mb-2 font-semibold">رمز اختصاصی</label>
+        <input type="password" id="password" name="password" required class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-lynx transition">
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button type="submit" class="bg-lynx hover:bg-lynx-dark text-white font-bold py-2 px-6 rounded-lg transition">ثبت‌نام</button>
+        <a href="#login" class="text-sm hover:underline">ورود</a>
+      </div>
+    </form>
+  </div>
+</section>
+<!-- Signup Section End -->
+<!-- Login Section Start -->
+<section id="login" class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-bl from-[#1e293b] to-[#0f172a] bg-opacity-50 backdrop-blur-sm p-4">
+  <div class="w-full max-w-2xl bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl p-6 sm:p-10 text-white">
+    <h2 class="text-3xl font-bold text-center mb-6">ورود به حساب LYNX</h2>
+    <form id="loginForm" class="space-y-6">
+      <div>
+        <label for="selectedWallet" class="block mb-2 font-semibold">انتخاب کیف‌پول</label>
+        <div id="storedWallets" class="space-y-2">
+          <!-- اینجا کیف‌پول‌هایی که کاربر در ثبت‌نام وارد کرده نمایش داده می‌شه -->
+        </div>
+      </div>
+
+      <div>
+        <label for="loginPassword" class="block mb-2 font-semibold">رمز ورود</label>
+        <input type="password" id="loginPassword" name="loginPassword" required class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-lynx transition">
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button type="submit" class="bg-lynx hover:bg-lynx-dark text-white font-bold py-2 px-6 rounded-lg transition">ورود</button>
+        <a href="#signup" class="text-sm hover:underline">ثبت‌نام</a>
+      </div>
+    </form>
+
+    <div id="loginSuccessMsg" class="hidden mt-6 text-center bg-green-500/20 border border-green-500 rounded-lg p-4 font-semibold text-green-100">
+      خوش آمدی <span id="userNickname"></span>! ورود با موفقیت انجام شد.
+    </div>
+
+    <div class="mt-8 flex justify-between items-center text-sm">
+      <a href="/help.html" class="hover:underline">راهنما</a>
+      <a href="/contact.html" class="hover:underline">پشتیبانی</a>
+    </div>
+  </div>
+</section>
+<!-- Login Section End -->
