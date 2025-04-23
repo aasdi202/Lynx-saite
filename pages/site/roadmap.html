@@ -1,1 +1,116 @@
-geet
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap | LYNX</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      padding: 2rem;
+      padding-bottom: 6rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .step {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1rem 2rem;
+      margin: 1rem auto;
+      max-width: 800px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1e3a5f;
+      color: #ccc;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+    }
+    .footer a {
+      color: #00bcd4;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title"></h1>
+  <div class="step" id="step1"></div>
+  <div class="step" id="step2"></div>
+  <div class="step" id="step3"></div>
+  <div class="step" id="step4"></div>  <div class="footer">
+    <a href="index.html">Home</a> |
+    <a href="about.html">About</a> |
+    <a href="roadmap.html">Roadmap</a> |
+    <a href="contact.html">Contact</a>
+    <div style="margin-top: 5px;">© 2025 LYNX</div>
+  </div>  <script>
+    const lang = localStorage.getItem("lynx-lang") || "en";
+
+    const roadmapTexts = {
+      en: [
+        "Project Roadmap",
+        "Phase 1: Token Deployment and Website Launch",
+        "Phase 2: Community Building and Social Presence",
+        "Phase 3: DID Integration and App Development",
+        "Phase 4: Full Ecosystem Launch and Partnerships"
+      ],
+      fa: [
+        "نقشه راه پروژه",
+        "فاز ۱: راه‌اندازی توکن و انتشار وب‌سایت",
+        "فاز ۲: ساخت جامعه و حضور در شبکه‌های اجتماعی",
+        "فاز ۳: یکپارچه‌سازی DID و توسعه اپلیکیشن",
+        "فاز ۴: راه‌اندازی کامل اکوسیستم و مشارکت‌ها"
+      ],
+      zh: [
+        "项目路线图",
+        "第一阶段：代币部署与网站发布",
+        "第二阶段：社区建设与社交媒体展示",
+        "第三阶段：DID集成与应用开发",
+        "第四阶段：生态系统全面启动与合作伙伴关系"
+      ],
+      ru: [
+        "Дорожная карта проекта",
+        "Фаза 1: Развертывание токена и запуск сайта",
+        "Фаза 2: Создание сообщества и присутствие в соцсетях",
+        "Фаза 3: Интеграция DID и разработка приложения",
+        "Фаза 4: Полноценный запуск экосистемы и партнерства"
+      ],
+      tr: [
+        "Proje Yol Haritası",
+        "Aşama 1: Token Dağıtımı ve Web Sitesi Lansmanı",
+        "Aşama 2: Topluluk Oluşturma ve Sosyal Medya Varlığı",
+        "Aşama 3: DID Entegrasyonu ve Uygulama Geliştirme",
+        "Aşama 4: Tam Ekosistem Lansmanı ve Ortaklıklar"
+      ],
+      ar: [
+        "خارطة طريق المشروع",
+        "المرحلة 1: نشر الرمز وإطلاق الموقع",
+        "المرحلة 2: بناء المجتمع والحضور على الشبكات الاجتماعية",
+        "المرحلة 3: دمج DID وتطوير التطبيق",
+        "المرحلة 4: إطلاق النظام البيئي الكامل والشراكات"
+      ]
+    };
+
+    const t = roadmapTexts[lang] || roadmapTexts["en"];
+    document.getElementById("title").innerText = t[0];
+    document.getElementById("step1").innerText = t[1];
+    document.getElementById("step2").innerText = t[2];
+    document.getElementById("step3").innerText = t[3];
+    document.getElementById("step4").innerText = t[4];
+  </script></body>
+</html>
