@@ -1,66 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LYNX Login</title>
-  <script defer src="./js/language.js"></script>
-  <script defer src="./js/login.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      backdrop-filter: blur(10px);
     }
     .glass {
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 1.5rem;
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
   </style>
-</head>
-<body class="flex items-center justify-center min-h-screen px-4">
-  <div class="glass w-full max-w-2xl p-6 md:p-10 text-white relative">
-    <!-- زبان و پرچم بالا راست -->
-    <div class="absolute top-4 right-4">
-      <select id="language-selector" class="bg-transparent text-white border border-white px-2 py-1 rounded">
-        <option value="en">English</option>
-        <option value="fa">فارسی</option>
-        <option value="zh">中文</option>
-        <option value="ru">Русский</option>
-        <option value="tr">Türkçe</option>
-        <option value="ar">العربية</option>
-      </select>
-    </div>
-
-    <!-- لوگو -->
+</head><body class="min-h-screen flex items-center justify-center text-white font-sans">
+  <div class="glass p-8 w-full max-w-3xl">
     <div class="text-center mb-6">
-      <img src="./assets/logo.svg" alt="LYNX Logo" class="mx-auto w-20 h-20" />
-      <h1 class="text-2xl md:text-3xl font-bold mt-2" data-i18n="welcome">Welcome to LYNX</h1>
-    </div>
-
-    <!-- دکمه‌های صفحه -->
-    <div class="flex justify-between items-center mb-4">
-      <button id="show-register" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded" data-i18n="register">Register</button>
-      <button id="show-login" class="px-4 py-2 bg-green-500 hover:bg-green-600 rounded" data-i18n="login">Login</button>
-      <a href="help.html" class="text-sm underline" data-i18n="help">Help</a>
-      <a href="contact.html" class="text-sm underline" data-i18n="support">Support</a>
-    </div>
-
-    <!-- فرم‌ها -->
-    <div id="form-container">
-      <!-- فرم ثبت‌نام و فرم ورود اینجا با جاوااسکریپت لود می‌شن -->
-    </div>
+      <img src="/assets/logo.png" alt="LYNX Logo" class="w-16 h-16 mx-auto mb-4">
+      <h1 class="text-3xl font-bold">Welcome to LYNX</h1>
+      <div class="flex justify-center mt-4 space-x-4">
+        <button id="signupTab" class="px-4 py-2 bg-white text-black rounded shadow">Sign Up</button>
+        <button id="loginTab" class="px-4 py-2 bg-gray-700 text-white rounded">Login</button>
+      </div>
+    </div><!-- Signup Form -->
+<div id="signupForm">
+  <input type="text" id="nickname" placeholder="Nickname" class="w-full p-2 mb-4 rounded bg-gray-900 text-white" />
+  <div class="h-64 overflow-y-scroll mb-4 bg-gray-800 p-2 rounded">
+    <h2 class="mb-2 font-bold">Wallet Addresses</h2>
+    <div id="walletsContainer"></div>
   </div>
-</body>
-</html>
+  <input type="password" id="password" placeholder="Create Password" class="w-full p-2 mb-4 rounded bg-gray-900 text-white" />
+  <div class="mb-4">
+    <label class="inline-flex items-center">
+      <input type="checkbox" id="useBiometric" class="form-checkbox text-indigo-600">
+      <span class="ml-2">Enable Biometric Authentication</span>
+    </label>
+  </div>
+  <button onclick="register()" class="w-full py-2 bg-green-500 text-white rounded">Register</button>
+</div>
+
+<!-- Login Form -->
+<div id="loginForm" class="hidden">
+  <div id="savedWallets" class="mb-4"></div>
+  <input type="password" id="loginPassword" placeholder="Enter Password" class="w-full p-2 mb-4 rounded bg-gray-900 text-white" />
+  <button onclick="login()" class="w-full py-2 bg-blue-500 text-white rounded">Login</button>
+</div>
+
+<div class="mt-6 flex justify-between">
+  <a href="help.html" class="text-sm underline">Help</a>
+  <a href="contact.html" class="text-sm underline">Support</a>
+</div>
+
+<div class="mt-4">
+  <div id="languageSelector"></div>
+</div>
+
+  </div>  <script src="/js/language.js"></script>  <script src="/js/login.js"></script></body></html>
