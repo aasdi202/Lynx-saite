@@ -1,94 +1,64 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const translations = {
-    en: { greeting: "Hello" },
-    fa: { greeting: "سلام" },
-    zh: { greeting: "你好" },
-    ru: { greeting: "Привет" },
-    tr: { greeting: "Merhaba" },
-    ar: { greeting: "مرحبا" },
-    es: { greeting: "Hola" },
-    fr: { greeting: "Bonjour" },
-    de: { greeting: "Hallo" },
-  };
-
-  const languages = [
-    { code: "en", name: "English", flag: "🇬🇧" },
-    { code: "fa", name: "فارسی", flag: "🇮🇷" },
-    { code: "zh", name: "中文", flag: "🇨🇳" },
-    { code: "ru", name: "Русский", flag: "🇷🇺" },
-    { code: "tr", name: "Türkçe", flag: "🇹🇷" },
-    { code: "ar", name: "العربية", flag: "🇸🇦" },
-    { code: "es", name: "Español", flag: "🇪🇸" },
-    { code: "fr", name: "Français", flag: "🇫🇷" },
-    { code: "de", name: "Deutsch", flag: "🇩🇪" },
-  ];
-
-  let currentLang = localStorage.getItem("selectedLang") || "en";
-
-  // ساخت دکمه زبان
-  const container = document.createElement("div");
-  container.className = "fixed top-4 left-4 z-50";
-
-  const button = document.createElement("button");
-  button.className =
-    "bg-white text-black shadow-lg rounded-xl px-4 py-2 flex items-center gap-2 border hover:bg-gray-100";
-  container.appendChild(button);
-
-  const dropdown = document.createElement("ul");
-  dropdown.className =
-    "hidden mt-2 bg-white text-black border rounded-xl shadow-xl overflow-hidden w-48";
-
-  container.appendChild(dropdown);
-  document.body.appendChild(container);
-
-  function renderButton() {
-    const current = languages.find((l) => l.code === currentLang);
-    button.innerHTML = `<span>${current.flag}</span><span data-i18n="greeting">${current.name}</span>`;
+const translations = {
+  en: {
+    welcome: "Welcome to LYNX",
+    subtitle: "LYNX is a decentralized communication ecosystem designed to provide private, secure, and unrestricted interactions between users across the globe.",
+    connect: "Connect to Network",
+  },
+  fa: {
+    welcome: "به LYNX خوش آمدید",
+    subtitle: "لینکس یک اکوسیستم ارتباطی غیرمتمرکز است که برای ایجاد تعاملات خصوصی، امن و بدون محدودیت بین کاربران سراسر جهان طراحی شده است.",
+    connect: "اتصال به شبکه",
+  },
+  zh: {
+    welcome: "欢迎来到 LYNX",
+    subtitle: "LYNX 是一个去中心化的通信生态系统，旨在为全球用户提供私密、安全且无限制的互动方式。",
+    connect: "连接到网络",
+  },
+  ru: {
+    welcome: "Добро пожаловать в LYNX",
+    subtitle: "LYNX — это децентрализованная экосистема общения, обеспечивающая приватное, безопасное и свободное взаимодействие между пользователями по всему миру.",
+    connect: "Подключиться к сети",
+  },
+  tr: {
+    welcome: "LYNX'e Hoş Geldiniz",
+    subtitle: "LYNX, dünya genelindeki kullanıcılar arasında özel, güvenli ve sınırsız etkileşim sağlayan merkeziyetsiz bir iletişim ekosistemidir.",
+    connect: "Ağa Bağlan",
+  },
+  ar: {
+    welcome: "مرحباً بك في LYNX",
+    subtitle: "لينكس هو نظام بيئي للتواصل اللامركزي يوفّر تفاعلات خاصة وآمنة وبدون قيود بين المستخدمين حول العالم.",
+    connect: "الاتصال بالشبكة",
+  },
+  fr: {
+    welcome: "Bienvenue sur LYNX",
+    subtitle: "LYNX est un écosystème de communication décentralisé conçu pour offrir des interactions privées, sécurisées et sans restriction entre les utilisateurs du monde entier.",
+    connect: "Se connecter au réseau",
+  },
+  de: {
+    welcome: "Willkommen bei LYNX",
+    subtitle: "LYNX ist ein dezentrales Kommunikationsökosystem, das private, sichere und uneingeschränkte Interaktionen zwischen Nutzern weltweit ermöglicht.",
+    connect: "Mit dem Netzwerk verbinden",
+  },
+  es: {
+    welcome: "Bienvenido a LYNX",
+    subtitle: "LYNX es un ecosistema de comunicación descentralizado diseñado para ofrecer interacciones privadas, seguras y sin restricciones entre usuarios de todo el mundo.",
+    connect: "Conectar a la red",
   }
+};
 
-  function renderDropdown() {
-    dropdown.innerHTML = "";
+function changeLang(lang) {
+  const elements = document.querySelectorAll(".txt");
+  elements.forEach((el) => {
+    const key = el.getAttribute("data-lang");
+    if (translations[lang] && translations[lang][key]) {
+      el.innerText = translations[lang][key];
+    }
+  });
+  localStorage.setItem("lynx_lang", lang);
+}
 
-    languages.forEach((lang) => {
-      const item = document.createElement("li");
-      item.className =
-        "cursor-pointer px-4 py-2 hover:bg-gray-100 flex items-center gap-2";
-      item.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
-      item.onclick = () => {
-        localStorage.setItem("selectedLang", lang.code);
-        currentLang = lang.code;
-        renderButton();
-        dropdown.classList.add("hidden");
-        updateTexts(currentLang);
-      };
-      dropdown.appendChild(item);
-    });
-
-    const more = document.createElement("li");
-    more.className =
-      "px-4 py-2 text-gray-500 border-t bg-gray-50 cursor-pointer hover:bg-gray-100";
-    more.innerText = "زبان‌های بیشتر...";
-    more.onclick = () => {
-      alert("امکان افزودن زبان‌های بیشتر به‌زودی فعال می‌شود.");
-    };
-    dropdown.appendChild(more);
-  }
-
-  button.onclick = () => {
-    dropdown.classList.toggle("hidden");
-  };
-
-  function updateTexts(lang) {
-    const t = translations[lang] || {};
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.getAttribute("data-i18n");
-      if (t[key]) el.textContent = t[key];
-    });
-    document.documentElement.setAttribute("lang", lang);
-    document.body.dir = lang === "fa" || lang === "ar" ? "rtl" : "ltr";
-  }
-
-  renderButton();
-  renderDropdown();
-  updateTexts(currentLang);
+window.addEventListener("DOMContentLoaded", () => {
+  const savedLang = localStorage.getItem("lynx_lang") || "en";
+  document.getElementById("lang-select").value = savedLang;
+  changeLang(savedLang);
 });
