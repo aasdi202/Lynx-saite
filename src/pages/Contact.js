@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser"; // اضافه شد
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ const Contact = () => {
   const [recording, setRecording] = useState(false);
   const [trackingCode, setTrackingCode] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
+  const formRef = useRef(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,15 +21,17 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const encodedEmail = btoa(form.email); // Simple base64 encryption
+    const encodedEmail = btoa(form.email);
     const trackCode = Math.random().toString(36).substr(2, 8).toUpperCase();
     setTrackingCode(trackCode);
-    console.log("Message sent:", {
-      name: form.name,
-      email: encodedEmail,
-      message: form.message,
-      trackCode,
-    });
+
+    emailjs
+      .sendForm("service_35f7vqt", "template_mp7oudb", formRef.current, "vu-YBmtoDxU8YrAW6Rri9")
+      .then(
+        () => console.log("Email sent successfully!"),
+        (error) => console.error("EmailJS Error:", error)
+      );
+
     setForm({ name: "", email: "", message: "" });
   };
 
@@ -71,35 +75,14 @@ const Contact = () => {
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         <Card className="bg-white/5 backdrop-blur border border-white/10 p-6 shadow-2xl">
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="نام شما"
-                required
-              />
-              <Input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="ایمیل شما"
-                required
-              />
-              <Textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                placeholder="پیام شما"
-                required
-              />
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+              <Input name="name" value={form.name} onChange={handleChange} placeholder="نام شما" required />
+              <Input type="email" name="email" value={form.email} onChange={handleChange} placeholder="ایمیل شما" required />
+              <Textarea name="message" value={form.message} onChange={handleChange} placeholder="پیام شما" required />
               <div className="flex items-center gap-4">
                 <Button type="submit">ارسال پیام</Button>
                 {recording ? (
-                  <Button variant="destructive" onClick={stopRecording}>
-                    توقف ضبط
-                  </Button>
+                  <Button variant="destructive" onClick={stopRecording}>توقف ضبط</Button>
                 ) : (
                   <Button variant="outline" onClick={startRecording}>
                     <FaMicrophone className="mr-2" />
@@ -107,9 +90,7 @@ const Contact = () => {
                   </Button>
                 )}
               </div>
-              {audioURL && (
-                <audio className="mt-4 w-full" controls src={audioURL}></audio>
-              )}
+              {audioURL && <audio className="mt-4 w-full" controls src={audioURL}></audio>}
             </form>
             {trackingCode && (
               <p className="text-green-400 mt-4">
@@ -122,53 +103,23 @@ const Contact = () => {
         <div className="space-y-6">
           <div className="bg-white/5 p-4 rounded-xl border border-white/10 shadow">
             <h3 className="font-bold text-xl mb-2">راه‌های ارتباطی</h3>
-            <p>
-              <strong>ایمیل:</strong>{" "}
-              <a href="mailto:lynx.project2025@gmail.com" className="underline text-blue-300">
-                lynx.project2025@gmail.com
-              </a>
-            </p>
-            <p>
-              <strong>تلگرام:</strong>{" "}
-              <a href="https://t.me/lynxproject2025" className="underline text-blue-300">
-                @lynxproject2025
-              </a>
-            </p>
-            <p>
-              <strong>واتساپ:</strong>{" "}
-              <a href="https://wa.me/989000000000" className="underline text-blue-300">
-                پیام در واتساپ
-              </a>
-            </p>
+            <p><strong>ایمیل:</strong> <a href="mailto:lynx.project2025@gmail.com" className="underline text-blue-300">lynx.project2025@gmail.com</a></p>
+            <p><strong>تلگرام:</strong> <a href="https://t.me/lynxproject2025" className="underline text-blue-300">@lynxproject2025</a></p>
+            <p><strong>واتساپ:</strong> <a href="https://wa.me/989000000000" className="underline text-blue-300">پیام در واتساپ</a></p>
           </div>
 
           <div className="flex items-center justify-center gap-4">
-            <a
-              href="https://t.me/lynxproject2025"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
-            >
+            <a href="https://t.me/lynxproject2025" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
               <FaTelegram className="mr-2" /> تلگرام
             </a>
-            <a
-              href="https://wa.me/989000000000"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center"
-            >
+            <a href="https://wa.me/989000000000" target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
               <FaWhatsapp className="mr-2" /> واتساپ
             </a>
           </div>
         </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="absolute bottom-4 right-4 hidden md:block"
-      >
+      <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.8 }} className="absolute bottom-4 right-4 hidden md:block">
         <FaHeadphones className="text-5xl text-purple-400 drop-shadow-lg" title="پشتیبانی آنلاین" />
       </motion.div>
     </div>
