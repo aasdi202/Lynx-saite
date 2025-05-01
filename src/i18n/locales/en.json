@@ -1,5 +1,11 @@
 {
   "footer_text": "© 2025 LYNX Global Project - All rights reserved.",
   "welcome_title": "Welcome to LYNX",
-  "welcome_message": "A revolution in decentralized communication and digital identity."
+  "welcome_message": "A revolution in decentralized communication and digital identity.",
+  "welcome": "Welcome to LYNX",
+  "about": "About Us",
+  "contact": "Contact",
+  "roadmap": "Roadmap",
+  "language": "Language",
+  "home": "Home"
 }
