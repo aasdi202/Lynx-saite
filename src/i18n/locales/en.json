@@ -7,5 +7,14 @@
   "contact": "Contact",
   "roadmap": "Roadmap",
   "language": "Language",
-  "home": "Home"
+  "home": "Home",
+  "guide_title": "User Guide",
+  "guide_wallet_title": "How to Connect Your Wallet",
+  "guide_wallet_text": "To connect your wallet, click 'Connect Wallet' on the dashboard and approve via MetaMask.",
+  "guide_chat_title": "Using Decentralized Chat",
+  "guide_chat_text": "Our decentralized chat works with wallet-to-wallet messaging using XMTP protocol.",
+  "guide_token_title": "Secure Token Transfers",
+  "guide_token_text": "AI will analyze destination wallet before sending. Green = safe, Yellow = suspicious, Red = dangerous.",
+  "guide_language_title": "Changing Languages",
+  "guide_language_text": "Use the top-right dropdown to switch between 9 supported languages with a single click."
 }
