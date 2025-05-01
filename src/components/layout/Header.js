@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "./LanguageSelector";
-import logo from "../../assets/logo.png"; // یا اگر در public هست => "/assets/logo.png"
 
 function Header() {
   const { t } = useTranslation();
@@ -19,7 +18,7 @@ function Header() {
     <header className="bg-white dark:bg-gray-900 shadow-md fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Lynx Logo" className="h-10 mr-3" />
+          <img src="/assets/logo.png" alt="Lynx Logo" className="h-10 mr-3" />
           <span className="text-xl font-bold text-gray-800 dark:text-white">LYNX</span>
         </Link>
 
