@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import LanguageSelector from "../../languages/languages";
-import logo from "../../public/assets/logo.png";
+import LanguageSelector from "./LanguageSelector";
+import logo from "../../assets/logo.png"; // یا اگر در public هست => "/assets/logo.png"
 
 function Header() {
   const { t } = useTranslation();
