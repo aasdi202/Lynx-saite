@@ -1,11 +1,20 @@
 {
-  "footer_text": "© 2025 LYNX全球项目 - 版权所有。",
-  "welcome_title": "欢迎来到 LYNX",
-  "welcome_message": "去中心化通信与数字身份的革命。",
-  "welcome": "欢迎来到 LYNX",
+  "footer_text": "© 2025 LYNX 全球项目 - 版权所有。",
+  "welcome_title": "欢迎使用 LYNX",
+  "welcome_message": "去中心化通信和数字身份的革命。",
+  "welcome": "欢迎使用 LYNX",
   "about": "关于我们",
   "contact": "联系我们",
   "roadmap": "路线图",
   "language": "语言",
-  "home": "主页"
+  "home": "首页",
+  "guide_title": "用户指南",
+  "guide_wallet_title": "如何连接钱包",
+  "guide_wallet_text": "点击仪表板上的“连接钱包”并通过 MetaMask 批准以连接您的钱包。",
+  "guide_chat_title": "使用去中心化聊天",
+  "guide_chat_text": "我们的聊天功能使用 XMTP 协议支持钱包到钱包的消息传递。",
+  "guide_token_title": "安全的代币转账",
+  "guide_token_text": "在转账前，AI 会分析目标钱包。绿色=安全，黄色=可疑，红色=危险。",
+  "guide_language_title": "更改语言",
+  "guide_language_text": "使用右上角的下拉菜单一键切换 9 种支持语言。"
 }
