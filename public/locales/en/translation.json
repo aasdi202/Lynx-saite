@@ -1,6 +1,19 @@
 {
   "home": {
-    "title": "Welcome to LYNX",
-    "description": "This is the homepage of the decentralized AI-powered ecosystem."
-  }
+    "title": "Welcome to Lynx",
+    "description": "Connecting the future with decentralized identity and communication."
+  },
+  "about.title": "About Lynx",
+  "about_description": "Lynx is a decentralized platform designed to connect people securely.",
+  "vision_title": "Our Vision",
+  "vision_description": "To build a safer and more private internet.",
+  "principles_title": "Core Principles",
+  "principles_list": ["Privacy", "Transparency", "Innovation"],
+  "technologies_title": "Technologies We Use",
+  "technologies_list": ["Blockchain", "DID", "Web3", "AI"],
+  "ai_title": "AI & Future",
+  "ai_future_title": "We embrace AI to build intelligent decentralized tools.",
+  "ai_future_list": ["Smart Matching", "Fraud Detection", "AI Assistants"],
+  "commitment_title": "Our Commitment",
+  "commitment_description": "We are committed to open-source and community-driven development."
 }
