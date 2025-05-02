@@ -1,35 +1,22 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
-import en from './i18n/locales/en.json';
-import fa from './i18n/locales/fa.json';
-import ar from './i18n/locales/ar.json';
-import tr from './i18n/locales/tr.json';
-import ru from './i18n/locales/ru.json';
-import zh from './i18n/locales/zh.json';
-import de from './i18n/locales/de.json';
-import es from './i18n/locales/es.json';
-import hi from './i18n/locales/hi.json';
+import HttpBackend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n
-  .use(initReactI18next)
+  .use(HttpBackend) // لود ترجمه از public/locales/
+  .use(LanguageDetector) // تشخیص زبان کاربر
+  .use(initReactI18next) // اتصال به ری‌اکت
   .init({
-    resources: {
-      en: { translation: en },
-      fa: { translation: fa },
-      ar: { translation: ar },
-      tr: { translation: tr },
-      ru: { translation: ru },
-      zh: { translation: zh },
-      de: { translation: de },
-      es: { translation: es },
-      hi: { translation: hi }
-    },
-    lng: 'en',
     fallbackLng: 'en',
+    debug: false,
+    supportedLngs: ['en', 'fa', 'ar', 'tr', 'ru', 'zh', 'de', 'es', 'hi'],
+    backend: {
+      loadPath: '/locales/{{lng}}/translation.json', // مسیر فایل ترجمه
+    },
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,
+    },
   });
 
 export default i18n;
