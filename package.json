@@ -23,6 +23,7 @@
     "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
-    "vite": "^5.0.10"
+    "vite": "^5.0.10",
+    "@vitejs/plugin-react": "^4.0.3"
   }
 }
