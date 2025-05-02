@@ -11,22 +11,20 @@ import de from './i18n/locales/de.json';
 import es from './i18n/locales/es.json';
 import hi from './i18n/locales/hi.json';
 
-const resources = {
-  en: { translation: en },
-  fa: { translation: fa },
-  ar: { translation: ar },
-  tr: { translation: tr },
-  ru: { translation: ru },
-  zh: { translation: zh },
-  de: { translation: de },
-  es: { translation: es },
-  hi: { translation: hi }
-};
-
 i18n
   .use(initReactI18next)
   .init({
-    resources,
+    resources: {
+      en: { translation: en },
+      fa: { translation: fa },
+      ar: { translation: ar },
+      tr: { translation: tr },
+      ru: { translation: ru },
+      zh: { translation: zh },
+      de: { translation: de },
+      es: { translation: es },
+      hi: { translation: hi }
+    },
     lng: 'en',
     fallbackLng: 'en',
     interpolation: {
