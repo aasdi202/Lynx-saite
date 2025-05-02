@@ -4,12 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp public/_redirects dist/",
     "preview": "vite preview"
   },
-"scripts": {
-  "postbuild": "cp public/_redirects build/"
-}
   "dependencies": {
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
