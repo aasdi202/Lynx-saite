@@ -1,19 +1,6 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import { motion } from 'framer-motion'; import { LucideRocket, LucideWallet, LucideUserCheck, LucideMessageCircle, LucideGlobe } from 'lucide-react';
 
-function Roadmap() {
-  const { t } = useTranslation();
+const roadmapData = [ { icon: <LucideRocket size={32} className="text-blue-500" />, title: 'شروع پروژه', description: 'ایده‌پردازی و طراحی اولیه ساختار غیرمتمرکز.' }, { icon: <LucideWallet size={32} className="text-purple-500" />, title: 'انتشار توکن LYNX', description: 'ایجاد و دیپلوی توکن روی شبکه BNB.' }, { icon: <LucideUserCheck size={32} className="text-green-500" />, title: 'هویت دیجیتال غیرمتمرکز', description: 'ساخت زیرساخت DID برای کاربران.' }, { icon: <LucideMessageCircle size={32} className="text-pink-500" />, title: 'چت غیرمتمرکز', description: 'ارتباط ایمن و بدون واسطه میان کیف پول‌ها.' }, { icon: <LucideGlobe size={32} className="text-yellow-500" />, title: 'ورود به متاورس', description: 'ادغام قابلیت‌های DID در محیط‌های مجازی.' } ];
 
-  return (
-    <section className="max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl font-semibold mb-4">{t("roadmap.title")}</h2>
-      <ul className="list-disc list-inside space-y-4 text-lg leading-7">
-        {t("roadmap.steps", { returnObjects: true }).map((step, index) => (
-          <li key={index}>{step}</li>
-        ))}
-      </ul>
-    </section>
-  );
-}
+export default function Roadmap() { return ( <section className="py-16 px-4 bg-gradient-to-b from-gray-900 to-gray-950 text-white"> <h2 className="text-4xl font-bold text-center mb-12">نقشه راه پروژه LYNX</h2> <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto"> {roadmapData.map((step, idx) => ( <motion.div key={idx} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: idx * 0.2 }} className="bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl hover:bg-gray-700" > <div className="mb-4">{step.icon}</div> <h3 className="text-xl font-semibold mb-2">{step.title}</h3> <p className="text-gray-300 leading-relaxed">{step.description}</p> </motion.div> ))} </div> </section> ); }
 
-export default Roadmap;
