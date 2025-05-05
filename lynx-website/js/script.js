@@ -1,1 +1,1 @@
-
+console.log('LYNX website loaded');
