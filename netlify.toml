@@ -1,4 +1,4 @@
 [build]
   base = "lynx-website"
-  publish = "dist"
   command = "npm run build"
+  publish = "lynx-website/dist"
