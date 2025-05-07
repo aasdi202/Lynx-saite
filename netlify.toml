@@ -1,4 +1,10 @@
 [build]
   base = "lynx-website"
   command = "npm run build"
-  publish = "lynx-website/dist"
+  publish = "dist"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888
+  publish = "dist"
