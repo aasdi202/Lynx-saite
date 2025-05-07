@@ -1,91 +1,92 @@
-import { auth } from '../firebase';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { auth } from '../firebase'; // در صورت استفاده
+import wallets from '../data/wallets'; // شامل اطلاعات ۵ کیف پول مهم
 
-const walletOptions = [
-  { name: 'MetaMask', logo: '/logos/metamask.png' },
-  { name: 'Trust Wallet', logo: '/logos/trustwallet.png' },
-  { name: 'SafePal', logo: '/logos/safepal.png' },
-  { name: 'Coinbase Wallet', logo: '/logos/coinbase.png' },
-  { name: 'TokenPocket', logo: '/logos/tokenpocket.png' },
-];
-
-const SignUp = () => {
-  const [language, setLanguage] = useState('en');
+const Signup = () => {
   const [nickname, setNickname] = useState('');
-  const [wallets, setWallets] = useState([]);
+  const [walletsData, setWalletsData] = useState(wallets);
   const [authMethod, setAuthMethod] = useState('password');
+  const [language, setLanguage] = useState('en');
 
-  // تشخیص زبان سیستم (هوشمند)
-  useEffect(() => {
-    const userLang = navigator.language || navigator.userLanguage;
-    if (userLang.startsWith('fa')) setLanguage('fa');
-  }, []);
+  const handleAddWallet = () => {
+    setWalletsData([...walletsData, { name: '', logo: '', address: '' }]);
+  };
 
   const handleWalletChange = (index, address) => {
-    const updated = [...wallets];
-    updated[index] = { ...walletOptions[index], address };
-    setWallets(updated);
+    const newWallets = [...walletsData];
+    newWallets[index].address = address;
+    setWalletsData(newWallets);
   };
 
   const handleRegister = () => {
-    const userData = {
-      nickname,
-      language,
-      wallets,
-      authMethod,
-    };
-    localStorage.setItem('lynxUser', JSON.stringify(userData));
-    window.location.href = '/login';
+    // TODO: ذخیره اطلاعات به Firebase و ارسال به داشبورد
+    console.log({ nickname, walletsData, authMethod, language });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white flex items-center justify-center p-4">
-      <div className="bg-gray-800 p-6 rounded-2xl shadow-xl w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-4 text-center">
-          {language === 'fa' ? 'ثبت‌نام در لاینکس' : 'Register in LYNX'}
-        </h1>
-
-        <label className="block mb-2">{language === 'fa' ? 'نام مستعار' : 'Nickname'}</label>
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-blue-900 text-white p-6">
+      <div className="max-w-lg mx-auto bg-black bg-opacity-40 p-8 rounded-2xl shadow-xl space-y-6">
+        <div className="text-right">
+          <select
+            className="bg-gray-800 text-white rounded px-2 py-1"
+            value={language}
+            onChange={e => setLanguage(e.target.value)}
+          >
+            <option value="en">English</option>
+            <option value="fa">فارسی</option>
+            <option value="ar">العربية</option>
+            <option value="zh">中文</option>
+            <option value="tr">Türkçe</option>
+            <option value="ru">Русский</option>
+          </select>
+        </div>
+        <h2 className="text-2xl font-bold text-center">Register to LYNX</h2>
         <input
-          className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600"
           type="text"
+          placeholder="Nickname"
+          className="w-full p-2 rounded bg-gray-800"
           value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
+          onChange={e => setNickname(e.target.value)}
         />
-
-        <label className="block mb-2">{language === 'fa' ? 'انتخاب کیف پول' : 'Choose Wallets'}</label>
-        {walletOptions.map((wallet, i) => (
-          <div key={i} className="flex items-center mb-2 space-x-2">
-            <img src={wallet.logo} alt={wallet.name} className="w-6 h-6" />
-            <span>{wallet.name}</span>
-            <input
-              className="flex-1 p-1 rounded bg-gray-700 border border-gray-600"
-              placeholder={language === 'fa' ? 'آدرس کیف پول' : 'Wallet Address'}
-              type="text"
-              onChange={(e) => handleWalletChange(i, e.target.value)}
-            />
-          </div>
-        ))}
-
-        <label className="block mt-4 mb-2">{language === 'fa' ? 'نحوه ورود' : 'Login Method'}</label>
-        <select
-          className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600"
-          value={authMethod}
-          onChange={(e) => setAuthMethod(e.target.value)}
-        >
-          <option value="password">{language === 'fa' ? 'رمز عبور' : 'Password'}</option>
-          <option value="fingerprint">{language === 'fa' ? 'اثر انگشت' : 'Fingerprint'}</option>
-        </select>
-
+        <div className="space-y-2">
+          {walletsData.map((wallet, index) => (
+            <div key={index} className="flex items-center space-x-2">
+              {wallet.logo && (
+                <img src={wallet.logo} alt={wallet.name} className="w-6 h-6" />
+              )}
+              <input
+                type="text"
+                placeholder={`${wallet.name || 'Wallet'} Address`}
+                className="flex-1 p-2 rounded bg-gray-800"
+                value={wallet.address}
+                onChange={e => handleWalletChange(index, e.target.value)}
+              />
+            </div>
+          ))}
+          <button onClick={handleAddWallet} className="text-sm text-blue-300">
+            + Add another wallet
+          </button>
+        </div>
+        <div className="space-y-1">
+          <label className="block text-sm">Authentication Method:</label>
+          <select
+            className="w-full p-2 bg-gray-800 rounded"
+            value={authMethod}
+            onChange={e => setAuthMethod(e.target.value)}
+          >
+            <option value="password">Password</option>
+            <option value="fingerprint">Fingerprint</option>
+          </select>
+        </div>
         <button
           onClick={handleRegister}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 p-2 rounded font-semibold"
+          className="w-full bg-purple-600 hover:bg-purple-700 p-3 rounded text-white font-bold"
         >
-          {language === 'fa' ? 'ثبت‌نام' : 'Register'}
+          Register
         </button>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default Signup;
