@@ -1,40 +1,73 @@
-import React from "react";
-import "../styles/signup.css";
+import React, { useState } from 'react'; import './styles/signup.css';
 
-const Signup = () => {
-  return (
-    <div className="signup-container">
-      <div className="signup-box">
-        <h2>Create your account</h2>
-        <form className="signup-form">
-          <div className="input-group">
-            <label>Full name</label>
-            <input type="text" placeholder="Enter your full name" />
-          </div>
-          <div className="input-group">
-            <label>Email address</label>
-            <input type="email" placeholder="Enter your email" />
-          </div>
-          <div className="input-group">
-            <label>Phone number</label>
-            <input type="tel" placeholder="Enter your phone number" />
-          </div>
-          <div className="input-group">
-            <label>Wallet address</label>
-            <input type="text" placeholder="Paste your wallet address" />
-          </div>
-          <div className="input-group">
-            <label>Create password</label>
-            <input type="password" placeholder="Create your password" />
-          </div>
-          <button type="submit" className="signup-btn">Sign Up</button>
-        </form>
-        <div className="login-link">
-          Already have an account? <a href="#">Log in</a>
+const initialWallets = [ { name: 'MetaMask', logo: 'https://cryptologos.cc/logos/metamask-icon-logo.png', address: '' }, { name: 'Trust Wallet', logo: 'https://cryptologos.cc/logos/trust-wallet-trust-logo.png', address: '' }, { name: 'Coinbase', logo: 'https://cryptologos.cc/logos/coinbase-coinbase-logo.png', address: '' }, { name: 'Binance', logo: 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png', address: '' }, { name: 'Ledger', logo: 'https://cryptologos.cc/logos/ledger-ledger-logo.png', address: '' }, ];
+
+export default function Signup() { const [alias, setAlias] = useState(''); const [wallets, setWallets] = useState(initialWallets); const [loginMethod, setLoginMethod] = useState(''); const [password, setPassword] = useState(''); const [confirmPassword, setConfirmPassword] = useState('');
+
+const addWallet = () => { setWallets([...wallets, { name: '', logo: '', address: '' }]); };
+
+const updateWalletAddress = (index, address) => { const newWallets = [...wallets]; newWallets[index].address = address; setWallets(newWallets); };
+
+const handleSubmit = (e) => { e.preventDefault(); // submit logic here alert('Registration submitted!'); };
+
+return ( <div className="signup-container"> <h2 className="title">Sign Up LYNX</h2> <form className="signup-form" onSubmit={handleSubmit}> <input type="text" placeholder="Alias (نام مستعار)" value={alias} onChange={(e) => setAlias(e.target.value)} />
+
+<div className="wallet-section">
+      {wallets.map((wallet, index) => (
+        <div key={index} className="wallet-item">
+          <img src={wallet.logo} alt={wallet.name} className="wallet-logo" />
+          <input
+            type="text"
+            placeholder={`Address for ${wallet.name || 'Wallet'}`}
+            value={wallet.address}
+            onChange={(e) => updateWalletAddress(index, e.target.value)}
+          />
         </div>
-      </div>
+      ))}
+      <button type="button" className="add-wallet" onClick={addWallet}>+ Add another wallet</button>
     </div>
-  );
-};
 
-export default Signup;
+    <div className="login-method">
+      <label>
+        <input
+          type="radio"
+          name="login"
+          value="password"
+          onChange={() => setLoginMethod('password')}
+        />
+        Password
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="login"
+          value="fingerprint"
+          onChange={() => setLoginMethod('fingerprint')}
+        />
+        Fingerprint
+      </label>
+    </div>
+
+    {loginMethod === 'password' && (
+      <div className="password-fields">
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </div>
+    )}
+
+    <button type="submit" className="submit-button">Register</button>
+  </form>
+</div>
+
+); }
+
