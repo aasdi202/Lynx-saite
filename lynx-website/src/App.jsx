@@ -1,10 +1,15 @@
-import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home'; // مسیر دقیق فایل
+import Signup from './pages/Signup';
 
 function App() {
   return (
-    <div style={{ padding: '20px', fontSize: '24px' }}>
-      تست موفق: پروژه LYNX راه‌اندازی شد!
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </Router>
   );
 }
 
