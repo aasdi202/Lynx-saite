@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './styles/signup.css';
+import '../styles/signup.css';
 
 const initialWallets = [
   { name: 'MetaMask', logo: 'https://cryptologos.cc/logos/metamask-icon-logo.png', address: '' },
