@@ -1,5 +1,5 @@
 [build]
-  base = "Lynx-saite"
+  base = "."
   command = "npm run build"
   publish = "dist"
 
