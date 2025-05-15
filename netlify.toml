@@ -1,7 +1,7 @@
 [build]
-  base = "lynx-website"
-  command = "npm run build"
-  publish = "dist"
+  base = \".\"
+  command =\"npm run build\"
+  publish = \"dist\"
 
 [dev]
   command = "npm run dev"

@@ -1,4 +1,3 @@
-// @LYNX-SECURE-ID: a1b2c3d4 (DO NOT EDIT)
 import React, { useState } from 'react';
 import { checkWalletInstalled, connectWallet } from './blockchain/wallet';
 import './App.css';

@@ -1,4 +1,3 @@
-// @LYNX-SECURE-ID: a1b2c3d4 (DO NOT EDIT)
 export const checkWalletInstalled = () => {
   return !!window.ethereum;
 };
