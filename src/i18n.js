@@ -1,28 +1,29 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import enTranslations from './lang/en.json';
+import faTranslations from './lang/fa.json';
 
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
     resources: {
-      en: {
-        translation: {
-          welcome: "Welcome to LYNX",
-          login: "Login",
-          signup: "Sign Up"
-        }
-      },
-      fa: {
-        translation: {
-          welcome: "به LYNX خوش آمدید",
-          login: "ورود",
-          signup: "ثبت‌نام"
-        }
-      }
+      en: { translation: enTranslations },
+      fa: { translation: faTranslations }
+    },
+    lng: 'en',
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false
     }
   });
 
-export default i18n;
+export const useTranslation = () => {
+  return {
+    t: i18n.t.bind(i18n),
+    i18n
+  };
+};
+
+export const I18nProvider = ({ children }) => {
+  return children;
+};
