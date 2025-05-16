@@ -1,13 +1,7 @@
 [build]
-<<<<<<< HEAD
-  base = \".\"
-  command =\"npm run build\"
-  publish = \"dist\"
-=======
   base = "."
   command = "npm run build"
   publish = "dist"
->>>>>>> 3b0d159367107274ace117b85be758eea31b89bb
 
 [dev]
   command = "npm run dev"
