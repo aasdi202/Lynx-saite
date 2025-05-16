@@ -1,75 +1,35 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { visualizer } from 'rollup-plugin-visualizer';
+import path from 'path';
 
 export default defineConfig({
-  plugins: [
-    react({
-      jsxImportSource: '@emotion/react',
-      babel: {
-        plugins: ['@emotion/babel-plugin'],
-      },
-    }),
-    visualizer({
-      open: true,
-      gzipSize: true,
-      brotliSize: true,
-    }) // تحلیل bundle
-  ],
+  plugins: [react()],
   
-  server: {
-    port: 5174, // تغییر پورت برای جلوگیری از تداخل
-    host: true,
-    strictPort: true,
-    hmr: {
-      overlay: false // غیرفعال کردن هشدارهای overlay
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    watch: {
-      usePolling: true // حل مشکل Hot Reload در ویندوز
-    }
+  },
+
+  server: {
+    host: '0.0.0.0', // فعال کردن دسترسی از شبکه محلی
+    port: 3001,
+    strictPort: true,
+    open: true, // باز کردن خودکار مرورگر
   },
 
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    chunkSizeWarningLimit: 1500, // افزایش حد هشدار حجم chunk
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom'],
-          i18n: ['i18next', 'react-i18next'],
-          web3: ['ethers', '@web3-react/core']
-        } // تقسیم بندی هوشمند کدها
-      }
-    }
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        entryFileNames: 'assets/[name]-[hash].js',
+      },
+    },
   },
 
   optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-i18next',
-      '@emotion/react',
-      '@web3-react/core'
-    ], // وابستگی‌های حیاتی
-    exclude: ['js-big-decimal'] // حذف از بهینه‌سازی اگر نیاز است
+    include: ['react', 'react-dom'],
   },
-
-  css: {
-    modules: {
-      localsConvention: 'camelCase' // نامگذاری کلاس‌های CSS
-    },
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "@/styles/variables.scss";` // ایمپورت全局 استایل
-      }
-    }
-  },
-
-  resolve: {
-    alias: {
-      '@': '/src', // تنظیم alias
-      '@assets': '/src/assets'
-    }
-  }
 });
