@@ -1,65 +1,29 @@
-import { Suspense, useEffect, useState } from 'react';
-import { useTranslation } from '@/i18n';
-import { useWallet } from '@/blockchain/wallet';
-import { initAI } from '@/core/ai-engine';
-import { useTheme } from '@/styles/theme';
-import LoadingAnimation from '@/components/LoadingAnimation';
-import AISuggestions from '@/components/AISuggestions';
-import VoiceInterface from './components/VoiceInterface.jsx';
-import SmartMenu from '@/components/SmartMenu.jsx';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/Home';
+import LoginPage from './pages/Auth/Login';
+import SignupPage from './pages/Auth/Signup';
+import DashboardPage from './pages/Dashboard';
+import { getDirection } from './utils/languageUtils';
 
 function App() {
-  const { t, i18n } = useTranslation();
-  const { theme, setTheme } = useTheme();
-  const { isWalletInstalled, walletData, connectWallet } = useWallet();
-  const [isInitializing, setIsInitializing] = useState(true);
+  const { i18n } = useTranslation();
 
-  // مقداردهی اولیه سرویس‌ها
   useEffect(() => {
-    const initializeApp = async () => {
-      try {
-        await Promise.all([
-          initAI(),
-          i18n.changeLanguage('fa'),
-          setTheme('dark')
-        ]);
-      } catch (error) {
-        console.error('Initialization error:', error);
-      } finally {
-        setIsInitializing(false);
-      }
-    };
-
-    initializeApp();
-  }, [i18n, setTheme]);
-
-  if (isInitializing) {
-    return <LoadingAnimation fullScreen />;
-  }
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = getDirection(i18n.language);
+  }, [i18n.language]);
 
   return (
-    <Suspense fallback={<LoadingAnimation />}>
-      <div className={`app-container ${theme}-theme`}>
-        {/* سیستم اتصال کیف پول با مدیریت خطا */}
-        <button 
-          onClick={connectWallet}
-          disabled={!isWalletInstalled}
-          className="wallet-connector"
-        >
-          {walletData?.shortAddress || t('connect_wallet')}
-        </button>
-
-        {/* محتوای اصلی */}
-        <main>
-          <h1 className="gradient-text">{t('welcome')}</h1>
-          
-          <AISuggestions />
-          <VoiceInterface />
-        </main>
-
-        <SmartMenu />
-      </div>
-    </Suspense>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

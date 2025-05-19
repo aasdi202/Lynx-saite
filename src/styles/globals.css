@@ -1,0 +1,20 @@
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* استایل‌های سفارشی */
+body {
+  font-family: 'Montserrat', 'Vazir', sans-serif;
+}
+
+.rtl {
+  direction: rtl;
+  font-family: 'Vazir', 'Tajawal', sans-serif;
+}
+
+.ltr {
+  direction: ltr;
+  font-family: 'Montserrat', sans-serif;
+}

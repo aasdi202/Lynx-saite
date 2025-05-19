@@ -1,0 +1,67 @@
+/* =============== فونت انگلیسی =============== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+/* =============== فونت فارسی =============== */
+/* وزن معمولی (400) */
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn[wght].woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* وزن متوسط (500) */
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-display: swap;
+}
+
+/* وزن پررنگ (700) */
+@font-face {
+  font-family: 'Vazir';
+  src: 
+    url('/fonts/Vazir-Bold.woff2') format('woff2'),
+    url('/fonts/Vazir-Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* =============== فونت عربی =============== */
+/* وزن معمولی (400) */
+@font-face {
+  font-family: 'Tajawal';
+  src: url('/fonts/Tajawal-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* وزن پررنگ (700) */
+@font-face {
+   font-family: 'Tajawal';
+  src: url('/fonts/Tajawal-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-display: swap;
+}
+
+/* =============== تنظیمات پایه =============== */
+body {
+  font-family: 'Vazir', 'Tajawal', 'Montserrat', sans-serif;
+}
+
+[lang="fa"] {
+  font-family: 'Vazir', sans-serif;
+  direction: rtl;
+}
+
+[lang="ar"] {
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+}
+
+[lang="en"] {
+  font-family: 'Montserrat', sans-serif;
+  direction: ltr;
+}

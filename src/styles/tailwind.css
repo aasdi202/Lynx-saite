@@ -1,0 +1,35 @@
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Base Styles */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    font-family: 'Montserrat', 'Vazir', sans-serif;
+  }
+}
+
+/* Custom Components */
+@layer components {
+  .btn-primary {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-all;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .rtl {
+    direction: rtl;
+    font-family: 'Vazir', 'Tajawal', sans-serif;
+  }
+  .ltr {
+    direction: ltr;
+    font-family: 'Montserrat', sans-serif;
+  }
+}
