@@ -2,12 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* فونت‌های فارسی و عربی */
+/* فونت فارسی Vazir */
 @font-face {
   font-family: 'Vazir';
-  src: url('~vazir-font/dist/Vazir-Regular.woff2') format('woff2');
+  src: url('/fonts/Vazir-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
+
+/* فونت عربی Tajawal */
 @font-face {
   font-family: 'Tajawal';
-  src: url('~tajawal-font/dist/Tajawal-Regular.woff2') format('woff2');
+  src: url('/fonts/Tajawal-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* تنظیم پیش‌فرض بدنه */
+body {
+  font-family: 'Vazir', 'Tajawal', sans-serif;
 }

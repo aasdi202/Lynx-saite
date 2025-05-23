@@ -8,21 +8,18 @@ export const I18nProvider = ({ children }) => {
   const [lang, setLang] = useState(i18n.language || 'en');
 
   useEffect(() => {
-    i18n.changeLanguage(lang);
-  }, [lang]);
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang && savedLang !== lang) {
+      i18n.changeLanguage(savedLang);
+      setLang(savedLang);
+    }
+  }, []);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setLang(lng);
     localStorage.setItem('lang', lng);
   };
-
-  useEffect(() => {
-    const savedLang = localStorage.getItem('lang');
-    if (savedLang && savedLang !== lang) {
-      changeLanguage(savedLang);
-    }
-  }, []);
 
   return (
     <I18nContext.Provider value={{ lang, changeLanguage }}>
