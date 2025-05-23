@@ -1,36 +1,39 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
-const AIContext = createContext();
+export const AIContext = createContext();
 
 export const AIProvider = ({ children }) => {
   const [suggestions, setSuggestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getSuggestions = async (input) => {
+    setIsLoading(true);
     try {
-      // پیاده‌سازی واقعی دریافت پیشنهادات از API
-      const mockSuggestions = [
-        {
-          title: "پیشنهاد نمونه",
-          description: "توضیحات پیشنهاد",
-          icon: "💡",
-          action: {
-            label: "اجرا",
-            handler: () => console.log("پیشنهاد اجرا شد")
-          }
-        }
-      ];
-      setSuggestions(mockSuggestions);
-      return mockSuggestions;
+      // پیاده‌سازی واقعی API
+      const response = await fetch('/api/suggestions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input }),
+      });
+      
+      const data = await response.json();
+      setSuggestions(data);
+      return data;
     } catch (error) {
-      console.error("خطا در دریافت پیشنهادات:", error);
+      console.error("AI Suggestion Error:", error);
       return [];
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const value = useMemo(() => ({
     getSuggestions,
-    suggestions
-  }), [suggestions]);
+    suggestions,
+    isLoading
+  }), [suggestions, isLoading]);
 
   return (
     <AIContext.Provider value={value}>
@@ -42,7 +45,7 @@ export const AIProvider = ({ children }) => {
 export const useAI = () => {
   const context = useContext(AIContext);
   if (!context) {
-    throw new Error('useAI must be used within an AIProvider');
+    throw new Error('useAI must be used within AIProvider');
   }
   return context;
 };

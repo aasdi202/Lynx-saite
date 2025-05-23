@@ -1,0 +1,28 @@
+import React from 'react';
+import ChatBot from '@/components/ChatBot';
+
+const DashboardPage = () => {
+  return (
+    <div className="min-h-screen bg-gray-100 p-6 relative">
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+        <h1 className="text-3xl font-bold text-indigo-600 mb-4">
+          {'داشبورد پروژه LYNX'}
+        </h1>
+        <p className="text-gray-700 leading-relaxed">
+          {'به داشبورد خوش آمدید! از این بخش می‌توانید وضعیت کیف پول خود را ببینید و به امکانات Web3 دسترسی داشته باشید.'}
+        </p>
+
+        {/* بخش‌های آینده: */}
+        {/* <WalletInfo /> */}
+        {/* <TokenTransfer /> */}
+        {/* <DIDSection /> */}
+        {/* <LiveStats /> */}
+      </div>
+
+      {/* چت‌بات هوشمند همیشه فعال */}
+      <ChatBot />
+    </div>
+  );
+};
+
+export default DashboardPage;

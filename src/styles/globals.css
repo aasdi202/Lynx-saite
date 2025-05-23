@@ -1,14 +1,13 @@
 @import './fonts.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* استایل‌های سفارشی */
+/* Base Styles */
 body {
+  @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
   font-family: 'Montserrat', 'Vazir', sans-serif;
+  line-height: 1.6;
 }
 
+/* RTL/LTR Support */
 .rtl {
   direction: rtl;
   font-family: 'Vazir', 'Tajawal', sans-serif;
@@ -17,4 +16,17 @@ body {
 .ltr {
   direction: ltr;
   font-family: 'Montserrat', sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-200 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
 }

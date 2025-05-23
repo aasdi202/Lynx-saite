@@ -1,27 +1,24 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import path from 'path';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  root: './',
+  publicDir: 'public',
+
   plugins: [
     react({
-      tsDecorators: true,
       jsxImportSource: '@emotion/react',
-     babel: {
-      plugins: ['@emotion/babel-plugin']
-    }
-      plugins: [
-        ['@swc/plugin-styled-components', {}] // Replaced emotion with styled-components
-      ],
+      babel: {
+        plugins: ['@emotion/babel-plugin'],
+      },
     }),
     svgr({
       svgrOptions: {
         icon: true,
-        svgo: true,
         svgoConfig: {
           plugins: [
             {
@@ -41,58 +38,20 @@ export default defineConfig({
   ],
 
   resolve: {
-    alias: [
-      {
-        find: /^~/,
-        replacement: '',
-      },
-      {
-        find: '@',
-        replacement: path.resolve(__dirname, 'src'),
-      },
-      {
-        find: '@assets',
-        replacement: path.resolve(__dirname, 'src/assets'),
-      },
-      {
-        find: '@components',
-        replacement: path.resolve(__dirname, 'src/components'),
-      },
-      {
-        find: '@pages',
-        replacement: path.resolve(__dirname, 'src/pages'),
-      },
-      {
-        find: '@hooks',
-        replacement: path.resolve(__dirname, 'src/hooks'),
-      },
-      {
-        find: '@utils',
-        replacement: path.resolve(__dirname, 'src/utils'),
-      },
-      {
-        find: '@styles',
-        replacement: path.resolve(__dirname, 'src/styles'),
-      },
-      {
-        find: '@contexts',
-        replacement: path.resolve(__dirname, 'src/contexts'),
-      },
-    ],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+    },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
   },
 
   server: {
     host: '0.0.0.0',
     port: 3001,
-    strictPort: true,
-    open: '/',
-    cors: true,
-    hmr: {
-      protocol: 'ws',
-      host: 'localhost',
-      overlay: false,
-    },
+    open: true,
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
@@ -104,45 +63,52 @@ export default defineConfig({
     },
     watch: {
       usePolling: true,
-      interval: 100,
     },
   },
 
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    sourcemap: 'hidden',
-    minify: 'esbuild',
+    sourcemap: process.env.NODE_ENV !== 'production',
+    minify: 'terser',
     cssMinify: true,
-    chunkSizeWarningLimit: 2000,
-    reportCompressedSize: false,
+    chunkSizeWarningLimit: 1600,
+    target: 'esnext',
     rollupOptions: {
+      input: path.resolve(__dirname, 'index.html'),
       output: {
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        entryFileNames: 'entries/[name]-[hash].js',
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
             if (id.includes('react') || id.includes('react-dom')) {
               return 'vendor-react';
             }
-            if (id.includes('@mui') || id.includes('@chakra-ui')) {
+            if (id.includes('@chakra-ui') || id.includes('@mui')) {
               return 'vendor-ui';
             }
-            if (id.includes('i18next')) {
-              return 'vendor-i18n';
-            }
-            if (id.includes('ethers') || id.includes('web3')) {
-              return 'vendor-web3';
+            if (id.includes('source-map') || id.includes('wasm')) {
+              return 'vendor-external';
             }
             return 'vendor-other';
           }
         },
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'chunks/[name]-[hash].js',
-        entryFileNames: 'entries/[name]-[hash].js',
       },
-      treeshake: {
-        preset: 'recommended',
-        moduleSideEffects: false,
-      },
+      external: [/\.wasm$/],
+    },
+  },
+
+  css: {
+    devSourcemap: true,
+    postcss: {
+      plugins: [
+        tailwindcss(path.resolve(__dirname, 'tailwind.config.js')),
+        autoprefixer(),
+      ],
+    },
+    modules: {
+      generateScopedName: '[name]__[local]--[hash:base64:5]',
     },
   },
 
@@ -152,53 +118,24 @@ export default defineConfig({
       'react-dom',
       'react-router-dom',
       'react-i18next',
-      '@mui/material',
+      '@emotion/react',
       '@chakra-ui/react',
-      '@web3-react/core',
-      'framer-motion',
-      'i18next',
-      'i18next-browser-languagedetector',
-    ],
-    exclude: [
-      'js-big-decimal',
-      'ethers',
     ],
     esbuildOptions: {
-      target: 'es2020',
+      target: 'esnext',
       supported: {
-        bigint: true,
+        'top-level-await': true,
       },
-    },
-  },
-
-  css: {
-    devSourcemap: true,
-    modules: {
-      generateScopedName: '[name]__[local]--[hash:base64:5]',
-    },
-    preprocessorOptions: {
-      scss: {
-        additionalData: `
-          @use "sass:math";
-          @import "@styles/variables.scss";
-          @import "@styles/mixins.scss";
-        `,
-      },
-    },
-    postcss: {
       plugins: [
-        tailwindcss(path.resolve(__dirname, 'tailwind.config.js')),
-        autoprefixer(),
+        {
+          name: 'exclude-wasm',
+          setup(build) {
+            build.onResolve({ filter: /\.wasm$/ }, () => {
+              return { external: true };
+            });
+          },
+        },
       ],
-    },
-  },
-
-  experimental: {
-    renderBuiltUrl(filename, { hostType }) {
-      if (hostType === 'html') {
-        return { runtime: `window.__assetsPath(${JSON.stringify(filename)})` };
-      }
-      return { relative: true };
     },
   },
 });

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LYNX - Decentralized Communication Ecosystem">
+  <meta name="theme-color" content="#6e8efb">
+  <title>LYNX - Decentralized Communication</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" href="/assets/images/logo.png">
+  
+  <!-- Preconnect for external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Critical CSS -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    .noscript-warning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ff4757;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      z-index: 9999;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    #root {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <noscript>
+    <div class="noscript-warning">
+      <strong>LYNX requires JavaScript to work properly. Please enable JavaScript to continue.</strong>
+    </div>
+  </noscript>
+  
+  <div id="root"><!-- React mounts here --></div>
+  
+  <script type="module" src="/src/main.jsx"></script>
+  
+  <!-- Fallback fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+  </style>
+</body>
+</html>
