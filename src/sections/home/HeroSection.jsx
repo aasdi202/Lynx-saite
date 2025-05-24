@@ -4,7 +4,7 @@ import LanguageSelector from '../../components/LanguageSelector';
 import Logo from '../../components/Logo';
 
 export default function HeroSection() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); // این خط باید بالا باشه
 
   return (
     <motion.div
@@ -24,7 +24,7 @@ export default function HeroSection() {
           <Logo className="h-24 w-auto" />
         </motion.div>
 
-        {/* عنوان اصلی */}
+        {/* عنوان */}
         <motion.h1
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -42,13 +42,13 @@ export default function HeroSection() {
           className="mb-12 w-full max-w-2xl"
         >
           <img
-            src="/images/hero-image.png"
+            src="/assets/images/hero-image.png"
             alt={t('decentralized_communication')}
             className="w-full rounded-xl shadow-2xl border-4 border-white/20"
           />
         </motion.div>
 
-        {/* دکمه CTA */}
+        {/* دکمه شروع */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

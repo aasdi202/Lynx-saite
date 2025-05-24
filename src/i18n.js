@@ -9,6 +9,8 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
+    ns: ['common'],
+    defaultNS: 'common',
     detection: {
       order: ['cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
       caches: ['cookie', 'localStorage'],
