@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  if (!i18n.isInitialized) return null; // ⛑ جلوگیری از اجرای t قبل از آماده شدن i18n
 
   return (
     <header className="bg-white shadow-md py-4 px-6 flex justify-between items-center">

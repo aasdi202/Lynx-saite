@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC1AUm9fel8Ls7o4UVgqItEU-syPcQXmIY",
+  apiKey: "process.env.REACT_APP_FIREBASE_API_KEY",
   authDomain: "lynx-chat-4ceb9.firebaseapp.com",
   projectId: "lynx-chat-4ceb9",
   storageBucket: "lynx-chat-4ceb9.appspot.com",
