@@ -69,7 +69,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    sourcemap: process.env.NODE_ENV !== 'production',
+    sourcemap: false,
     minify: 'terser',
     cssMinify: true,
     chunkSizeWarningLimit: 1600,
