@@ -8,6 +8,7 @@ import autoprefixer from 'autoprefixer';
 export default defineConfig({
   root: './',
   publicDir: 'public',
+  base: './',
 
   plugins: [
     react({

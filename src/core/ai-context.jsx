@@ -6,28 +6,31 @@ export const AIProvider = ({ children }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getSuggestions = async (input) => {
-    setIsLoading(true);
-    try {
-      // پیاده‌سازی واقعی API
-      const response = await fetch('/api/suggestions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ input }),
-      });
-      
-      const data = await response.json();
-      setSuggestions(data);
-      return data;
-    } catch (error) {
-      console.error("AI Suggestion Error:", error);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  };
+ const getSuggestions = async (input) => {
+  setIsLoading(true);
+  try {
+    if (!input) return [];
+
+    const response = await fetch('/api/suggestions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ input }),
+    });
+
+    if (!response.ok) throw new Error("API response not OK");
+
+    const data = await response.json();
+    setSuggestions(data);
+    return data;
+  } catch (error) {
+    console.error("AI Suggestion Error:", error);
+    return [];
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const value = useMemo(() => ({
     getSuggestions,

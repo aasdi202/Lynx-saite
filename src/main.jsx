@@ -9,7 +9,7 @@ import '@/styles/tailwind.css';
 
 if (import.meta.env.PROD) {
   const noop = () => {};
-  ['debug', 'log', 'warn', 'error', 'info'].forEach(method => {
+  ['debug', 'log'].forEach(method => {
     if (console[method]) {
       console[method] = noop;
     }
