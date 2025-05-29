@@ -4,5 +4,12 @@
   "signup_now": "Get Started",
   "login": "Login",
   "signup": "Sign Up",
-  "select_language": "Select Language"
+  "select_language": "Select Language",
+  "features_title": "Project Features",
+  "feature1": "High Security",
+  "feature1_desc": "Your data is protected with full encryption.",
+  "feature2": "Decentralized",
+  "feature2_desc": "No central authority owns your data.",
+  "feature3": "Scalability",
+  "feature3_desc": "Usable by millions of users without lag."
 }

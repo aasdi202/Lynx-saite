@@ -4,5 +4,12 @@
   "signup_now": "开始",
   "login": "登录",
   "signup": "注册",
-  "select_language": "选择语言"
+  "select_language": "选择语言",
+  "features_title": "项目特点",
+  "feature1": "高度安全",
+  "feature1_desc": "您的数据已被完全加密保护。",
+  "feature2": "去中心化",
+  "feature2_desc": "没有中央机构拥有您的数据。",
+  "feature3": "可扩展性",
+  "feature3_desc": "支持数百万用户无延迟使用。"
 }

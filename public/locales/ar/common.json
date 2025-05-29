@@ -1,0 +1,15 @@
+{
+  "welcome_message": "مرحبًا بك في LYNX",
+  "decentralized_communication": "نظام اتصال لامركزي",
+  "signup_now": "ابدأ الآن",
+  "login": "تسجيل الدخول",
+  "signup": "إنشاء حساب",
+  "select_language": "اختر اللغة",
+  "features_title": "مميزات المشروع",
+  "feature1": "أمان عالي",
+  "feature1_desc": "يتم حماية بياناتك بالتشفير الكامل.",
+  "feature2": "لامركزي",
+  "feature2_desc": "لا تملك أي جهة مركزية بياناتك.",
+  "feature3": "قابلية التوسع",
+  "feature3_desc": "قابل للاستخدام من قبل ملايين المستخدمين دون تأخير."
+}

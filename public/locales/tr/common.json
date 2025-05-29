@@ -1,0 +1,15 @@
+{
+  "welcome_message": "LYNX'e Hoş Geldiniz",
+  "decentralized_communication": "Merkeziyetsiz İletişim Ekosistemi",
+  "signup_now": "Başlayın",
+  "login": "Giriş Yap",
+  "signup": "Kayıt Ol",
+  "select_language": "Dil Seçin",
+  "features_title": "Proje Özellikleri",
+  "feature1": "Yüksek Güvenlik",
+  "feature1_desc": "Verileriniz tamamen şifrelenmiş olarak korunur.",
+  "feature2": "Merkeziyetsiz",
+  "feature2_desc": "Verilerinizin sahibi merkezi bir otorite değildir.",
+  "feature3": "Ölçeklenebilirlik",
+  "feature3_desc": "Milyonlarca kullanıcıya gecikme olmadan hizmet verebilir."
+}
