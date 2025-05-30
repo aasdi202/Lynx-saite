@@ -81,20 +81,6 @@ export default defineConfig({
         assetFileNames: 'assets/[name]-[hash][extname]',
         chunkFileNames: 'chunks/[name]-[hash].js',
         entryFileNames: 'entries/[name]-[hash].js',
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-react';
-            }
-            if (id.includes('@chakra-ui') || id.includes('@mui')) {
-              return 'vendor-ui';
-            }
-            if (id.includes('source-map') || id.includes('wasm')) {
-              return 'vendor-external';
-            }
-            return 'vendor-other';
-          }
-        },
       },
       external: [/\.wasm$/],
     },
