@@ -1,33 +1,43 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { I18nextProvider } from 'react-i18next';
-import { AIProvider } from '@/core/ai-context';
-import i18n from '@/i18n';
-import App from './App';
-import '@/styles/globals.css';
-import '@/styles/tailwind.css';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
-if (import.meta.env.PROD) {
-  const noop = () => {};
-  ['debug', 'log'].forEach(method => {
-    if (console[method]) {
-      console[method] = noop;
-    }
-  });
-}
+export default function Mine({ user }) {
+  const [files, setFiles] = useState([]);
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  const root = createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <I18nextProvider i18n={i18n}>
-        <AIProvider>
-          <App />
-        </AIProvider>
-      </I18nextProvider>
-    </StrictMode>
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const { data, error } = await supabase
+        .storage
+        .from('uploads')
+        .list(user.id + '/', { limit: 100, offset: 0 });
+
+      if (error) {
+        alert('🟥 دریافت فایل‌ها ناموفق بود');
+      } else {
+        setFiles(data);
+      }
+    };
+
+    fetchFiles();
+  }, [user]);
+
+  const getPublicUrl = (fileName) => {
+    const { data } = supabase.storage.from('uploads').getPublicUrl(`${user.id}/${fileName}`);
+    return data.publicUrl;
+  };
+
+  return (
+    <div>
+      <h2>📁 فایل‌های من</h2>
+      <ul>
+        {files.map(file => (
+          <li key={file.name}>
+            <a href={getPublicUrl(file.name)} target="_blank" rel="noreferrer">
+              {file.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
-} else {
-  console.error('🟥 عنصر root پیدا نشد!');
 }
