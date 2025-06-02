@@ -10,10 +10,11 @@ import RegisterPage from '@/pages/Auth/Register';
 import ForgotPasswordPage from '@/pages/Auth/ForgotPassword';
 import ResendVerificationPage from '@/pages/Auth/ResendVerification';
 import VerifyEmailPage from '@/pages/Auth/VerifyEmail';
-import DashboardPage from '@/pages/Dashboard/index.jsx';
 import Layout from '@/components/Layout';
 import PrivateRoute from '@/components/PrivateRoute';
 import { getDirection } from '@/utils/languageUtils';
+import DashboardPage from '@/pages/Dashboard'; // اینجا درست اضافه شد
+import Mine from '@/components/Mine';
 
 function App() {
   const { i18n } = useTranslation();
@@ -40,7 +41,7 @@ function App() {
             path="/dashboard/*"
             element={
               <PrivateRoute>
-                <DashboardPage />
+                <DashboardPage /> {/* به‌درستی وارد شد */}
               </PrivateRoute>
             }
           />

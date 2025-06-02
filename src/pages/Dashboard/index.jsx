@@ -35,7 +35,8 @@ const DashboardPage = () => {
           </div>
         )}
 
-        {/* بخش‌های آینده: */}
+        {user && <Mine user={user} />}
+
         {/* <WalletInfo /> */}
         {/* <TokenTransfer /> */}
         {/* <DIDSection /> */}
